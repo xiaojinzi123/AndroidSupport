@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 
 group = 'com.xiaojinzi.support'
 archivesBaseName = "annotation"
-version = "1.0-beta1"
 
 android {
     compileSdkVersion versions.compileSdkVersion
