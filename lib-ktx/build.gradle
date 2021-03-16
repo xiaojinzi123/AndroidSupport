@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 group = 'com.xiaojinzi.support'
 archivesBaseName = "ktx"
-version = "1.0-beta1"
+version = "1.0-beta2"
 
 android {
     compileSdkVersion versions.compileSdkVersion
