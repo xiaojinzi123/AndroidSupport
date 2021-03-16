@@ -1,0 +1,9 @@
+rootProject.name = "AndroidSupport"
+
+include ':lib-bean'
+include ':demo'
+include ':lib-init'
+include ':lib-ktx'
+include ':lib-annotation'
+include ':lib-download'
+include ':app'

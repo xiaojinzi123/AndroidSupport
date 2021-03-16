@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.xiaojinzi.component.plugin'
+
+android {
+    compileSdkVersion versions.compileSdkVersion
+    buildToolsVersion versions.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.xiaojinzi.support.demo"
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [HOST: "app"]
+            }
+        }
+
+        multiDexEnabled true
+
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation libs.kotlin_stdlib
+    implementation libs.appcompat
+    implementation libs.constraintlayout
+    implementation libs.android_core_ktx
+    implementation libs.fragment_ktx
+    implementation libs.kotlinx_coroutines_rx
+    // 组件化的库
+    implementation libs.component_impl_kt
+    kapt libs.component_compiler
+
+    implementation project(':lib-download')
+
+    implementation libs.oss_ali
+    // implementation libs.oss_aws
+
+}
