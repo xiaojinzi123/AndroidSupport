@@ -41,6 +41,7 @@ dependencies {
     api libs.kotlin_stdlib
     api libs.android_core_ktx
     api libs.appcompat
+    api libs.activity
     api libs.rxjava
     api libs.rxkotlin
 }
