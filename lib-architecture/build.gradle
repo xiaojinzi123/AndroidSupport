@@ -1,27 +1,19 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.xiaojinzi.component.plugin'
+
+group = 'com.xiaojinzi.support'
+archivesBaseName = "architecture"
 
 android {
     compileSdkVersion versions.compileSdkVersion
     buildToolsVersion versions.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.xiaojinzi.support.demo"
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [HOST: "app"]
-            }
-        }
-
-        multiDexEnabled true
-
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     compileOptions {
@@ -43,17 +35,22 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation libs.kotlin_stdlib
-    implementation libs.appcompat
-    implementation libs.constraintlayout
-    implementation libs.android_core_ktx
-    implementation libs.fragment_ktx
-    implementation libs.kotlinx_coroutines_rx
-    // 组件化的库
-    implementation libs.component_impl_kt
-    kapt libs.component_compiler
+    api libs.kotlin_stdlib
+    api project(':lib-annotation')
+    api project(':lib-ktx')
+    api libs.kotlin_stdlib
+    api libs.android_core_ktx
+    api libs.appcompat
+    api libs.rxjava
+    api libs.rxkotlin
+}
 
-    implementation project(':lib-download')
+task androidSourcesJar(type: Jar) {
+    archiveClassifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
 
 
+artifacts {
+    archives androidSourcesJar
 }

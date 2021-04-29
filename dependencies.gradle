@@ -27,11 +27,5 @@ ext.libs = [
         component_impl_rx       : "com.github.xiaojinzi123.Component:component-impl-rx:${versions.component}",
         component_impl_kt       : "com.github.xiaojinzi123.Component:component-impl-ktx:${versions.component}",
         component_plugin        : "com.github.xiaojinzi123.Component:component-plugin:${versions.component}",
-        // 中台上传组件
-        oss_manager             : "com.quvideo.mobile.component.oss:oss-manager:0.0.18",
-        oss_ali                 : "com.quvideo.mobile.component.oss:oss-ali:0.0.14",
-        oss_aws                 : "com.quvideo.mobile.component.oss:oss-aws:0.0.8",
-        // 公司组建
-        http_core               : "com.quvideo.mobile.platform:http-core:1.4.10"
 
 ]
