@@ -1,10 +1,9 @@
-include ':lib-architecture'
 rootProject.name = "AndroidSupport"
 
-include ':lib-bean'
-include ':demo'
-include ':lib-init'
-include ':lib-ktx'
-include ':lib-annotation'
-include ':lib-download'
 include ':app'
+include ':lib-init'
+include ':lib-bean'
+include ':lib-ktx'
+include ':lib-download'
+include ':lib-annotation'
+include ':lib-architecture'
