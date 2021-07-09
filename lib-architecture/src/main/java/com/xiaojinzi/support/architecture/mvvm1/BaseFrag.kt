@@ -66,7 +66,7 @@ BaseFrag<VM : BaseViewModel?>(private val contentLayoutId: Int = 0) :
     }
 
     @CallSuper
-    protected fun onInit() {
+    protected open fun onInit() {
         // 暂时是空的
     }
 

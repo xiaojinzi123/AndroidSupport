@@ -87,7 +87,7 @@ abstract class BaseAct<VM : BaseViewModel> : AppCompatActivity(), BaseView {
 
 
     @UiThread
-    open fun onActivityFinishEvent() {
+    protected open fun onActivityFinishEvent() {
         finish()
     }
 

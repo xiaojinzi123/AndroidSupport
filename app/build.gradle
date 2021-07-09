@@ -54,6 +54,7 @@ dependencies {
     kapt libs.component_compiler
 
     implementation project(':lib-download')
+    implementation project(':lib-architecture')
 
 
 }
