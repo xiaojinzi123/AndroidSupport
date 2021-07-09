@@ -47,6 +47,8 @@ dependencies {
     api libs.rxjava
     api libs.rxandroid
     api libs.recyclerview
+    api libs.lifecycle_viewmodel_ktx
+    api libs.lifecycle_runtime_ktx
     
 }
 

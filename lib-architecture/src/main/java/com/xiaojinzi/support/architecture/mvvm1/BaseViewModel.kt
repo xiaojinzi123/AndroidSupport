@@ -1,10 +1,8 @@
-package com.xiaojinzi.support.architecture.view
+package com.xiaojinzi.support.architecture.mvvm1
 
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
-import com.xiaojinzi.support.architecture.BaseUseCase
-import com.xiaojinzi.support.architecture.CommonUseCase
-import com.xiaojinzi.support.architecture.CommonUseCaseImpl
+import com.xiaojinzi.support.architecture.mvvm1.BaseUseCase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 
@@ -22,26 +20,21 @@ import io.reactivex.subjects.BehaviorSubject
  *
  * @Note: ViewModel 不是用来承载业务逻辑的, 只是适合处理 UI 相关的数据和保存 UI 相关的数据及其需要保存的引用
  * @see BaseAct
- *
- * @see BaseFragment
- *
- * @see BaseModel
+ * @see BaseFrag
  */
-open class BaseViewModel @JvmOverloads constructor(
-  // 因为 BaseFragment 或者 BaseAct 会用到, 所以这里要创建一个默认的
-  private val commonUseCase: CommonUseCase = CommonUseCaseImpl()
-) : ViewModel(), CommonUseCase by commonUseCase {
+abstract class BaseViewModel
+@JvmOverloads constructor(
+) : ViewModel(){
 
-  val disposables: CompositeDisposable = CompositeDisposable()
+    val disposables: CompositeDisposable = CompositeDisposable()
 
-  @CallSuper
-  override fun onCleared() {
-    super.onCleared()
-    disposables.dispose()
-    // 如果实现了这个接口, 那就销毁一下
-    if (this is BaseUseCase) {
-      destroy()
+    @CallSuper
+    override fun onCleared() {
+        super.onCleared()
+        disposables.dispose()
+        if (this is BaseUseCase) {
+            destroy()
+        }
     }
-  }
 
 }
