@@ -30,7 +30,7 @@ BaseFrag<VM : BaseViewModel?>(private val contentLayoutId: Int = 0) :
      * 为什么有这个方法, 是因为 Fragment 可以通过挂载的 Activity 或者 自身Fragment 创建不同作用域的 ViewModel.
      * 所以把这个选择交给了子类去实现
      */
-    protected fun onCreateViewModel(): VM? {
+    protected open fun onCreateViewModel(): VM? {
         return null
     }
 
