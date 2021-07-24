@@ -1,6 +1,7 @@
 package com.xiaojinzi.support.architecture.mvvm1
 
 import androidx.annotation.Keep
+import androidx.annotation.StringRes
 import com.xiaojinzi.support.annotation.HotObservable
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -13,16 +14,24 @@ enum class TipType {
 }
 
 @Keep
-data class TipBean(val type: TipType = TipType.Toast, val content: String)
+data class TipBean(
+    val type: TipType = TipType.Toast,
+    val contentResId: Int? = null,
+    val content: String? = null
+)
 
 /**
  * 定义了一些公共的逻辑,
  */
-interface CommonUseCase: BaseUseCase {
+interface CommonUseCase : BaseUseCase {
 
     fun showLoading(isShow: Boolean)
 
     fun tip(tipBean: TipBean)
+
+    fun toast(@StringRes contentResId: Int) {
+        tip(TipBean(type = TipType.Toast, contentResId = contentResId))
+    }
 
     fun toast(content: String) {
         tip(TipBean(type = TipType.Toast, content = content))
