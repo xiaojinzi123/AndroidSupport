@@ -24,19 +24,25 @@ annotation class HotObservable(
     /**
      * "Hot Observable" 的行为模式
      */
-    val value: Pattern
+    val value: Pattern,
+
+    /**
+     * 是否共享
+     */
+    val isShared: Boolean = false
+
 ) {
     enum class Pattern {
         /**
          * 发射最近一个信号, 此模式和
-         * LiveData 和 RxJava 的 BehaviorSubject 行为一致
+         * LiveData、Kotlin StateFlow、Kotlin ShareFlow(replay=1) 和 RxJava 的 BehaviorSubject 行为一致
          */
         BEHAVIOR,
 
         /**
          * 发射信号给订阅者在订阅者订阅之后,
          * 订阅之前的信号将丢失.
-         * 类似 EventBus 和 RxJava 的 PublishSubject 的行为
+         * 类似 EventBus、ShareFlow(replay=0) 和 RxJava 的 PublishSubject 的行为
          */
         PUBLISH,
 
