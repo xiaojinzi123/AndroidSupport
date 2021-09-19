@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.component.impl.Router
+import com.xiaojinzi.support.ktx.nothing
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -27,6 +28,7 @@ class MainAct : AppCompatActivity() {
     fun downloadTest(view: View) {
         Router.with(this)
             .hostAndPath(DOWNLOAD_TEST)
+            .nothing()
             .forward()
     }
 
