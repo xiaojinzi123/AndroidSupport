@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.multidex.MultiDex
 import com.xiaojinzi.component.Component
 import com.xiaojinzi.component.Config
+import com.xiaojinzi.support.util.LogSupport
 
 class App: Application() {
 
@@ -21,6 +22,8 @@ class App: Application() {
                 // 执行构建
                 .build()
         )
+
+        LogSupport.e("天呐")
 
     }
 
