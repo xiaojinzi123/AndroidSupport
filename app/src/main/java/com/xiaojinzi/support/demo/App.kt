@@ -4,9 +4,10 @@ import android.app.Application
 import androidx.multidex.MultiDex
 import com.xiaojinzi.component.Component
 import com.xiaojinzi.component.Config
+import com.xiaojinzi.support.ktx.newUUid
 import com.xiaojinzi.support.util.LogSupport
 
-class App: Application() {
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -23,7 +24,7 @@ class App: Application() {
                 .build()
         )
 
-        LogSupport.e("天呐")
+        LogSupport.e(content = "天呐", keywords = arrayOf("我的", "你的"))
 
     }
 
