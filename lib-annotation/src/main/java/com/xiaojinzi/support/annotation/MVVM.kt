@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy
     AnnotationTarget.CLASS,
     AnnotationTarget.TYPE,
 )
-annotation class V
+annotation class ViewLayer
 
 @Retention(RetentionPolicy.SOURCE)
 @Target(
@@ -23,7 +23,7 @@ annotation class V
     AnnotationTarget.CLASS,
     AnnotationTarget.TYPE,
 )
-annotation class VM
+annotation class ViewModelLayer
 
 @Retention(RetentionPolicy.SOURCE)
 @Target(
@@ -33,4 +33,4 @@ annotation class VM
     AnnotationTarget.CLASS,
     AnnotationTarget.TYPE,
 )
-annotation class M
+annotation class ModelLayer
