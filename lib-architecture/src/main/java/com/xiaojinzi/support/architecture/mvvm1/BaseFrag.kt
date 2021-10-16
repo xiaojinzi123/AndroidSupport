@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.xiaojinzi.support.annotation.ViewLayer
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
@@ -14,8 +15,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.util.*
 
-abstract class
-BaseFrag<VM : BaseViewModel?>(private val contentLayoutId: Int = 0) :
+@ViewLayer
+abstract class BaseFrag<VM : BaseViewModel?>(private val contentLayoutId: Int = 0) :
     Fragment(contentLayoutId), BaseView {
 
     /**

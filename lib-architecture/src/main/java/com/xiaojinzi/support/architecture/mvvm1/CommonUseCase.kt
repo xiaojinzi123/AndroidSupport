@@ -3,6 +3,7 @@ package com.xiaojinzi.support.architecture.mvvm1
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
 import com.xiaojinzi.support.annotation.HotObservable
+import com.xiaojinzi.support.annotation.ViewModelLayer
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -23,6 +24,7 @@ data class TipBean(
 /**
  * 定义了一些公共的逻辑,
  */
+@ViewModelLayer
 interface CommonUseCase : BaseUseCase {
 
     fun showLoading(isShow: Boolean)

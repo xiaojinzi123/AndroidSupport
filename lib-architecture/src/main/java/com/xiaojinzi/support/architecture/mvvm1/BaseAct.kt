@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.xiaojinzi.support.annotation.ViewLayer
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.onEach
  *
  * @param <VM> 使用的 [BaseViewModel]
  */
+@ViewLayer
 abstract class BaseAct<VM : BaseViewModel> : AppCompatActivity(), BaseView {
 
     /**

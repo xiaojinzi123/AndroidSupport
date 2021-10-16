@@ -7,6 +7,9 @@ import java.lang.annotation.RetentionPolicy
 
 @Retention(RetentionPolicy.SOURCE)
 @Target(
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.TYPE_PARAMETER,
     AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.LOCAL_VARIABLE,
@@ -17,6 +20,9 @@ annotation class ViewLayer
 
 @Retention(RetentionPolicy.SOURCE)
 @Target(
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.TYPE_PARAMETER,
     AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.LOCAL_VARIABLE,
@@ -27,6 +33,9 @@ annotation class ViewModelLayer
 
 @Retention(RetentionPolicy.SOURCE)
 @Target(
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.TYPE_PARAMETER,
     AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.LOCAL_VARIABLE,

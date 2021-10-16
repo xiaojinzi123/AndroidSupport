@@ -1,7 +1,9 @@
 package com.xiaojinzi.support.architecture.mvvm1
 
 import androidx.annotation.UiThread
+import com.xiaojinzi.support.annotation.ViewLayer
 
+@ViewLayer
 interface BaseView {
 
     /**

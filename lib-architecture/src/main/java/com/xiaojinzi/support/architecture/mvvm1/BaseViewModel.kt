@@ -2,6 +2,7 @@ package com.xiaojinzi.support.architecture.mvvm1
 
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
+import com.xiaojinzi.support.annotation.ViewLayer
 import com.xiaojinzi.support.architecture.mvvm1.BaseUseCase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -22,9 +23,9 @@ import io.reactivex.subjects.BehaviorSubject
  * @see BaseAct
  * @see BaseFrag
  */
-abstract class BaseViewModel
-@JvmOverloads constructor(
-) : ViewModel(){
+@ViewLayer
+abstract class
+BaseViewModel @JvmOverloads constructor() : ViewModel(){
 
     val disposables: CompositeDisposable = CompositeDisposable()
 
