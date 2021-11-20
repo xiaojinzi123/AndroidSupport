@@ -24,7 +24,9 @@ object LogSupport {
         } else {
             "[${keywords.joinToString()}]"
         }
-        Log.v(tag, "$keywordStr $content")
+        val thread = Thread.currentThread()
+        val threadInfo = "[threadId=${thread.id}, threadName=${thread.name}]"
+        Log.v(tag, "$threadInfo $keywordStr $content")
     }
 
     @JvmOverloads
@@ -34,7 +36,9 @@ object LogSupport {
         } else {
             "[${keywords.joinToString()}]"
         }
-        Log.d(tag, "$keywordStr $content")
+        val thread = Thread.currentThread()
+        val threadInfo = "[threadId=${thread.id}, threadName=${thread.name}]"
+        Log.d(tag, "$threadInfo $keywordStr $content")
     }
 
     @JvmOverloads
@@ -44,7 +48,9 @@ object LogSupport {
         } else {
             "[${keywords.joinToString()}]"
         }
-        Log.i(tag, "$keywordStr $content")
+        val thread = Thread.currentThread()
+        val threadInfo = "[threadId=${thread.id}, threadName=${thread.name}]"
+        Log.i(tag, "$threadInfo $keywordStr $content")
     }
 
     @JvmOverloads
@@ -54,7 +60,9 @@ object LogSupport {
         } else {
             "[${keywords.joinToString()}]"
         }
-        Log.e(tag, "$keywordStr $content")
+        val thread = Thread.currentThread()
+        val threadInfo = "[threadId=${thread.id}, threadName=${thread.name}]"
+        Log.e(tag, "$threadInfo $keywordStr $content")
     }
 
     @JvmOverloads
@@ -64,7 +72,9 @@ object LogSupport {
         } else {
             "[${keywords.joinToString()}]"
         }
-        Log.w(tag, "$keywordStr $content")
+        val thread = Thread.currentThread()
+        val threadInfo = "[threadId=${thread.id}, threadName=${thread.name}]"
+        Log.w(tag, "$threadInfo $keywordStr $content")
     }
 
 }
