@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <service android:name=".TestService"
+            android:process=":remote">
+
+        </service>
+
         <activity android:name="com.xiaojinzi.support.demo.module.download.view.DownloadTestAct" />
         <activity android:name="com.xiaojinzi.support.demo.MainAct">
             <intent-filter>

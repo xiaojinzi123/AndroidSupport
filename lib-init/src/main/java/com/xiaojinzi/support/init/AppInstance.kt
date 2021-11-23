@@ -4,12 +4,8 @@ import android.app.Application
 
 object AppInstance {
 
-    internal var _app: Application? = null
+    lateinit var app: Application
 
     var isDebug: Boolean = false
-
-    fun getApp(): Application{
-        return _app!!
-    }
 
 }

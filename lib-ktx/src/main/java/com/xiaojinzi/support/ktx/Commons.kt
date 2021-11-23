@@ -9,7 +9,7 @@ import java.util.*
  * 全局可用的 Application
  */
 val app: Application
-    get() = AppInstance.getApp()
+    get() = AppInstance.app
 
 /**
  * 创建一个 UUID

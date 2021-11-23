@@ -2,6 +2,7 @@ package com.xiaojinzi.support.demo
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -26,10 +27,16 @@ class MainAct : AppCompatActivity() {
     }
 
     fun downloadTest(view: View) {
-        Router.with(this)
+        startService(
+            Intent(
+                this@MainAct,
+                TestService::class.java
+            )
+        )
+        /*Router.with(this)
             .hostAndPath(DOWNLOAD_TEST)
             .nothing()
-            .forward()
+            .forward()*/
     }
 
 }

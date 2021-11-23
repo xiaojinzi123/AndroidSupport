@@ -1,13 +1,19 @@
 package com.xiaojinzi.support.demo
 
 import android.app.Application
+import android.content.Context
 import androidx.multidex.MultiDex
 import com.xiaojinzi.component.Component
 import com.xiaojinzi.component.Config
-import com.xiaojinzi.support.ktx.newUUid
+import com.xiaojinzi.support.init.AppInstance
 import com.xiaojinzi.support.util.LogSupport
 
 class App : Application() {
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        AppInstance.app = this
+    }
 
     override fun onCreate() {
         super.onCreate()

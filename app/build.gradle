@@ -53,8 +53,11 @@ dependencies {
     implementation libs.component_impl_kt
     kapt libs.component_compiler
 
+    implementation project(':lib-init')
+    implementation project(':lib-annotation')
     implementation project(':lib-download')
     implementation project(':lib-architecture')
+    implementation project(':lib-ktx')
 
 
 }
