@@ -5,6 +5,7 @@
         <provider
             android:name=".InitProvider"
             android:authorities="${applicationId}.support.init_provider"
+            android:multiprocess="true"
             android:exported="false" />
     </application>
 </manifest>
