@@ -3,7 +3,6 @@ package com.xiaojinzi.support.util
 import android.app.Activity
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
-import com.xiaojinzi.component.ComponentActivityStack
 
 /**
  * 注册的声明周期回调,用于取消一些调用,这些调用在界面销毁之后
