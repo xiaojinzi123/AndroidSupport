@@ -1,6 +1,17 @@
 package com.xiaojinzi.support.ktx
 
 /**
+ * 如果为空, 就都处理成 Null
+ */
+fun <T> List<T>.emptyToNull(element: T): List<T>? {
+    return if (this.isNullOrEmpty()) {
+        null
+    } else {
+        this
+    }
+}
+
+/**
  * 列表的添加或者删除
  */
 fun <T> List<T>.addOrRemove(element: T): List<T> {
