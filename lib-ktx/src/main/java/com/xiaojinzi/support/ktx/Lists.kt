@@ -3,7 +3,7 @@ package com.xiaojinzi.support.ktx
 /**
  * 如果为空, 就都处理成 Null
  */
-fun <T> List<T>.emptyToNull(element: T): List<T>? {
+fun <T> List<T>.orNull(element: T): List<T>? {
     return if (this.isNullOrEmpty()) {
         null
     } else {
