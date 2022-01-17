@@ -3,6 +3,8 @@ package com.xiaojinzi.support.ktx
 import android.app.Application
 import android.view.View
 import com.xiaojinzi.support.init.AppInstance
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
 import java.util.*
 
 /**
@@ -10,6 +12,11 @@ import java.util.*
  */
 val app: Application
     get() = AppInstance.app
+
+/**
+ * 全局使用的 Scope, 就不要加那个注解. 不然会报黄
+ */
+val AppScope: CoroutineScope get() = GlobalScope
 
 /**
  * 创建一个 UUID
