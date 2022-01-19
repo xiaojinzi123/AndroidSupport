@@ -138,8 +138,11 @@ fun <T> Flow<T>.sharedStateIn(
     scope: CoroutineScope,
     isTakeOne: Boolean = false,
     dropIfValueIsSet: Boolean = false,
+    distinctUntilChanged: Boolean = false,
 ): MutableSharedStateFlow<T> {
-    val shareFlow = MutableSharedStateFlow<T>()
+    val shareFlow = MutableSharedStateFlow<T>(
+        distinctUntilChanged = distinctUntilChanged,
+    )
     this.doSharedStateIn(
         shareFlow = shareFlow,
         scope = scope,
@@ -161,8 +164,12 @@ fun <T> Flow<T>.sharedStateIn(
     scope: CoroutineScope,
     isTakeOne: Boolean = false,
     dropIfValueIsSet: Boolean = false,
+    distinctUntilChanged: Boolean = false,
 ): MutableSharedStateFlow<T> {
-    val shareFlow = MutableSharedStateFlow(initValue = initValue)
+    val shareFlow = MutableSharedStateFlow(
+        initValue = initValue,
+        distinctUntilChanged = distinctUntilChanged,
+    )
     this.doSharedStateIn(
         shareFlow = shareFlow,
         scope = scope,
