@@ -35,7 +35,8 @@ interface MutableSharedStateFlow<T> : SharedStateFlow<T>, MutableSharedFlow<T> {
 }
 
 private class MutableSharedStateFlowImpl<T>(
-    val target: MutableSharedFlow<T>
+    val target: MutableSharedFlow<T>,
+    val distinctUntilChanged: Boolean = false,
 ) : MutableSharedStateFlow<T>, MutableSharedFlow<T> by target {
 
     override var value: T
@@ -47,9 +48,12 @@ private class MutableSharedStateFlowImpl<T>(
                 return target.replayCache.first()
             }
         }
-        set(value) {
+        set(targetValue) {
             synchronized(this) {
-                target.tryEmit(value = value)
+                if (distinctUntilChanged && isInit && targetValue == value) {
+                    return@synchronized
+                }
+                target.tryEmit(value = targetValue)
             }
         }
 
@@ -63,19 +67,25 @@ private class MutableSharedStateFlowImpl<T>(
 }
 
 @Suppress("FunctionName", "UNCHECKED_CAST")
-fun <T> MutableSharedStateFlow(): MutableSharedStateFlow<T> {
+fun <T> MutableSharedStateFlow(
+    distinctUntilChanged: Boolean = false,
+): MutableSharedStateFlow<T> {
     val shareFlow = MutableSharedFlow<T>(
         replay = 1,
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.SUSPEND
     )
     return MutableSharedStateFlowImpl(
-        target = shareFlow
+        target = shareFlow,
+        distinctUntilChanged = distinctUntilChanged,
     )
 }
 
 @Suppress("FunctionName", "UNCHECKED_CAST")
-fun <T> MutableSharedStateFlow(initValue: T): MutableSharedStateFlow<T> {
+fun <T> MutableSharedStateFlow(
+    initValue: T,
+    distinctUntilChanged: Boolean = false,
+): MutableSharedStateFlow<T> {
     val shareFlow = MutableSharedFlow<T>(
         replay = 1,
         extraBufferCapacity = 1,
@@ -86,7 +96,8 @@ fun <T> MutableSharedStateFlow(initValue: T): MutableSharedStateFlow<T> {
         error("MutableSharedStateFlow Fail to emit initValue")
     }
     return MutableSharedStateFlowImpl(
-        target = shareFlow
+        target = shareFlow,
+        distinctUntilChanged = distinctUntilChanged,
     )
 }
 
