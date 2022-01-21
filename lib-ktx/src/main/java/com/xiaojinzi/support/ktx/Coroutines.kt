@@ -1,9 +1,11 @@
 package com.xiaojinzi.support.ktx
 
 import com.xiaojinzi.support.init.AppInstance
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * 忽略错误的一个协程的 Context
@@ -17,4 +19,36 @@ val ErrorIgnoreContext: CoroutineExceptionHandler
 
 fun List<Job>.cancelAll(cause: CancellationException? = null) {
     this.forEach { it.cancel(cause = cause) }
+}
+
+fun <T> Continuation<T>.resumeIgnoreException(value: T) {
+    try {
+        resume(value = value)
+    } catch (e: Exception) {
+        // ignore
+    }
+}
+
+fun <T> Continuation<T>.resumeExceptionIgnoreException(exception: Throwable) {
+    try {
+        resumeWithException(exception = exception)
+    } catch (e: Exception) {
+        // ignore
+    }
+}
+
+fun <T> CancellableContinuation<T>.resumeIgnoreException(value: T) {
+    try {
+        resume(value = value)
+    } catch (e: Exception) {
+        // ignore
+    }
+}
+
+fun <T> CancellableContinuation<T>.resumeExceptionIgnoreException(exception: Throwable) {
+    try {
+        resumeWithException(exception = exception)
+    } catch (e: Exception) {
+        // ignore
+    }
 }
