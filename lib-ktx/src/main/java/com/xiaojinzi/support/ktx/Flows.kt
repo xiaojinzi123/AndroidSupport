@@ -30,7 +30,6 @@ internal class FlowTakeUntil<T>(
 
     @InternalCoroutinesApi
     override suspend fun collectSafely(collector: FlowCollector<T>) {
-
         coroutineScope {
             try {
                 source.collect {
@@ -45,9 +44,7 @@ internal class FlowTakeUntil<T>(
             } catch (e: StopException) {
                 // ok
             }
-
         }
-
     }
 
     class StopException : CancellationException()
