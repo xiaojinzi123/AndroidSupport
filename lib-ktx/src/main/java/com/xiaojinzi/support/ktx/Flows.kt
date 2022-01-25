@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collect
 
 @FlowPreview
 fun <T> Flow<T>.takeUntil(
-    isIncludeLastOne: Boolean = true,
+    isIncludeLastOne: Boolean = false,
     condition: (value: T) -> Boolean
 ): Flow<T> {
     return FlowTakeUntil(
@@ -25,7 +25,7 @@ fun <T> Flow<T>.takeUntil(
 internal class FlowTakeUntil<T>(
     private val source: Flow<T>,
     private val condition: (value: T) -> Boolean,
-    private val isIncludeLastOne: Boolean = true,
+    private val isIncludeLastOne: Boolean,
 ) : AbstractFlow<T>() {
 
     @InternalCoroutinesApi
