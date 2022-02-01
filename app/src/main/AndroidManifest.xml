@@ -22,7 +22,8 @@
         </service>
 
         <activity android:name="com.xiaojinzi.support.demo.module.download.view.DownloadTestAct" />
-        <activity android:name="com.xiaojinzi.support.demo.MainAct">
+        <activity android:name="com.xiaojinzi.support.demo.MainAct"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
