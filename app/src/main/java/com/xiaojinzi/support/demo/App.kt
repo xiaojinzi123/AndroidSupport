@@ -6,7 +6,11 @@ import androidx.multidex.MultiDex
 import com.xiaojinzi.component.Component
 import com.xiaojinzi.component.Config
 import com.xiaojinzi.support.init.AppInstance
+import com.xiaojinzi.support.ktx.AppInitSupport
+import com.xiaojinzi.support.ktx.AppInitTask
+import com.xiaojinzi.support.ktx.AppScope
 import com.xiaojinzi.support.util.LogSupport
+import kotlinx.coroutines.launch
 
 class App : Application() {
 
@@ -31,6 +35,26 @@ class App : Application() {
         )
 
         LogSupport.e(content = "天呐", keywords = arrayOf("我的", "你的"))
+
+        AppScope.launch {
+
+            AppInitSupport
+                .addTask(
+                    AppInitTask {
+                        println("任务1")
+                    },
+                    AppInitTask {
+                        println("任务2")
+                    },
+                    AppInitTask(
+                        priority = 1,
+                    ) {
+                        println("任务3")
+                    },
+                )
+                .execute()
+
+        }
 
     }
 
