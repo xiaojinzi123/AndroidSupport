@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.xiaojinzi.support.compose.TabRowDefaults.tabIndicatorOffset
+import com.xiaojinzi.support.compose.TabRowDefaultsCopy.tabIndicatorOffset
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -69,9 +69,9 @@ import kotlinx.coroutines.launch
  * the tabs inside the ScrollableTabRow. This padding helps inform the user that this tab row can
  * be scrolled, unlike a [TabRow].
  * @param indicator the indicator that represents which tab is currently selected. By default this
- * will be a [TabRowDefaults.Indicator], using a [TabRowDefaults.tabIndicatorOffset]
+ * will be a [TabRowDefaultsCopy.Indicator], using a [TabRowDefaultsCopy.tabIndicatorOffset]
  * modifier to animate its position. Note that this indicator will be forced to fill up the
- * entire ScrollableTabRow, so you should use [TabRowDefaults.tabIndicatorOffset] or similar to
+ * entire ScrollableTabRow, so you should use [TabRowDefaultsCopy.tabIndicatorOffset] or similar to
  * animate the actual drawn indicator inside this space, and provide an offset from the start.
  * @param divider the divider displayed at the bottom of the ScrollableTabRow. This provides a layer
  * of separation between the ScrollableTabRow and the content displayed underneath.
@@ -86,16 +86,16 @@ fun ScrollableTabRowCopy(
     modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme.colors.primarySurface,
     contentColor: Color = contentColorFor(backgroundColor),
-    edgePadding: Dp = TabRowDefaults.ScrollableTabRowPadding,
+    edgePadding: Dp = TabRowDefaultsCopy.ScrollableTabRowPadding,
     indicator: @Composable @UiComposable
-        (tabPositions: List<TabPosition>) -> Unit = @Composable { tabPositions ->
-        TabRowDefaults.Indicator(
+        (tabPositions: List<TabPositionCopy>) -> Unit = @Composable { tabPositions ->
+        TabRowDefaultsCopy.Indicator(
             Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
         )
     },
     divider: @Composable @UiComposable () -> Unit =
         @Composable {
-            TabRowDefaults.Divider()
+            TabRowDefaultsCopy.Divider()
         },
     tabs: @Composable @UiComposable () -> Unit
 ) {
@@ -107,7 +107,7 @@ fun ScrollableTabRowCopy(
         val scrollState = rememberScrollState()
         val coroutineScope = rememberCoroutineScope()
         val scrollableTabData = remember(scrollState, coroutineScope) {
-            ScrollableTabData(
+            ScrollableTabDataCopy(
                 scrollState = scrollState,
                 coroutineScope = coroutineScope
             )
@@ -119,11 +119,11 @@ fun ScrollableTabRowCopy(
                 .selectableGroup()
                 .clipToBounds()
         ) { constraints ->
-            val minTabWidth = ScrollableTabRowMinimumTabWidth.roundToPx()
+            val minTabWidth = ScrollableTabRowMinimumTabWidthCopy.roundToPx()
             val padding = edgePadding.roundToPx()
             val tabConstraints = constraints.copy(minWidth = minTabWidth)
 
-            val tabPlaceables = subcompose(TabSlots.Tabs, tabs)
+            val tabPlaceables = subcompose(TabSlotsCopy.Tabs, tabs)
                 .map { it.measure(tabConstraints) }
 
             var layoutWidth = padding * 2
@@ -136,17 +136,17 @@ fun ScrollableTabRowCopy(
             // Position the children.
             layout(layoutWidth, layoutHeight) {
                 // Place the tabs
-                val tabPositions = mutableListOf<TabPosition>()
+                val tabPositions = mutableListOf<TabPositionCopy>()
                 var left = padding
                 tabPlaceables.forEach {
                     it.placeRelative(left, 0)
-                    tabPositions.add(TabPosition(left = left.toDp(), width = it.width.toDp()))
+                    tabPositions.add(TabPositionCopy(left = left.toDp(), width = it.width.toDp()))
                     left += it.width
                 }
 
                 // The divider is measured with its own height, and width equal to the total width
                 // of the tab row, and then placed on top of the tabs.
-                subcompose(TabSlots.Divider, divider).forEach {
+                subcompose(TabSlotsCopy.Divider, divider).forEach {
                     val placeable = it.measure(
                         constraints.copy(
                             minHeight = 0,
@@ -159,7 +159,7 @@ fun ScrollableTabRowCopy(
 
                 // The indicator container is measured to fill the entire space occupied by the tab
                 // row, and then placed on top of the divider.
-                subcompose(TabSlots.Indicator) {
+                subcompose(TabSlotsCopy.Indicator) {
                     indicator(tabPositions)
                 }.forEach {
                     it.measure(Constraints.fixed(layoutWidth, layoutHeight)).placeRelative(0, 0)
@@ -185,12 +185,12 @@ fun ScrollableTabRowCopy(
  * @property width the width of this tab
  */
 @Immutable
-class TabPosition internal constructor(val left: Dp, val width: Dp) {
+class TabPositionCopy internal constructor(val left: Dp, val width: Dp) {
     val right: Dp get() = left + width
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is TabPosition) return false
+        if (other !is TabPositionCopy) return false
 
         if (left != other.left) return false
         if (width != other.width) return false
@@ -212,7 +212,7 @@ class TabPosition internal constructor(val left: Dp, val width: Dp) {
 /**
  * Contains default implementations and values used for TabRow.
  */
-object TabRowDefaults {
+object TabRowDefaultsCopy {
     /**
      * Default [Divider], which will be positioned at the bottom of the [TabRow], underneath the
      * indicator.
@@ -256,11 +256,11 @@ object TabRowDefaults {
      * [Modifier] that takes up all the available width inside the [TabRow], and then animates
      * the offset of the indicator it is applied to, depending on the [currentTabPosition].
      *
-     * @param currentTabPosition [TabPosition] of the currently selected tab. This is used to
+     * @param currentTabPosition [TabPositionCopy] of the currently selected tab. This is used to
      * calculate the offset of the indicator this modifier is applied to, as well as its width.
      */
     fun Modifier.tabIndicatorOffset(
-        currentTabPosition: TabPosition
+        currentTabPosition: TabPositionCopy
     ): Modifier = composed(
         inspectorInfo = debugInspectorInfo {
             name = "tabIndicatorOffset"
@@ -302,7 +302,7 @@ object TabRowDefaults {
     val ScrollableTabRowPadding = 52.dp
 }
 
-private enum class TabSlots {
+private enum class TabSlotsCopy {
     Tabs,
     Divider,
     Indicator
@@ -311,7 +311,7 @@ private enum class TabSlots {
 /**
  * Class holding onto state needed for [ScrollableTabRow]
  */
-private class ScrollableTabData(
+private class ScrollableTabDataCopy(
     private val scrollState: ScrollState,
     private val coroutineScope: CoroutineScope
 ) {
@@ -320,7 +320,7 @@ private class ScrollableTabData(
     fun onLaidOut(
         density: Density,
         edgeOffset: Int,
-        tabPositions: List<TabPosition>,
+        tabPositions: List<TabPositionCopy>,
         selectedTab: Int
     ) {
         // Animate if the new tab is different from the old tab, or this is called for the first
@@ -335,7 +335,7 @@ private class ScrollableTabData(
                     coroutineScope.launch {
                         scrollState.animateScrollTo(
                             calculatedOffset,
-                            animationSpec = ScrollableTabRowScrollSpec
+                            animationSpec = ScrollableTabRowScrollSpecCopy
                         )
                     }
                 }
@@ -348,10 +348,10 @@ private class ScrollableTabData(
      * If the tab is at the start / end, and there is not enough space to fully centre the tab, this
      * will just clamp to the min / max position given the max width.
      */
-    private fun TabPosition.calculateTabOffset(
+    private fun TabPositionCopy.calculateTabOffset(
         density: Density,
         edgeOffset: Int,
-        tabPositions: List<TabPosition>
+        tabPositions: List<TabPositionCopy>
     ): Int = with(density) {
         val totalTabRowWidth = tabPositions.last().right.roundToPx() + edgeOffset
         val visibleWidth = totalTabRowWidth - scrollState.maxValue
@@ -366,12 +366,12 @@ private class ScrollableTabData(
     }
 }
 
-private val ScrollableTabRowMinimumTabWidth = 0.dp
+private val ScrollableTabRowMinimumTabWidthCopy = 0.dp
 
 /**
  * [AnimationSpec] used when scrolling to a tab that is not fully visible.
  */
-private val ScrollableTabRowScrollSpec: AnimationSpec<Float> = tween(
+private val ScrollableTabRowScrollSpecCopy: AnimationSpec<Float> = tween(
     durationMillis = 250,
     easing = FastOutSlowInEasing
 )
