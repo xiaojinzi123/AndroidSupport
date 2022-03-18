@@ -1,9 +1,9 @@
 package com.xiaojinzi.support.annotation
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 
-@Retention(RetentionPolicy.SOURCE)
+@Retention(
+    value = AnnotationRetention.SOURCE
+)
 @Target(
     AnnotationTarget.ANNOTATION_CLASS,
     AnnotationTarget.CLASS,

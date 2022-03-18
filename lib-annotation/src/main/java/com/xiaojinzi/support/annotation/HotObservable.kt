@@ -1,14 +1,11 @@
 package com.xiaojinzi.support.annotation
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
-
 /**
  * 表示一个资源是一个 "Hot Observable", 可以是 RxJava 的 [io.reactivex.subjects.Subject].
  * 也可以是 Google 官方的 [LiveData].
  * 主要起到一个标志作用
  */
-@Retention(RetentionPolicy.SOURCE)
+@Retention(value = AnnotationRetention.SOURCE)
 @Target(
     AnnotationTarget.ANNOTATION_CLASS,
     AnnotationTarget.CLASS,

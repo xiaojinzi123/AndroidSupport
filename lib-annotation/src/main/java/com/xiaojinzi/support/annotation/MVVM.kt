@@ -1,11 +1,8 @@
 package com.xiaojinzi.support.annotation
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 
 // 下面的三个用来标记不同的层
-
-@Retention(RetentionPolicy.SOURCE)
+@Retention(value = AnnotationRetention.SOURCE)
 @Target(
     AnnotationTarget.PROPERTY,
     AnnotationTarget.PROPERTY_GETTER,
@@ -18,7 +15,7 @@ import java.lang.annotation.RetentionPolicy
 )
 annotation class ViewLayer
 
-@Retention(RetentionPolicy.SOURCE)
+@Retention(value = AnnotationRetention.SOURCE)
 @Target(
     AnnotationTarget.PROPERTY,
     AnnotationTarget.PROPERTY_GETTER,
@@ -31,7 +28,7 @@ annotation class ViewLayer
 )
 annotation class ViewModelLayer
 
-@Retention(RetentionPolicy.SOURCE)
+@Retention(value = AnnotationRetention.SOURCE)
 @Target(
     AnnotationTarget.PROPERTY,
     AnnotationTarget.PROPERTY_GETTER,
