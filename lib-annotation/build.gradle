@@ -1,46 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+apply from: "../common_lib.gradle"
+
 group = 'com.xiaojinzi.support'
 archivesBaseName = "annotation"
-
-android {
-    compileSdkVersion versions.compileSdkVersion
-
-    defaultConfig {
-        minSdkVersion versions.minSdkVersion
-        targetSdkVersion versions.targetSdkVersion
-        consumerProguardFiles "consumer-rules.pro"
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-}
-
-dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    api libs.kotlin_stdlib
-}
-
-task androidSourcesJar(type: Jar) {
-    archiveClassifier = 'sources'
-    from android.sourceSets.main.java.srcDirs
-}
-
-
-artifacts {
-    archives androidSourcesJar
-}
