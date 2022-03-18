@@ -1,11 +1,11 @@
 ext.versions = [
-        compileSdkVersion       : 31,
-        minSdkVersion           : 21,
-        targetSdkVersion        : 31,
-        buildToolsVersion       : "30.0.2",
-        component               : "v2.0.0-beta7",
-        compose_version                     : "1.2.0-alpha04",
-        accompanist_version                 : "0.19.0",
+        compileSdkVersion           : 31,
+        minSdkVersion               : 21,
+        targetSdkVersion            : 31,
+        buildToolsVersion           : "30.0.2",
+        component                   : "v2.0.0-beta7",
+        compose_version             : "1.2.0-alpha04",
+        accompanist_version         : "0.19.0",
 ]
 
 ext.libs = [
