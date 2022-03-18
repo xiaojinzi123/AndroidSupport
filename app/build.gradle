@@ -3,13 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.xiaojinzi.component.plugin'
 
+apply from: "../common_lib.gradle"
+
 android {
-    compileSdkVersion versions.compileSdkVersion
 
     defaultConfig {
         applicationId "com.xiaojinzi.support.demo"
-        minSdkVersion versions.minSdkVersion
-        targetSdkVersion versions.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -18,18 +17,16 @@ android {
                 arguments = [HOST: "app"]
             }
         }
-
         multiDexEnabled true
-
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    buildFeatures {
+        // Enables Jetpack Compose for this module
+        compose true
     }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerVersion kotlin_version
     }
 
     buildTypes {
@@ -38,6 +35,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {

@@ -25,7 +25,7 @@ import io.reactivex.subjects.BehaviorSubject
  */
 @ViewLayer
 abstract class
-BaseViewModel @JvmOverloads constructor() : ViewModel(){
+BaseViewModel constructor() : ViewModel(){
 
     val disposables: CompositeDisposable = CompositeDisposable()
 

@@ -1,6 +1,3 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-
 android {
     compileSdkVersion versions.compileSdkVersion
 
@@ -17,6 +14,13 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+        useIR = true
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
     }
 
     buildTypes {
@@ -30,7 +34,7 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api libs.kotlin_stdlib
-    api libs.kotlin_stdlib
+    api libs.kotlin_android
     api libs.android_core_ktx
     api libs.appcompat
     implementation libs.android_networking

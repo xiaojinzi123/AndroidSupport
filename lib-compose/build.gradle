@@ -6,6 +6,17 @@ apply from: "../common_lib.gradle"
 group = 'com.xiaojinzi.support'
 archivesBaseName = "compose"
 
+android {
+    buildFeatures {
+        // Enables Jetpack Compose for this module
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerVersion kotlin_version
+    }
+}
+
 dependencies {
     api libs.compose_ui_tooling
     api libs.compose_ui_tooling_preview
