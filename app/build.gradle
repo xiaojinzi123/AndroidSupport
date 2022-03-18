@@ -57,6 +57,7 @@ dependencies {
     implementation project(':lib-download')
     implementation project(':lib-architecture')
     implementation project(':lib-ktx')
+    implementation project(':lib-compose')
 
 
 }

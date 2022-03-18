@@ -1,9 +1,11 @@
 ext.versions = [
         compileSdkVersion       : 31,
-        minSdkVersion           : 16,
+        minSdkVersion           : 21,
         targetSdkVersion        : 31,
         buildToolsVersion       : "30.0.2",
         component               : "v2.0.0-beta7",
+        compose_version                     : "1.2.0-alpha04",
+        accompanist_version                 : "0.19.0",
 ]
 
 ext.libs = [
@@ -23,6 +25,23 @@ ext.libs = [
         android_networking          : "com.amitshekhar.android:android-networking:1.0.2",
         kotlinx_coroutines          : "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.0",
         kotlinx_coroutines_rx       : "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:1.4.1",
+
+        // ------------------------ Compose 的依赖  ------------------------
+
+        accompanist_pager           : "com.google.accompanist:accompanist-pager:${versions.accompanist_version}",
+        accompanist_swiperefresh    : "com.google.accompanist:accompanist-swiperefresh:${versions.accompanist_version}",
+        accompanist_insets          : "com.google.accompanist:accompanist-insets:${versions.accompanist_version}",
+        accompanist_sysuicontrol    : "com.google.accompanist:accompanist-systemuicontroller:${versions.accompanist_version}",
+        accompanist_flowlayout      : "com.google.accompanist:accompanist-flowlayout:${versions.accompanist_version}",
+
+        compose_ui_tooling          : "androidx.compose.ui:ui-tooling:${versions.compose_version}",
+        compose_ui_tooling_preview  : "androidx.compose.ui:ui-tooling-preview:${versions.compose_version}",
+        compose_viewmodel           : 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1',
+        activity_compose            : 'androidx.activity:activity-compose:1.4.0',
+        compose_ui                  : "androidx.compose.ui:ui:${versions.compose_version}",
+        compose_material            : "androidx.compose.material:material:${versions.compose_version}",
+        compose_ui_foundation       : 'androidx.ui:ui-foundation:0.1.0-dev14',
+        compose_constraintlayout    : "androidx.constraintlayout:constraintlayout-compose:1.0.0",
 
         // Component 组件化相关
         component_annotation        : "com.github.xiaojinzi123.Component:component-annotation:${versions.component}",

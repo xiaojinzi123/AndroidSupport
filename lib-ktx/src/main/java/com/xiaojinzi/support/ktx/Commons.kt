@@ -4,6 +4,7 @@ import android.app.Application
 import android.view.View
 import com.xiaojinzi.support.init.AppInstance
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import java.util.*
 
