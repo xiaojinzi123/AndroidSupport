@@ -5,7 +5,6 @@ apply plugin: 'com.xiaojinzi.component.plugin'
 
 android {
     compileSdkVersion versions.compileSdkVersion
-    buildToolsVersion versions.buildToolsVersion
 
     defaultConfig {
         applicationId "com.xiaojinzi.support.demo"

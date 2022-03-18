@@ -3,7 +3,7 @@ ext.versions = [
         minSdkVersion           : 16,
         targetSdkVersion        : 31,
         buildToolsVersion       : "30.0.2",
-        component               : "1.9.0-androidx-java8-Stable1",
+        component               : "v2.0.0-beta7",
 ]
 
 ext.libs = [

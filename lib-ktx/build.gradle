@@ -6,13 +6,10 @@ archivesBaseName = "ktx"
 
 android {
     compileSdkVersion versions.compileSdkVersion
-    buildToolsVersion versions.buildToolsVersion
 
     defaultConfig {
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
         consumerProguardFiles "consumer-rules.pro"
     }
 

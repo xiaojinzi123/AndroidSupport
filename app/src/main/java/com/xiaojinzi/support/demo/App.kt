@@ -2,7 +2,6 @@ package com.xiaojinzi.support.demo
 
 import android.app.Application
 import android.content.Context
-import androidx.multidex.MultiDex
 import com.xiaojinzi.component.Component
 import com.xiaojinzi.component.Config
 import com.xiaojinzi.support.init.AppInstance
@@ -21,7 +20,6 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        MultiDex.install(this);
 
         Component.init(
             BuildConfig.DEBUG,
