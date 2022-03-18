@@ -57,6 +57,13 @@ fun Context.getActivity(): Activity? {
 }
 
 /**
+ * 尝试结束界面
+ */
+fun Context.tryFinishActivity() {
+    this.getActivity()?.finish()
+}
+
+/**
  * 获取 LayoutInflater
  */
 val Context.inflater: LayoutInflater
