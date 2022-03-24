@@ -30,9 +30,4 @@ dependencies {
     api libs.compose_ui_foundation
     api libs.compose_constraintlayout
 
-    api libs.accompanist_pager
-    api libs.accompanist_swiperefresh
-    api libs.accompanist_insets
-    api libs.accompanist_sysuicontrol
-    api libs.accompanist_flowlayout
 }

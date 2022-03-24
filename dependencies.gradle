@@ -5,7 +5,6 @@ ext.versions = [
         buildToolsVersion           : "30.0.2",
         component                   : "v2.0.0-beta7",
         compose_version             : "1.2.0-alpha05",
-        accompanist_version         : "0.19.0",
 ]
 
 ext.libs = [
@@ -28,12 +27,6 @@ ext.libs = [
         kotlinx_coroutines_rx       : "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$kotlin_coroutines_version",
 
         // ------------------------ Compose 的依赖  ------------------------
-
-        accompanist_pager           : "com.google.accompanist:accompanist-pager:${versions.accompanist_version}",
-        accompanist_swiperefresh    : "com.google.accompanist:accompanist-swiperefresh:${versions.accompanist_version}",
-        accompanist_insets          : "com.google.accompanist:accompanist-insets:${versions.accompanist_version}",
-        accompanist_sysuicontrol    : "com.google.accompanist:accompanist-systemuicontroller:${versions.accompanist_version}",
-        accompanist_flowlayout      : "com.google.accompanist:accompanist-flowlayout:${versions.accompanist_version}",
 
         compose_ui_tooling          : "androidx.compose.ui:ui-tooling:${versions.compose_version}",
         compose_ui_tooling_preview  : "androidx.compose.ui:ui-tooling-preview:${versions.compose_version}",
