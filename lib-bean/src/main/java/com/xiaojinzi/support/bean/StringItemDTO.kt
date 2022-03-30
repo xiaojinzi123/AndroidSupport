@@ -3,7 +3,7 @@ package com.xiaojinzi.support.bean
 import android.os.Parcelable
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
