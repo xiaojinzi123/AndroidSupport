@@ -14,7 +14,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation project(':lib-init')
+    api project(':lib-bean')
+    api project(':lib-init')
 
     api libs.appcompat
     api libs.kotlin_stdlib
