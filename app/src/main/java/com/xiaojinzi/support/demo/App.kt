@@ -8,6 +8,7 @@ import com.xiaojinzi.support.init.AppInstance
 import com.xiaojinzi.support.ktx.AppInitSupport
 import com.xiaojinzi.support.ktx.AppInitTask
 import com.xiaojinzi.support.ktx.AppScope
+import com.xiaojinzi.support.util.Assert
 import com.xiaojinzi.support.util.LogSupport
 import kotlinx.coroutines.launch
 
@@ -33,6 +34,7 @@ class App : Application() {
         )
 
         LogSupport.e(content = "天呐", keywords = arrayOf("我的", "你的"))
+        Assert
 
         AppScope.launch {
 

@@ -18,10 +18,9 @@ data class StringItemDTO(
     }
 
     init {
-        if(valueRsd == null || value == null) {
-            throw IllegalArgumentException("nameRsd and name can not be null at the same time")
+        if(valueRsd == null && value.isNullOrEmpty()) {
+            throw IllegalArgumentException("valueRsd and value can not be null at the same time")
         }
-        "".isEmpty()
     }
 
 }
