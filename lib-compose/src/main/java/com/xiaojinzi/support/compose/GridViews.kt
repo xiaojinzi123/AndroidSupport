@@ -26,7 +26,8 @@ fun <T> GridView(
     afterRowContent: @Composable (index: Int) -> Unit = {},
     // 最后一个 Item 的
     lastItemContent: (@Composable () -> Unit)? = null,
-    contentItem: @Composable BoxScope.(item: T) -> Unit,
+    contentCombineItem: @Composable (BoxScope.(index: Int, item: T) -> Unit)? = null,
+    contentItem: @Composable (BoxScope.(item: T) -> Unit)? = null,
 ) {
     val realItemSize = items.size + (if (lastItemContent == null) 0 else 1)
     if (realItemSize == 0) {
@@ -92,7 +93,13 @@ fun <T> GridView(
                                 contentAlignment = Alignment.Center,
                                 propagateMinConstraints = true
                             ) {
-                                contentItem(items[itemIndex])
+                                if (contentCombineItem != null) {
+                                    contentCombineItem(itemIndex, items[itemIndex])
+                                } else {
+                                    if (contentItem != null) {
+                                        contentItem(items[itemIndex])
+                                    }
+                                }
                             }
                         } else {
                             if (lastItemContent != null && itemIndex == items.size) {

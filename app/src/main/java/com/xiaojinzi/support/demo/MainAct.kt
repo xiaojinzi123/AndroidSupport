@@ -3,6 +3,7 @@ package com.xiaojinzi.support.demo
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +28,7 @@ class MainAct : AppCompatActivity() {
 
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun testContent() {
     Column(
