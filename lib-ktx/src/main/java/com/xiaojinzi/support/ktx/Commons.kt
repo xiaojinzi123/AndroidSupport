@@ -1,6 +1,7 @@
 package com.xiaojinzi.support.ktx
 
 import android.app.Application
+import android.content.Context
 import android.view.View
 import androidx.annotation.StringRes
 import com.xiaojinzi.support.bean.StringItemDTO
@@ -44,8 +45,8 @@ fun generateUniqueStr(): String {
     return newUUid() + counter.incrementAndGet()
 }
 
-fun StringItemDTO.contentWithApplication(): String {
-    return value ?: app.getString(valueRsd!!)
+fun StringItemDTO.contentWithContext(context: Context = app): String {
+    return value ?: context.getString(valueRsd!!)
 }
 fun @receiver:StringRes Int.toStringItemDTO() = StringItemDTO(valueRsd = this)
 fun String.toStringItemDTO() = StringItemDTO(value = this)
