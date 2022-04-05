@@ -13,14 +13,32 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.support.ktx.nothing
+import com.xiaojinzi.support.util.ActivityFlag
+import com.xiaojinzi.support.util.ComponentActivityStack
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+@ActivityFlag(
+    value = "test",
+)
 class MainAct : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             testContent()
+        }
+
+        lifecycleScope.launch {
+
+            delay(2000)
+
+            ComponentActivityStack.finishActivityWithFlag(
+                flag = "tes1t"
+            )
+
         }
 
     }

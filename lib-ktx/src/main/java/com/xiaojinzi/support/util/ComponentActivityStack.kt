@@ -4,6 +4,17 @@ import android.app.Activity
 import android.os.Build
 import java.util.*
 
+@Retention(
+    value = AnnotationRetention.RUNTIME
+)
+@Target(
+    AnnotationTarget.CLASS,
+    AnnotationTarget.TYPE,
+)
+annotation class ActivityFlag(
+    val value: String,
+)
+
 /**
  * Component 的 Activity 栈
  *
@@ -35,6 +46,24 @@ object ComponentActivityStack {
     @Synchronized
     fun removeActivity(activity: Activity) {
         activityStack.remove(activity)
+    }
+
+    /**
+     * Activity 上有注解标记
+     * 根据标记删除集合中的 Activity
+     */
+    @Synchronized
+    fun finishActivityWithFlag(flag: String) {
+        activityStack
+            .indices
+            .reversed()
+            .filter { index ->
+                activityStack[index].javaClass.getAnnotation(ActivityFlag::class.java)?.value == flag
+            }.forEach { index ->
+                activityStack.removeAt(index)?.run {
+                    this.finish()
+                }
+            }
     }
 
     /**

@@ -9,6 +9,7 @@ import com.xiaojinzi.support.ktx.AppInitSupport
 import com.xiaojinzi.support.ktx.AppInitTask
 import com.xiaojinzi.support.ktx.AppScope
 import com.xiaojinzi.support.util.Assert
+import com.xiaojinzi.support.util.ComponentLifecycleCallback
 import com.xiaojinzi.support.util.LogSupport
 import kotlinx.coroutines.launch
 
@@ -21,6 +22,8 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        registerActivityLifecycleCallbacks(ComponentLifecycleCallback())
 
         Component.init(
             BuildConfig.DEBUG,
