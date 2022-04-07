@@ -67,6 +67,24 @@ object ComponentActivityStack {
     }
 
     /**
+     * Activity 上有注解标记
+     * 删除集合中不含有指定标记的界面
+     */
+    @Synchronized
+    fun finishActivityExcludeFlag(flag: String) {
+        activityStack
+            .indices
+            .reversed()
+            .filter { index ->
+                activityStack[index].javaClass.getAnnotation(ActivityFlag::class.java)?.value != flag
+            }.forEach { index ->
+                activityStack.removeAt(index)?.run {
+                    this.finish()
+                }
+            }
+    }
+
+    /**
      * @return whether the the size of stack of Activity is zero or not
      */
     @Synchronized
