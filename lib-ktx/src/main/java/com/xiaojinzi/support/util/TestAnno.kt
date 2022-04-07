@@ -1,3 +1,3 @@
 package com.xiaojinzi.support.util
 
-annotation class TestAnno(val value: String)
+annotation class TestAnno(vararg val value: String)

@@ -12,7 +12,7 @@ import java.util.*
     AnnotationTarget.TYPE,
 )
 annotation class ActivityFlag(
-    val value: String,
+    vararg val value: String,
 )
 
 /**
@@ -58,7 +58,7 @@ object ComponentActivityStack {
             .indices
             .reversed()
             .filter { index ->
-                activityStack[index].javaClass.getAnnotation(ActivityFlag::class.java)?.value == flag
+                activityStack[index].javaClass.getAnnotation(ActivityFlag::class.java)?.value?.contains(element = flag)?: false
             }.forEach { index ->
                 activityStack.removeAt(index)?.run {
                     this.finish()
@@ -76,7 +76,7 @@ object ComponentActivityStack {
             .indices
             .reversed()
             .filter { index ->
-                activityStack[index].javaClass.getAnnotation(ActivityFlag::class.java)?.value != flag
+                (activityStack[index].javaClass.getAnnotation(ActivityFlag::class.java)?.value?.contains(element = flag)?: false).not()
             }.forEach { index ->
                 activityStack.removeAt(index)?.run {
                     this.finish()

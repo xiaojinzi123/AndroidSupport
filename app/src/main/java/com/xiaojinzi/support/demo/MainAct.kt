@@ -21,7 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @ActivityFlag(
-    value = "test",
+    value = ["test", "test1"],
 )
 class MainAct : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +36,7 @@ class MainAct : AppCompatActivity() {
             delay(2000)
 
             ComponentActivityStack.finishActivityWithFlag(
-                flag = "tes1t"
+                flag = "test1"
             )
 
         }
