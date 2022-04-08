@@ -2,6 +2,7 @@ package com.xiaojinzi.support.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.foundation.text.BasicTextField
@@ -24,7 +25,7 @@ val MinWidth = 0.dp
 val MinHeight = 0.dp
 
 @Composable
-fun TextField(
+fun TextFieldCopy(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -44,7 +45,8 @@ fun TextField(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape =
         MaterialTheme.shapes.small.copy(bottomEnd = ZeroCornerSize, bottomStart = ZeroCornerSize),
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors()
+    colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
+    contentPadding: PaddingValues = PaddingValues(all = 0.dp),
 ) {
     var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
     val textFieldValue = textFieldValueState.copy(text = value)
@@ -73,7 +75,8 @@ fun TextField(
         maxLines = maxLines,
         interactionSource = interactionSource,
         shape = shape,
-        colors = colors
+        colors = colors,
+        contentPadding = contentPadding,
     )
 }
 
@@ -97,7 +100,8 @@ fun TextFieldCopy(
     maxLines: Int = Int.MAX_VALUE,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = TextFieldDefaults.TextFieldShape,
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors()
+    colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
+    contentPadding: PaddingValues = PaddingValues(all = 0.dp),
 ) {
     // If color is not provided via the text style, use content color as a default
     val textColor = textStyle.color.takeOrElse {
@@ -113,7 +117,7 @@ fun TextFieldCopy(
             .indicatorLine(enabled, isError, interactionSource, colors)
             .defaultMinSize(
                 minWidth = MinWidth,
-                minHeight = MinHeight
+                minHeight = MinHeight,
             )
             .nothing(),
         onValueChange = onValueChange,
@@ -141,8 +145,9 @@ fun TextFieldCopy(
                 enabled = enabled,
                 isError = isError,
                 interactionSource = interactionSource,
-                colors = colors
+                colors = colors,
+                contentPadding = contentPadding,
             )
-        }
+        },
     )
 }
