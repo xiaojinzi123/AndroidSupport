@@ -5,21 +5,15 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.support.compose.TextFieldCopy
+import com.xiaojinzi.support.ktx.format2f
 import com.xiaojinzi.support.ktx.nothing
 import com.xiaojinzi.support.util.ActivityFlag
-import com.xiaojinzi.support.util.ComponentActivityStack
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.xiaojinzi.support.util.LogSupport
 
 @ActivityFlag(
     value = ["test", "test1"],
@@ -31,6 +25,9 @@ class MainAct : AppCompatActivity() {
         setContent {
             testContent()
         }
+
+        LogSupport.d(content = "testData2 = ${123.0f.format2f()}")
+        LogSupport.d(content = "testData3 = ${123.0.format2f()}")
 
     }
 
