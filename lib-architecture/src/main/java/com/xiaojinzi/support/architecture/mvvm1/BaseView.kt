@@ -18,9 +18,13 @@ interface BaseView {
     }
 
     @UiThread
-    fun onTip(content: TipBean)
+    fun onTip(content: TipBean) {
+        // empty
+    }
 
     @UiThread
-    fun showLoading(isShow: Boolean)
+    fun showLoading(isShow: Boolean) {
+        // empty
+    }
 
 }
