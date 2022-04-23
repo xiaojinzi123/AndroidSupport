@@ -5,6 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
 
 /**
  * 这个接口中的方法不可以新增了哦!!!
@@ -29,7 +30,7 @@ import kotlinx.coroutines.cancel
 interface BaseUseCase {
 
     /**
-     * 销毁
+     * 销毁, 此方法可能会多次执行
      */
     fun destroy()
 
@@ -45,8 +46,12 @@ open class BaseUseCaseImpl : BaseUseCase {
 
     @CallSuper
     override fun destroy() {
-        scope.cancel()
-        disposables.dispose()
+        if (scope.isActive) {
+            scope.cancel()
+        }
+        if (!disposables.isDisposed) {
+            disposables.dispose()
+        }
     }
 
 }
