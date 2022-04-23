@@ -1,13 +1,18 @@
 package com.xiaojinzi.support.ktx
 
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.AbstractFlow
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
+
+@ExperimentalTime
+fun tickerFlow(period: Duration, initialDelay: Duration = Duration.ZERO) = flow {
+    delay(initialDelay)
+    while (true) {
+        emit(Unit)
+        delay(period)
+    }
+}
 
 @FlowPreview
 fun <T> Flow<T>.takeUntil(
