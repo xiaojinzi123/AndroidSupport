@@ -134,7 +134,12 @@ private fun <T> Flow<T>.doSharedStateIn(
     }
 }
 
-fun <T> Flow<T>.sharedStateIn(
+/**
+ * @param isTakeOne 是否对上流的信号只取一个
+ * @param dropIfValueIsSet 如果值已经设置，是否忽略掉
+ * @param distinctUntilChanged 是否去重
+ */
+fun <T> Flow<T>.mutableSharedStateIn(
     scope: CoroutineScope,
     isTakeOne: Boolean = false,
     dropIfValueIsSet: Boolean = false,
@@ -152,6 +157,20 @@ fun <T> Flow<T>.sharedStateIn(
     return shareFlow
 }
 
+fun <T> Flow<T>.sharedStateIn(
+    scope: CoroutineScope,
+    isTakeOne: Boolean = false,
+    dropIfValueIsSet: Boolean = false,
+    distinctUntilChanged: Boolean = false,
+): SharedStateFlow<T> {
+    return this.mutableSharedStateIn(
+        scope = scope,
+        isTakeOne = isTakeOne,
+        dropIfValueIsSet = dropIfValueIsSet,
+        distinctUntilChanged = distinctUntilChanged,
+    )
+}
+
 /**
  * 这里为什么要塞一个默认值. 是因为对于 Behavior 模式来说, 一定要有一个值. 即使这个值是 null
  * 为什么 RxJava 的 Behavior 模式可以不用给默认值, 是因为你去取 value 的时候默认是 null 呀
@@ -159,13 +178,13 @@ fun <T> Flow<T>.sharedStateIn(
  * 因为 Flow 的信号是可以为空的, 这也导致了默认 null 可能会和用户要表示的值的类型发生冲突. 所以这里一定要
  * 用户把值塞进来, 就算是一个 null
  */
-fun <T> Flow<T>.sharedStateIn(
+fun <T> Flow<T>.mutableSharedStateIn(
     initValue: T,
     scope: CoroutineScope,
     isTakeOne: Boolean = false,
     dropIfValueIsSet: Boolean = false,
     distinctUntilChanged: Boolean = false,
-): MutableSharedStateFlow<T> {
+): SharedStateFlow<T> {
     val shareFlow = MutableSharedStateFlow(
         initValue = initValue,
         distinctUntilChanged = distinctUntilChanged,
@@ -177,6 +196,22 @@ fun <T> Flow<T>.sharedStateIn(
         dropIfValueIsSet = dropIfValueIsSet,
     )
     return shareFlow
+}
+
+fun <T> Flow<T>.sharedStateIn(
+    initValue: T,
+    scope: CoroutineScope,
+    isTakeOne: Boolean = false,
+    dropIfValueIsSet: Boolean = false,
+    distinctUntilChanged: Boolean = false,
+): SharedStateFlow<T> {
+    return this.mutableSharedStateIn(
+        initValue = initValue,
+        scope = scope,
+        isTakeOne = isTakeOne,
+        dropIfValueIsSet = dropIfValueIsSet,
+        distinctUntilChanged = distinctUntilChanged,
+    )
 }
 
 // 针对 Boolean 的扩展
