@@ -116,7 +116,7 @@ private fun <T> Flow<T>.doSharedStateIn(
                     shareFlow.value = upstreamFirstValue
                 }
             } else {
-                shareFlow.value = upstream.first()
+                shareFlow.value = upstreamFirstValue
             }
             this.cancel()
         } else {

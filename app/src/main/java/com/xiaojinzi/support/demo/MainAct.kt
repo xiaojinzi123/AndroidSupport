@@ -9,16 +9,32 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.support.compose.TextFieldCopy
 import com.xiaojinzi.support.ktx.format2f
 import com.xiaojinzi.support.ktx.nothing
+import com.xiaojinzi.support.ktx.sharedStateIn
 import com.xiaojinzi.support.util.ActivityFlag
 import com.xiaojinzi.support.util.LogSupport
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @ActivityFlag(
     value = ["test", "test1"],
 )
 class MainAct : AppCompatActivity() {
+
+    private val testFlow =
+        flow {
+            emit(value = Unit)
+        }.onEach {
+            LogSupport.d("testFlow", "testFlow")
+        }.sharedStateIn(
+            scope = lifecycleScope,
+            // isTakeOne = true,
+        )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -26,8 +42,6 @@ class MainAct : AppCompatActivity() {
             testContent()
         }
 
-        LogSupport.d(content = "testData2 = ${123.0f.format2f()}")
-        LogSupport.d(content = "testData3 = ${123.0.format2f()}")
 
     }
 
