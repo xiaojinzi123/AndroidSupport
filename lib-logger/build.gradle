@@ -1,0 +1,7 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+apply from: "../common_lib.gradle"
+
+group = 'com.xiaojinzi.support'
+archivesBaseName = "init"
