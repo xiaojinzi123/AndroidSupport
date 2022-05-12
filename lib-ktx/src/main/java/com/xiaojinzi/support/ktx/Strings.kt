@@ -15,3 +15,29 @@ fun String.md5(): String? {
         null
     }
 }
+
+/**
+ * 不保函扩展名的名称
+ */
+val String.nameWithoutExtension: String
+    get() {
+        val index = this.lastIndexOf(".")
+        return if (index == -1) {
+            this
+        } else {
+            this.substring(0, index)
+        }
+    }
+
+/**
+ * 扩展名
+ */
+val String.extension: String
+    get() {
+        val index = this.lastIndexOf(".")
+        return if (index == -1) {
+            ""
+        } else {
+            this.substring(index + 1)
+        }
+    }
