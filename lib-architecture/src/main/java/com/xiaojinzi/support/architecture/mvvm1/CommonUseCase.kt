@@ -4,8 +4,8 @@ import androidx.annotation.Keep
 import androidx.annotation.StringRes
 import com.xiaojinzi.support.annotation.HotObservable
 import com.xiaojinzi.support.annotation.ViewModelLayer
-import com.xiaojinzi.support.bean.StringItemDTO
-import com.xiaojinzi.support.ktx.toStringItemDTO
+import com.xiaojinzi.support.bean.StringItemDto
+import com.xiaojinzi.support.ktx.toStringItemDto
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,7 +18,7 @@ enum class TipType {
 @Keep
 data class TipBean(
     val type: TipType = TipType.Toast,
-    val content: StringItemDTO,
+    val content: StringItemDto,
 )
 
 /**
@@ -32,11 +32,11 @@ interface CommonUseCase : BaseUseCase {
     fun tip(tipBean: TipBean)
 
     fun toast(@StringRes contentResId: Int) {
-        tip(TipBean(type = TipType.Toast, content = contentResId.toStringItemDTO()))
+        tip(TipBean(type = TipType.Toast, content = contentResId.toStringItemDto()))
     }
 
     fun toast(content: String) {
-        tip(TipBean(type = TipType.Toast, content = content.toStringItemDTO()))
+        tip(TipBean(type = TipType.Toast, content = content.toStringItemDto()))
     }
 
     fun postActivityFinishEvent()

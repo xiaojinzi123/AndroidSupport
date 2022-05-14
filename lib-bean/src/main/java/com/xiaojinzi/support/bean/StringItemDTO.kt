@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class StringItemDTO(
+data class StringItemDto(
     @StringRes
     val valueRsd: Int? = null,
     val value: String? = null,
@@ -24,3 +24,5 @@ data class StringItemDTO(
     }
 
 }
+
+typealias StringItemDTO = StringItemDto

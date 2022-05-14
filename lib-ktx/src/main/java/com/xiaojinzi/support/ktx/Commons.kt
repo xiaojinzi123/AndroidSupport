@@ -4,10 +4,9 @@ import android.app.Application
 import android.content.Context
 import android.view.View
 import androidx.annotation.StringRes
-import com.xiaojinzi.support.bean.StringItemDTO
+import com.xiaojinzi.support.bean.StringItemDto
 import com.xiaojinzi.support.init.AppInstance
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
@@ -45,8 +44,29 @@ fun generateUniqueStr(): String {
     return newUUid() + counter.incrementAndGet()
 }
 
-fun StringItemDTO.contentWithContext(context: Context = app): String {
+fun StringItemDto.contentWithContext(context: Context = app): String {
     return value ?: context.getString(valueRsd!!)
 }
-fun @receiver:StringRes Int.toStringItemDTO() = StringItemDTO(valueRsd = this)
-fun String.toStringItemDTO() = StringItemDTO(value = this)
+
+fun @receiver:StringRes Int.toStringItemDto() = StringItemDto(valueRsd = this)
+fun String.toStringItemDto() = StringItemDto(value = this)
+
+@Deprecated(
+    message = "rename to toStringItemDto",
+    replaceWith = ReplaceWith(
+        expression = "toStringItemDto()",
+        imports = ["com.xiaojinzi.support.ktx.toStringItemDto"]
+    ),
+    level = DeprecationLevel.WARNING,
+)
+fun @receiver:StringRes Int.toStringItemDTO() = this.toStringItemDto()
+
+@Deprecated(
+    message = "rename to toStringItemDto",
+    replaceWith = ReplaceWith(
+        expression = "toStringItemDto()",
+        imports = ["com.xiaojinzi.support.ktx.toStringItemDto"]
+    ),
+    level = DeprecationLevel.WARNING,
+)
+fun String.toStringItemDTO() = StringItemDto(value = this)
