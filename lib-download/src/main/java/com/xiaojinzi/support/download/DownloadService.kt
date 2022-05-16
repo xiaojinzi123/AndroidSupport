@@ -1,5 +1,6 @@
 package com.xiaojinzi.support.download
 
+import com.xiaojinzi.support.annotation.ColdObservable
 import com.xiaojinzi.support.annotation.HotObservable
 import com.xiaojinzi.support.download.bean.DownloadCompletedTask
 import com.xiaojinzi.support.download.bean.DownloadFailTask

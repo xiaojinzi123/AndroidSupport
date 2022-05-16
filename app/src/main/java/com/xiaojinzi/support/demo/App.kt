@@ -4,14 +4,12 @@ import android.app.Application
 import android.content.Context
 import com.xiaojinzi.component.Component
 import com.xiaojinzi.component.Config
-import com.xiaojinzi.support.annotation.MilliscondValue
 import com.xiaojinzi.support.init.AppInstance
 import com.xiaojinzi.support.ktx.AppInitSupport
 import com.xiaojinzi.support.ktx.AppInitTask
 import com.xiaojinzi.support.ktx.AppScope
 import com.xiaojinzi.support.logger.AndroidLogAdapter
 import com.xiaojinzi.support.logger.Logger
-import com.xiaojinzi.support.util.Assert
 import com.xiaojinzi.support.util.ComponentLifecycleCallback
 import com.xiaojinzi.support.util.LogSupport
 import kotlinx.coroutines.launch
@@ -43,9 +41,6 @@ class App : Application() {
 
         Logger.addLogAdapter(AndroidLogAdapter())
         Logger.json(json = "{\"name\":\"xiaojinzi\",\"age\":18}")
-
-        @MilliscondValue
-        val value = 100
 
         AppScope.launch {
 
