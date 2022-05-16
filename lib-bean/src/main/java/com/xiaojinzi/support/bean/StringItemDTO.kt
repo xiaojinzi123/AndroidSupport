@@ -18,7 +18,7 @@ data class StringItemDto(
     }
 
     init {
-        if(valueRsd == null && value.isNullOrEmpty()) {
+        if(valueRsd == null && value == null) {
             throw IllegalArgumentException("valueRsd and value can not be null at the same time")
         }
     }
