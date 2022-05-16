@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.xiaojinzi.component.Component
 import com.xiaojinzi.component.Config
+import com.xiaojinzi.support.annotation.MilliscondValue
 import com.xiaojinzi.support.init.AppInstance
 import com.xiaojinzi.support.ktx.AppInitSupport
 import com.xiaojinzi.support.ktx.AppInitTask
@@ -42,6 +43,9 @@ class App : Application() {
 
         Logger.addLogAdapter(AndroidLogAdapter())
         Logger.json(json = "{\"name\":\"xiaojinzi\",\"age\":18}")
+
+        @MilliscondValue
+        val value = 100
 
         AppScope.launch {
 

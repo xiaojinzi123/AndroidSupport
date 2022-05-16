@@ -1,5 +1,7 @@
 package com.xiaojinzi.support.annotation
 
+
+
 /**
  * 表示一个资源是一个 "Hot Observable", 可以是 RxJava 的 [io.reactivex.subjects.Subject].
  * 也可以是 Google 官方的 [LiveData].
@@ -18,6 +20,7 @@ package com.xiaojinzi.support.annotation
     AnnotationTarget.FUNCTION
 )
 annotation class HotObservable(
+
     /**
      * "Hot Observable" 的行为模式
      */
@@ -29,6 +32,10 @@ annotation class HotObservable(
     val isShared: Boolean = false
 
 ) {
+
+    /**
+     * 热信号的模式
+     */
     enum class Pattern {
         /**
          * 发射最近一个信号, 此模式和
@@ -55,4 +62,21 @@ annotation class HotObservable(
          */
         ASYNC
     }
+
 }
+
+@Retention(
+    value = AnnotationRetention.SOURCE
+)
+@Target(
+    AnnotationTarget.ANNOTATION_CLASS,
+    AnnotationTarget.CLASS,
+    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.FUNCTION
+)
+annotation class ColdObservable
