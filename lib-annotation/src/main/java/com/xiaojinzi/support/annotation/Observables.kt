@@ -1,7 +1,6 @@
 package com.xiaojinzi.support.annotation
 
 
-
 /**
  * 表示一个资源是一个 "Hot Observable", 可以是 RxJava 的 [io.reactivex.subjects.Subject].
  * 也可以是 Google 官方的 [LiveData].
@@ -9,7 +8,6 @@ package com.xiaojinzi.support.annotation
  */
 @Retention(value = AnnotationRetention.SOURCE)
 @Target(
-    AnnotationTarget.ANNOTATION_CLASS,
     AnnotationTarget.CLASS,
     AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.FUNCTION,
@@ -69,7 +67,6 @@ annotation class HotObservable(
     value = AnnotationRetention.SOURCE
 )
 @Target(
-    AnnotationTarget.ANNOTATION_CLASS,
     AnnotationTarget.CLASS,
     AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.FUNCTION,
@@ -80,3 +77,77 @@ annotation class HotObservable(
     AnnotationTarget.FUNCTION
 )
 annotation class ColdObservable
+
+@Retention(
+    value = AnnotationRetention.SOURCE
+)
+@Target(
+    AnnotationTarget.CLASS,
+    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.FUNCTION
+)
+annotation class ObservableFloatValue(
+
+    /**
+     * 起始值
+     */
+    val from: Float,
+
+    /**
+     * 结束值
+     */
+    val to: Float,
+
+    /**
+     * 是否包含起始值
+     */
+    val fromInclusive: Boolean = true,
+
+    /**
+     * 是否包含结束值
+     */
+    val toInclusive: Boolean = true,
+
+)
+
+@Retention(
+    value = AnnotationRetention.SOURCE
+)
+@Target(
+    AnnotationTarget.CLASS,
+    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.FUNCTION
+)
+annotation class ObservableIntValue(
+
+    /**
+     * 起始值
+     */
+    val from: Int,
+
+    /**
+     * 结束值
+     */
+    val to: Int,
+
+    /**
+     * 是否包含起始值
+     */
+    val fromInclusive: Boolean = true,
+
+    /**
+     * 是否包含结束值
+     */
+    val toInclusive: Boolean = true,
+
+)
