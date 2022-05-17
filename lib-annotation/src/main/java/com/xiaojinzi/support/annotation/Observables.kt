@@ -2,8 +2,8 @@ package com.xiaojinzi.support.annotation
 
 
 /**
- * 表示一个资源是一个 "Hot Observable", 可以是 RxJava 的 [io.reactivex.subjects.Subject].
- * 也可以是 Google 官方的 [LiveData].
+ * 表示一个资源是一个 "Hot Observable", 可以是 RxJava 的 Subject.
+ * 也可以是 Google 官方的 LiveData.
  * 主要起到一个标志作用
  */
 @Retention(value = AnnotationRetention.SOURCE)
@@ -91,7 +91,7 @@ annotation class ColdObservable
     AnnotationTarget.PROPERTY,
     AnnotationTarget.FUNCTION
 )
-annotation class ObservableFloatValue(
+annotation class FloatRangeObservable(
 
     /**
      * 起始值
@@ -128,7 +128,7 @@ annotation class ObservableFloatValue(
     AnnotationTarget.PROPERTY,
     AnnotationTarget.FUNCTION
 )
-annotation class ObservableIntValue(
+annotation class IntRangeObservable(
 
     /**
      * 起始值
