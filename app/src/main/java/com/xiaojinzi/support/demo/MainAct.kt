@@ -42,7 +42,6 @@ class MainAct : AppCompatActivity() {
             testContent()
         }
 
-
     }
 
 }
