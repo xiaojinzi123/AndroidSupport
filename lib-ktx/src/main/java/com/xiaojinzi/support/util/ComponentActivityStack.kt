@@ -49,6 +49,17 @@ object ComponentActivityStack {
     }
 
     /**
+     * 是否存在某个标记的界面
+     */
+    @Synchronized
+    fun isActivityExistByFlag(flag: String): Boolean {
+        return activityStack
+            .find { act ->
+                act.javaClass.getAnnotation(ActivityFlag::class.java)?.value?.contains(element = flag)?: false
+            } != null
+    }
+
+    /**
      * Activity 上有注解标记
      * 根据标记删除集合中的 Activity
      */
