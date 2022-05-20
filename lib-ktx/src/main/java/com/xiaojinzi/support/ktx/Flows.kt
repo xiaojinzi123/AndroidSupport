@@ -1,9 +1,13 @@
 package com.xiaojinzi.support.ktx
 
+import com.xiaojinzi.support.annotation.TimeValue
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
-fun tickerFlow(period: Long, initialDelay: Long = 0L) = flow {
+fun tickerFlow(
+    @TimeValue(value = TimeValue.Type.MILLISECOND) period: Long,
+    @TimeValue(value = TimeValue.Type.MILLISECOND) initialDelay: Long = 0L
+) = flow {
     delay(initialDelay)
     while (true) {
         emit(Unit)

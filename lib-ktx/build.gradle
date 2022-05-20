@@ -16,6 +16,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api project(':lib-bean')
     api project(':lib-init')
+    api project(':lib-annotation')
 
     api libs.appcompat
     api libs.kotlin_stdlib
