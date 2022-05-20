@@ -4,6 +4,9 @@ import com.xiaojinzi.support.annotation.TimeValue
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
+/**
+ * 定时器
+ */
 fun tickerFlow(
     @TimeValue(value = TimeValue.Type.MILLISECOND) period: Long,
     @TimeValue(value = TimeValue.Type.MILLISECOND) initialDelay: Long = 0L
@@ -15,6 +18,9 @@ fun tickerFlow(
     }
 }
 
+/**
+ * 一直取, 直到条件不成立
+ */
 @FlowPreview
 fun <T> Flow<T>.takeUntil(
     isIncludeLastOne: Boolean = false,
