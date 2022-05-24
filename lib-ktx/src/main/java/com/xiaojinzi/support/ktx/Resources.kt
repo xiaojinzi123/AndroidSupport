@@ -70,10 +70,11 @@ inline fun @receiver:androidx.annotation.BoolRes Int.toResBool(): Boolean =
     message = "Use dpToPx instead",
 )
 val Int.dp
-    get() = this.dpToPx
+    get() = this.dpToPx()
 
-val Int.dpToPx
-    get() = this.toFloat().dpInt
+fun Int.dpToPx(): Int {
+    return this.toFloat().dpToPxInt()
+}
 
 @Deprecated(
     replaceWith = ReplaceWith(
@@ -82,10 +83,11 @@ val Int.dpToPx
     message = "Use dpToPx instead",
 )
 val Float.dp
-    get() = this.dpToPx
+    get() = this.dpToPx()
 
-val Float.dpToPx
-    get() = app.resources.displayMetrics.density * this + 0.5f
+fun Float.dpToPx(): Float {
+    return app.resources.displayMetrics.density * this + 0.5f
+}
 
 @Deprecated(
     replaceWith = ReplaceWith(
@@ -94,7 +96,8 @@ val Float.dpToPx
     message = "Use dpToPxInt instead",
 )
 val Float.dpInt
-    get() = this.dpToPxInt
+    get() = this.dpToPxInt()
 
-val Float.dpToPxInt
-    get() = this.dpToPx.roundToInt() // 四舍五入
+fun Float.dpToPxInt(): Int {
+    return this.dpToPx().roundToInt() // 四舍五入
+}
