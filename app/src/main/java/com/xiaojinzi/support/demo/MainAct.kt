@@ -49,6 +49,7 @@ class MainAct : AppCompatActivity() {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun testContent() {
+
     var content by remember {
         mutableStateOf(value = "")
     }

@@ -2,7 +2,9 @@ package com.xiaojinzi.support.ktx
 
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import android.util.TypedValue
 import androidx.core.content.ContextCompat
+import kotlin.math.roundToInt
 
 /**
  * 状态栏高度
@@ -61,20 +63,38 @@ inline fun @receiver:androidx.annotation.IntegerRes Int.toResInt(): Int =
 inline fun @receiver:androidx.annotation.BoolRes Int.toResBool(): Boolean =
     app.resources.getBoolean(this)
 
-/**
- * Int 的 dp 属性, dp to px
- */
+@Deprecated(
+    replaceWith = ReplaceWith(
+        expression = "this.dpToPx",
+    ),
+    message = "Use dpToPx instead",
+)
 val Int.dp
+    get() = this.dpToPx
+
+val Int.dpToPx
     get() = this.toFloat().dpInt
 
-/**
- * Float 的 dp 属性, dp to px
- */
+@Deprecated(
+    replaceWith = ReplaceWith(
+        expression = "this.dpToPx",
+    ),
+    message = "Use dpToPx instead",
+)
 val Float.dp
+    get() = this.dpToPx
+
+val Float.dpToPx
     get() = app.resources.displayMetrics.density * this + 0.5f
 
-/**
- * Float 的 dp 属性, dp to px
- */
+@Deprecated(
+    replaceWith = ReplaceWith(
+        expression = "this.dpToPxInt",
+    ),
+    message = "Use dpToPxInt instead",
+)
 val Float.dpInt
-    get() = (this.dp + .5f).toInt() // 四舍五入
+    get() = this.dpToPxInt
+
+val Float.dpToPxInt
+    get() = this.dpToPx.roundToInt() // 四舍五入
