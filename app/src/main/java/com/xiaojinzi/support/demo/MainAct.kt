@@ -5,18 +5,23 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.support.compose.TextFieldCopy
-import com.xiaojinzi.support.ktx.format2f
+import com.xiaojinzi.support.ktx.notSupportError
 import com.xiaojinzi.support.ktx.nothing
-import com.xiaojinzi.support.ktx.sharedStateIn
 import com.xiaojinzi.support.util.ActivityFlag
-import com.xiaojinzi.support.util.LogSupport
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
@@ -25,16 +30,6 @@ import kotlinx.coroutines.launch
 )
 class MainAct : AppCompatActivity() {
 
-    private val testFlow =
-        flow {
-            emit(value = Unit)
-        }.onEach {
-            LogSupport.d("testFlow", "testFlow")
-        }.sharedStateIn(
-            scope = lifecycleScope,
-            // isTakeOne = true,
-        )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,37 +37,35 @@ class MainAct : AppCompatActivity() {
             testContent()
         }
 
+        /*flowOf(1, 2, 3)
+            .onEach {
+                notSupportError()
+            }
+            .flowOn(context = Dispatchers.IO)
+            .launchIn(scope = lifecycleScope)*/
+
     }
 
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun testContent() {
-
-    var content by remember {
-        mutableStateOf(value = "")
-    }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .nothing(),
     ) {
-        TextFieldCopy(
-            modifier = Modifier
-                .fillMaxWidth()
-                .nothing(),
-            value = content,
-            onValueChange = { content = it },
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-        )
-        Spacer(modifier = Modifier.height(height = 10.dp).nothing())
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .nothing(),
-            value = content,
-            onValueChange = { content = it },
-        )
+        Button(onClick = { /*TODO*/ }) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(horizontal = 0.dp, vertical = 8.dp)
+                    .nothing(),
+                text = "测试",
+                style = MaterialTheme.typography.body2,
+                textAlign = TextAlign.Center,
+            )
+        }
     }
 }
