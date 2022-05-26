@@ -4,6 +4,8 @@ import com.xiaojinzi.support.annotation.HotObservable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -75,4 +77,49 @@ fun <T> CacheSharedStateFlow(
         scope = scope,
         sharedFlow = sharedStateFlow,
     )
+}
+
+// -------------------- 对应的几个扩展函数 --------------------
+
+fun <T> Flow<T>.cacheSharedIn(
+    scope: CoroutineScope,
+): CacheFlow<T> {
+    val upstream = this
+    val sharedFlow = CacheSharedFlow<T>(scope = scope)
+    upstream
+        .onEach { item ->
+            sharedFlow.add(value = item)
+        }
+        .launchIn(scope = scope)
+    return sharedFlow
+}
+
+fun <T> Flow<T>.cacheSharedStateIn(
+    scope: CoroutineScope,
+): CacheFlow<T> {
+    val upstream = this
+    val sharedFlow = CacheSharedStateFlow<T>(scope = scope)
+    upstream
+        .onEach { item ->
+            sharedFlow.add(value = item)
+        }
+        .launchIn(scope = scope)
+    return sharedFlow
+}
+
+fun <T> Flow<T>.cacheSharedStateIn(
+    scope: CoroutineScope,
+    initValue: T,
+): CacheFlow<T> {
+    val upstream = this
+    val sharedFlow = CacheSharedStateFlow(
+        scope = scope,
+        initValue = initValue,
+    )
+    upstream
+        .onEach { item ->
+            sharedFlow.add(value = item)
+        }
+        .launchIn(scope = scope)
+    return sharedFlow
 }
