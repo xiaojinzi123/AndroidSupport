@@ -26,6 +26,7 @@ fun <T> GridView(
     afterRowContent: @Composable (index: Int) -> Unit = {},
     // 最后一个 Item 的
     lastItemContent: (@Composable () -> Unit)? = null,
+    contentAlignment: Alignment = Alignment.Center,
     contentCombineItem: @Composable (BoxScope.(index: Int, item: T) -> Unit)? = null,
     contentItem: @Composable (BoxScope.(item: T) -> Unit)? = null,
 ) {
@@ -90,7 +91,7 @@ fun <T> GridView(
                                     // .background(color = Color.Red)
                                     .weight(1f, fill = true)
                                     .fillMaxHeight(),
-                                contentAlignment = Alignment.Center,
+                                contentAlignment = contentAlignment,
                                 propagateMinConstraints = true
                             ) {
                                 if (contentCombineItem != null) {
