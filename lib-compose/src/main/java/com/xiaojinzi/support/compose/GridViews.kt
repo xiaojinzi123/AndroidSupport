@@ -73,7 +73,8 @@ fun <T> GridView(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(intrinsicSize = IntrinsicSize.Min),
+                        .height(intrinsicSize = IntrinsicSize.Min)
+                        .nothing(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     for (columnIndex in 0 until columnNumber) {
@@ -85,9 +86,10 @@ fun <T> GridView(
                             Box(
                                 modifier = Modifier
                                     .weight(1f, fill = true)
-                                    .fillMaxHeight(),
+                                    .fillMaxHeight()
+                                    .nothing(),
                                 contentAlignment = contentAlignment,
-                                propagateMinConstraints = true
+                                propagateMinConstraints = false,
                             ) {
                                 if (contentCombineItem != null) {
                                     contentCombineItem(itemIndex, items[itemIndex])
@@ -102,9 +104,10 @@ fun <T> GridView(
                                 Box(
                                     modifier = Modifier
                                         .weight(1f, fill = true)
-                                        .fillMaxHeight(),
+                                        .fillMaxHeight()
+                                        .nothing(),
                                     contentAlignment = contentAlignment,
-                                    propagateMinConstraints = true
+                                    propagateMinConstraints = false,
                                 ) {
                                     lastItemContent()
                                 }
