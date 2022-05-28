@@ -38,19 +38,16 @@ fun <T> GridView(
     val rows = (realItemSize + columnNumber - 1) / columnNumber
     Box(
         modifier = modifier
-            // .background(color = Color.DarkGray)
             .nothing(),
         contentAlignment = Alignment.TopCenter,
     ) {
         Column(
             modifier = Modifier
-                // .background(color = Color.Blue)
                 .fillMaxWidth(),
         ) {
             // header 头
             Row(
                 modifier = Modifier
-                    // .background(color = Color.Red)
                     .fillMaxWidth()
                     .height(intrinsicSize = IntrinsicSize.Min),
                 verticalAlignment = Alignment.CenterVertically,
@@ -75,7 +72,6 @@ fun <T> GridView(
                 }
                 Row(
                     modifier = Modifier
-                        // .background(color = Color.Red)
                         .fillMaxWidth()
                         .height(intrinsicSize = IntrinsicSize.Min),
                     verticalAlignment = Alignment.CenterVertically,
@@ -88,7 +84,6 @@ fun <T> GridView(
                         if (itemIndex < items.size) {
                             Box(
                                 modifier = Modifier
-                                    // .background(color = Color.Red)
                                     .weight(1f, fill = true)
                                     .fillMaxHeight(),
                                 contentAlignment = contentAlignment,
@@ -106,10 +101,9 @@ fun <T> GridView(
                             if (lastItemContent != null && itemIndex == items.size) {
                                 Box(
                                     modifier = Modifier
-                                        // .background(color = Color.Red)
                                         .weight(1f, fill = true)
                                         .fillMaxHeight(),
-                                    contentAlignment = Alignment.Center,
+                                    contentAlignment = contentAlignment,
                                     propagateMinConstraints = true
                                 ) {
                                     lastItemContent()
