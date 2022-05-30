@@ -15,3 +15,7 @@ fun Double.format1f(): String {
 fun Double.format2f(): String {
     return String.format("%.2f", this)
 }
+
+fun Int.toBoolean(): Boolean {
+    return this != 0
+}
