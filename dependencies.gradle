@@ -3,7 +3,7 @@ ext.versions = [
         minSdkVersion               : 21,
         targetSdkVersion            : 31,
         buildToolsVersion           : "30.0.2",
-        component                   : "v2.0.0-beta7",
+        component                   : "v2.0.0-beta12",
         compose_version             : "1.2.0-alpha07",
 ]
 
