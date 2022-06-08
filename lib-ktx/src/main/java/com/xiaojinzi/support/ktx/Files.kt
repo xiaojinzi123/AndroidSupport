@@ -6,10 +6,10 @@ import java.io.File
  * 使用完毕之后删除
  * 默认是成功使用之后删除
  */
-fun File.deleteAfterUse(
+suspend fun File.deleteAfterUse(
     isDeleteAfterSuccess: Boolean = true,
     isDeleteAfterError: Boolean = false,
-    action: (File) -> Unit
+    action: suspend (File) -> Unit
 ) {
     try {
         action(this)
