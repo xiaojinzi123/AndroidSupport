@@ -6,16 +6,17 @@ import java.io.File
  * 使用完毕之后删除
  * 默认是成功使用之后删除
  */
-suspend fun File.deleteAfterUse(
+suspend fun <T> File.deleteAfterUse(
     isDeleteAfterSuccess: Boolean = true,
     isDeleteAfterError: Boolean = false,
-    action: suspend (File) -> Unit
-) {
-    try {
-        action(this)
+    action: suspend (File) -> T
+): T {
+    return try {
+        val result = action(this)
         if (isDeleteAfterSuccess) {
             this.delete()
         }
+        result
     } catch (e: Exception) {
         if (isDeleteAfterError) {
             this.delete()
