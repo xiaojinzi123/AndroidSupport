@@ -13,6 +13,7 @@ package com.xiaojinzi.support.annotation
     AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.LOCAL_VARIABLE,
     AnnotationTarget.TYPE,
+    AnnotationTarget.FUNCTION,
 )
 annotation class TimeValue(
 
