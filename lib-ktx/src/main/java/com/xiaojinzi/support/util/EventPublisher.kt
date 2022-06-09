@@ -1,5 +1,6 @@
 package com.xiaojinzi.support.util
 
+import com.xiaojinzi.support.annotation.HotObservable
 import com.xiaojinzi.support.ktx.NormalMutableSharedFlow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
@@ -11,6 +12,7 @@ object EventPublisher {
     /**
      * 事件流
      */
+    @HotObservable(HotObservable.Pattern.PUBLISH, isShared = true)
     val eventObservable: MutableSharedFlow<Any> = NormalMutableSharedFlow()
 
 }
