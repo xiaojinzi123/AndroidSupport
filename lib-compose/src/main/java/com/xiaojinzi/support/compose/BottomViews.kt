@@ -17,6 +17,9 @@ import com.xiaojinzi.support.ktx.tryFinishActivity
 @Composable
 fun BottomView(
     @FloatRange(from = 0.0, to = 1.0) maxFraction: Float = 0.5f,
+    background: Color = Color.Black.copy(
+        alpha = 0.6f
+    ),
     content: @Composable ColumnScope.() -> Unit
 ) {
     val context = LocalContext.current
@@ -30,9 +33,7 @@ fun BottomView(
                 )
             }
             .background(
-                color = Color.Black.copy(
-                    alpha = 0.6f
-                )
+                color = background
             )
             .fillMaxWidth()
             .wrapContentHeight(),
