@@ -184,7 +184,7 @@ fun <T> Flow<T>.mutableSharedStateIn(
     isTakeOne: Boolean = false,
     dropIfValueIsSet: Boolean = false,
     distinctUntilChanged: Boolean = false,
-): SharedStateFlow<T> {
+): MutableSharedStateFlow<T> {
     val shareFlow = MutableSharedStateFlow(
         initValue = initValue,
         distinctUntilChanged = distinctUntilChanged,
