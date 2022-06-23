@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.xiaojinzi.support.compose.GridView
+import com.xiaojinzi.support.compose.OnLifecycleEvent
 import com.xiaojinzi.support.ktx.nothing
 import com.xiaojinzi.support.util.ActivityFlag
 
@@ -40,21 +41,9 @@ fun testContent() {
             .nothing(),
     ) {
 
-        GridView(
-            items = (0..5).toList(),
-            columnNumber = 4,
-            horizontalSpace = 4.dp,
-            verticalSpace = 4.dp,
-            contentAlignment = Alignment.TopCenter,
-            contentCombineItem = { index, item ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .requiredHeight(height = if (index == 0) 100.dp else 50.dp)
-                        .background(color = Color.DarkGray)
-                        .nothing(),
-                )
-            }
-        )
+        OnLifecycleEvent {
+            println("event = $it")
+        }
+
     }
 }
