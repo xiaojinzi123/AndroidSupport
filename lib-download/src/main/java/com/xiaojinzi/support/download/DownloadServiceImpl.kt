@@ -28,7 +28,7 @@ class DownloadServiceImpl : DownloadService {
     // 所有文件下载的错误的数据
     private val downloadFailSubject = PublishSubject.create<DownloadFailTask>()
 
-    // 所有的任务
+    // 所有的任务, 线程安全
     private val map: MutableMap<String, DownloadTask> = ConcurrentHashMap()
 
     // lock
@@ -43,6 +43,10 @@ class DownloadServiceImpl : DownloadService {
 
     override fun commit(tasks: List<DownloadTask>) {
         tasks.forEach { commit(it) }
+    }
+
+    override fun isDownloading(tag: String): Boolean {
+        return map.containsKey(key = tag)
     }
 
     override fun cancel(tag: String) {

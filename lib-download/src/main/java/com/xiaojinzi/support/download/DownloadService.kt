@@ -26,6 +26,11 @@ interface DownloadService {
     fun commit(tasks: List<DownloadTask>)
 
     /**
+     * 是否正在下载
+     */
+    fun isDownloading(tag: String): Boolean
+
+    /**
      * 取消一个任务
      */
     fun cancel(tag: String)
