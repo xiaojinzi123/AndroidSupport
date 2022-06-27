@@ -67,6 +67,7 @@ annotation class TimeValue(
     AnnotationTarget.TYPE_PARAMETER,
     AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.LOCAL_VARIABLE,
+    AnnotationTarget.FUNCTION,
 )
 annotation class FileSizeValue(
 
