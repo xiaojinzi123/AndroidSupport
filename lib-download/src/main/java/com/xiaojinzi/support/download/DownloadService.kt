@@ -1,6 +1,7 @@
 package com.xiaojinzi.support.download
 
 import com.xiaojinzi.support.annotation.ColdObservable
+import com.xiaojinzi.support.annotation.FloatRangeObservable
 import com.xiaojinzi.support.annotation.HotObservable
 import com.xiaojinzi.support.download.bean.DownloadCompletedTask
 import com.xiaojinzi.support.download.bean.DownloadFailTask
@@ -45,6 +46,7 @@ interface DownloadService {
      * 多任务下载, 信号是进度
      */
     @ColdObservable
+    @FloatRangeObservable(from = 0f, to = 1f)
     fun downloadProgress(task: DownloadTask): Observable<Float> {
         return Observable.create { emitter ->
             val disposables = CompositeDisposable()
@@ -90,6 +92,7 @@ interface DownloadService {
      * 多任务下载, 信号是进度
      */
     @ColdObservable
+    @FloatRangeObservable(from = 0f, to = 1f)
     fun downloadListProgress(tasks: List<DownloadTask>): Observable<Float> {
         return Observable.create { emitter ->
             val disposables = CompositeDisposable()
@@ -141,6 +144,7 @@ interface DownloadService {
      * 监听多个任务的整体进度
      */
     @HotObservable(HotObservable.Pattern.PUBLISH)
+    @FloatRangeObservable(from = 0f, to = 1f)
     fun subscribePublishCombineProgress(tags: List<String>): Observable<Float> {
         return tags
             // tag 转化为对应的进度 Observable

@@ -191,23 +191,32 @@ class DownloadServiceImpl : DownloadService {
         }
         map[task.tag] = task
         // 先走一个 0 进度的
-        progressSubject.onNext(DownloadProgressTask(task, 0f))
+        progressSubject.onNext(
+            DownloadProgressTask(
+                task = task,
+                totalSize = 0,
+                downloadSize = 0,
+                progress = 0f,
+            )
+        )
         AndroidNetworking.download(task.url, task.downloadTo.parentFile.path, task.downloadTo.name)
             .setPriority(MEDIUM)
             .setTag(task.tag)
             .build()
             .setDownloadProgressListener { bytesDownloaded: Long, totalBytes: Long ->
                 map[task.tag]?.let {
-                    var progress = 0
-                    if (totalBytes != 0L) {
-                        progress = (bytesDownloaded * 100 / totalBytes).toInt()
-                    }
-                    if (progress < 0) {
-                        progress = 0
-                    } else if (progress > 100) {
-                        progress = 100
-                    }
-                    progressSubject.onNext(DownloadProgressTask(task, progress.toFloat()))
+                    progressSubject.onNext(
+                        DownloadProgressTask(
+                            task = task,
+                            totalSize = totalBytes,
+                            downloadSize = bytesDownloaded,
+                            progress = if (totalBytes != 0L) {
+                                bytesDownloaded.toFloat() / totalBytes
+                            } else {
+                                0f
+                            }
+                        )
+                    )
                 }
             }
             .startDownload(object : DownloadListener {

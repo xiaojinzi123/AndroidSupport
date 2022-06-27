@@ -1,5 +1,6 @@
 package com.xiaojinzi.support.download.bean
 
+import androidx.annotation.FloatRange
 import androidx.annotation.Keep
 import com.xiaojinzi.support.ktx.newUUid
 import java.io.File
@@ -35,6 +36,9 @@ class DownloadFailTask(
 @Keep
 class DownloadProgressTask(
     val task: DownloadTask,
+    val totalSize: Long,
+    val downloadSize: Long,
+    @FloatRange(from = 0.0, to = 1.0)
     val progress: Float
 )
 
