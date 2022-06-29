@@ -1,7 +1,6 @@
 package com.xiaojinzi.support.demo
 
 import android.os.Bundle
-import android.view.MotionEvent
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.animateIntAsState
@@ -16,7 +15,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.IntOffset
@@ -24,14 +22,16 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.xiaojinzi.support.ktx.nothing
 import com.xiaojinzi.support.util.ActivityFlag
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
-import kotlin.math.min
 import kotlin.math.roundToInt
 
 @ActivityFlag(
     value = ["test", "test1"],
 )
 class MainAct : AppCompatActivity() {
+
+    private val mainScope = MainScope()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,6 @@ class MainAct : AppCompatActivity() {
 
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun testContent() {
     Box(
