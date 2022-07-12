@@ -47,7 +47,7 @@ open class BaseUseCaseImpl : BaseUseCase {
 
     @CallSuper
     override fun destroy() {
-        UseCaseCheck.removeUseCase(useCaseName = this.javaClass.name)
+        UseCaseCheck.removeUseCase(useCaseName = this.toString())
         if (scope.isActive) {
             scope.cancel()
         }
@@ -57,7 +57,7 @@ open class BaseUseCaseImpl : BaseUseCase {
     }
 
     init {
-        UseCaseCheck.addUseCase(useCaseName = this.javaClass.name)
+        UseCaseCheck.addUseCase(useCaseName = this.toString())
     }
 
 }
