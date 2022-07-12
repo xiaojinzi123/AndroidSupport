@@ -1,6 +1,7 @@
 package com.xiaojinzi.support.architecture.mvvm1
 
 import androidx.annotation.CallSuper
+import com.xiaojinzi.support.util.ComponentActivityStack
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -46,12 +47,17 @@ open class BaseUseCaseImpl : BaseUseCase {
 
     @CallSuper
     override fun destroy() {
+        UseCaseCheck.removeUseCase(useCaseName = this.javaClass.name)
         if (scope.isActive) {
             scope.cancel()
         }
         if (!disposables.isDisposed) {
             disposables.dispose()
         }
+    }
+
+    init {
+        UseCaseCheck.addUseCase(useCaseName = this.javaClass.name)
     }
 
 }

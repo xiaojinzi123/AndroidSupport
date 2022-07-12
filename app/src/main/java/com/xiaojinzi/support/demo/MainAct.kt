@@ -2,14 +2,14 @@ package com.xiaojinzi.support.demo
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -20,6 +20,8 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.xiaojinzi.support.architecture.mvvm1.BaseAct
+import com.xiaojinzi.support.architecture.mvvm1.UseCaseCheck
 import com.xiaojinzi.support.ktx.nothing
 import com.xiaojinzi.support.util.ActivityFlag
 import kotlinx.coroutines.MainScope
@@ -29,15 +31,19 @@ import kotlin.math.roundToInt
 @ActivityFlag(
     value = ["test", "test1"],
 )
-class MainAct : AppCompatActivity() {
+class MainAct : BaseAct<MainViewModel>() {
 
     private val mainScope = MainScope()
+
+    override fun getViewModelClass(): Class<MainViewModel> {
+        return MainViewModel::class.java
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            testContent()
+            testContent2()
         }
 
     }
@@ -145,5 +151,14 @@ fun testContent() {
                 }
                 .background(Color.DarkGray)
         )
+    }
+}
+
+@Composable
+fun testContent2() {
+    Button(onClick = {
+        UseCaseCheck.printUseCase()
+    }) {
+        Text("test")
     }
 }

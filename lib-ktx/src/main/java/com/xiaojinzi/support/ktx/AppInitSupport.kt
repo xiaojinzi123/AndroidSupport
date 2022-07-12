@@ -1,6 +1,7 @@
 package com.xiaojinzi.support.ktx
 
 import androidx.annotation.Keep
+import com.xiaojinzi.support.util.LogSupport
 import java.util.*
 
 /**
@@ -26,7 +27,6 @@ object AppInitSupport {
 
     suspend fun execute() {
         taskList.forEach { task ->
-            println("task.priority = ${task.priority}")
             task.action.invoke()
         }
     }
