@@ -33,12 +33,24 @@ interface CommonUseCase : BaseUseCase {
 
     fun tip(tipBean: TipBean)
 
-    fun toast(@StringRes contentResId: Int) {
-        tip(TipBean(type = TipType.Toast, content = contentResId.toStringItemDto()))
+    fun toast(@StringRes contentResId: Int, toastLength: Int = Toast.LENGTH_SHORT) {
+        tip(
+            TipBean(
+                type = TipType.Toast,
+                content = contentResId.toStringItemDto(),
+                toastLength = toastLength,
+            )
+        )
     }
 
-    fun toast(content: String) {
-        tip(TipBean(type = TipType.Toast, content = content.toStringItemDto()))
+    fun toast(content: String, toastLength: Int = Toast.LENGTH_SHORT) {
+        tip(
+            TipBean(
+                type = TipType.Toast,
+                content = content.toStringItemDto(),
+                toastLength = toastLength,
+            )
+        )
     }
 
     fun postActivityFinishEvent()
