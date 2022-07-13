@@ -1,5 +1,6 @@
 package com.xiaojinzi.support.architecture.mvvm1
 
+import android.widget.Toast
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
 import com.xiaojinzi.support.annotation.HotObservable
@@ -18,6 +19,7 @@ enum class TipType {
 @Keep
 data class TipBean(
     val type: TipType = TipType.Toast,
+    val toastLength: Int = Toast.LENGTH_SHORT,
     val content: StringItemDto,
 )
 
