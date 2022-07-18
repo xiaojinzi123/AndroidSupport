@@ -2,6 +2,7 @@ package com.xiaojinzi.support.ktx
 
 import com.xiaojinzi.support.annotation.HotObservable
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentLinkedQueue
+import java.util.concurrent.LinkedBlockingQueue
 
 interface CacheFlow<T> : Flow<T> {
 
@@ -20,22 +22,20 @@ interface CacheFlow<T> : Flow<T> {
 }
 
 internal class CacheFlowImpl<T>(
-    private val scope: CoroutineScope,
-    private val sharedFlow: MutableSharedFlow<T>
+    scope: CoroutineScope,
+    private val sharedFlow: MutableSharedFlow<T>,
 ) : MutableSharedFlow<T> by sharedFlow, CacheFlow<T> {
 
-    private val queue: ConcurrentLinkedQueue<T> = ConcurrentLinkedQueue()
+    private val queue = LinkedBlockingQueue<T>()
 
     override fun add(value: T) {
         queue.offer(value)
     }
 
     init {
-        scope.launch {
+        scope.launch(Dispatchers.IO) {
             while (isActive) {
-                queue.poll()?.let {
-                    emit(value = it)
-                }
+                emit(value = queue.take())
             }
         }
     }
