@@ -33,7 +33,7 @@ internal class CacheFlowImpl<T>(
     }
 
     init {
-        scope.launch(Dispatchers.IO) {
+        scope.launch(context = Dispatchers.IO) {
             while (isActive) {
                 emit(value = queue.take())
             }
