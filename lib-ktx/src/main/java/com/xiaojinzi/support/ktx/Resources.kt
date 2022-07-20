@@ -2,7 +2,6 @@ package com.xiaojinzi.support.ktx
 
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
-import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import kotlin.math.roundToInt
 
@@ -100,4 +99,16 @@ val Float.dpInt
 
 fun Float.dpToPxInt(): Int {
     return this.dpToPx().roundToInt() // 四舍五入
+}
+
+fun Float.pxToDp(): Float {
+    return (this + 0.5f) / app.resources.displayMetrics.density
+}
+
+fun Int.pxToDpFloat(): Float {
+    return this.toFloat().pxToDp()
+}
+
+fun Int.pxToDp(): Int {
+    return this.pxToDpFloat().roundToInt()
 }
