@@ -22,6 +22,14 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
+import java.io.File
+
+val Context.compatibleDataDir: File
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        this.dataDir
+    } else {
+        this.cacheDir.parentFile!!
+    }
 
 /**
  * 从 Context 获取 FragmentActivity
