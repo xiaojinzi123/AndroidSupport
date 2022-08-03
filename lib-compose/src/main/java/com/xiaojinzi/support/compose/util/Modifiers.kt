@@ -34,3 +34,8 @@ fun Modifier.clickableNoRipple(
         onClick = onClick,
     )
 }
+
+/**
+ * 点击事件占位
+ */
+fun Modifier.clickPlaceholder() = this.clickableNoRipple(enabled = false) {}
