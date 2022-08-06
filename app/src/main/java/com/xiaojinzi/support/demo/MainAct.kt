@@ -24,8 +24,10 @@ import com.xiaojinzi.support.architecture.mvvm1.BaseAct
 import com.xiaojinzi.support.architecture.mvvm1.UseCaseCheck
 import com.xiaojinzi.support.ktx.nothing
 import com.xiaojinzi.support.util.ActivityFlag
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import kotlin.math.roundToInt
 
 @ActivityFlag(
@@ -43,7 +45,6 @@ class MainAct : BaseAct<MainViewModel>() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            testContent2()
         }
 
     }
