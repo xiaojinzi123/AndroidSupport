@@ -58,7 +58,7 @@ fun <T> Flow<T>.takeUntil(
 /**
  * 从哪个下标开始取
  */
-fun <T: Any> Flow<T>.take(fromIndex: Int = 0): Flow<T> {
+fun <T> Flow<T>.take(fromIndex: Int = 0): Flow<T> {
     // 第一次订阅的 UI 数据不容错过, 会忽略用户的条件
     var currentIndex = 0
     return transform<T, T> { value ->

@@ -23,11 +23,13 @@ import androidx.compose.ui.unit.dp
 import com.xiaojinzi.support.architecture.mvvm1.BaseAct
 import com.xiaojinzi.support.architecture.mvvm1.UseCaseCheck
 import com.xiaojinzi.support.ktx.nothing
+import com.xiaojinzi.support.ktx.take
 import com.xiaojinzi.support.util.ActivityFlag
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.*
 import kotlin.math.roundToInt
 
 @ActivityFlag(
@@ -46,6 +48,9 @@ class MainAct : BaseAct<MainViewModel>() {
 
         setContent {
         }
+
+        flowOf(1)
+            .take(fromIndex = 1)
 
     }
 
