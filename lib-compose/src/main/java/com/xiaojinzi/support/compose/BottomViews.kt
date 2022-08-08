@@ -20,6 +20,7 @@ fun BottomView(
     background: Color = Color.Black.copy(
         alpha = 0.6f
     ),
+    onBackgroundClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val context = LocalContext.current
@@ -28,7 +29,11 @@ fun BottomView(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        context.tryFinishActivity()
+                        if (onBackgroundClick == null) {
+                            context.tryFinishActivity()
+                        } else {
+                            onBackgroundClick()
+                        }
                     },
                 )
             }
