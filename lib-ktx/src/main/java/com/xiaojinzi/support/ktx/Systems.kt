@@ -1,10 +1,12 @@
 package com.xiaojinzi.support.ktx
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Context
 import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.provider.Settings
-import androidx.annotation.RequiresApi
 
 /**
  * 是否在后台运行
@@ -29,3 +31,26 @@ val canDrawOverlays: Boolean
     } else {
         true
     }
+
+fun shake() {
+    shake(40L)
+}
+
+fun shakeStrong() {
+    shake(50L, 255)
+}
+
+@SuppressLint("MissingPermission")
+fun shake(milliseconds: Long, amplitude: Int = VibrationEffect.DEFAULT_AMPLITUDE) {
+    val vib: Vibrator? = app.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        vib?.vibrate(
+            VibrationEffect.createOneShot(
+                milliseconds, amplitude
+            ),
+            null
+        )
+    } else {
+        vib?.vibrate(milliseconds)
+    }
+}
