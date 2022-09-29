@@ -94,6 +94,19 @@ object ComponentActivityStack {
                 }
             }
     }
+    @Synchronized
+    fun finishByClassName(className: String) {
+        activityStack
+            .indices
+            .reversed()
+            .filter { index ->
+                activityStack[index].javaClass.name == className
+            }.forEach { index ->
+                activityStack.removeAt(index)?.run {
+                    this.finish()
+                }
+            }
+    }
 
     /**
      * @return whether the the size of stack of Activity is zero or not

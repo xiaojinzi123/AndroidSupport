@@ -20,24 +20,21 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.support.architecture.mvvm1.BaseAct
 import com.xiaojinzi.support.architecture.mvvm1.UseCaseCheck
 import com.xiaojinzi.support.ktx.nothing
-import com.xiaojinzi.support.ktx.take
 import com.xiaojinzi.support.util.ActivityFlag
-import kotlinx.coroutines.InternalCoroutinesApi
+import com.xiaojinzi.support.util.ComponentActivityStack
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @ActivityFlag(
     value = ["test", "test1"],
 )
 class MainAct : BaseAct<MainViewModel>() {
-
-    private val mainScope = MainScope()
 
     override fun getViewModelClass(): Class<MainViewModel> {
         return MainViewModel::class.java
@@ -49,8 +46,14 @@ class MainAct : BaseAct<MainViewModel>() {
         setContent {
         }
 
-        flowOf(1)
-            .take(fromIndex = 1)
+        lifecycleScope.launch {
+
+            delay(timeMillis = 1000)
+            ComponentActivityStack.finishByClassName(
+                className = "com.xiaojinzi.support.demo.MainAct"
+            )
+
+        }
 
     }
 
