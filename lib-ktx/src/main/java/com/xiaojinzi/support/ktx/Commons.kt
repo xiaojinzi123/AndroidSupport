@@ -8,6 +8,7 @@ import com.xiaojinzi.support.bean.StringItemDto
 import com.xiaojinzi.support.init.AppInstance
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -70,3 +71,15 @@ fun @receiver:StringRes Int.toStringItemDTO() = this.toStringItemDto()
     level = DeprecationLevel.WARNING,
 )
 fun String.toStringItemDTO() = StringItemDto(value = this)
+
+/**
+ * 在协程中执行一个任务, 并且忽略错误
+ */
+fun executeTaskInCoroutinesIgnoreError(
+    scope: CoroutineScope = AppScope,
+    task: suspend () -> Unit,
+) {
+    scope.launch(context = ErrorIgnoreContext) {
+        task.invoke()
+    }
+}
