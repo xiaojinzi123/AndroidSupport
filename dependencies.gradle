@@ -4,6 +4,7 @@ ext.versions = [
         targetSdkVersion            : 32,
         component                   : "v2.0.0-beta12",
         compose_version             : "1.2.0-rc01",
+        accompanist_version         : "0.24.12-rc",
 ]
 
 ext.libs = [
@@ -35,6 +36,17 @@ ext.libs = [
         compose_material            : "androidx.compose.material:material:${versions.compose_version}",
         compose_ui_foundation       : 'androidx.ui:ui-foundation:0.1.0-dev14',
         compose_constraintlayout    : "androidx.constraintlayout:constraintlayout-compose:1.0.1",
+
+        // ------------------------ Compose 支持库的依赖  ------------------------
+
+        accompanist_pager           : "com.google.accompanist:accompanist-pager:${versions.accompanist_version}",
+        accompanist_swiperefresh    : "com.google.accompanist:accompanist-swiperefresh:${versions.accompanist_version}",
+        accompanist_insets          : "com.google.accompanist:accompanist-insets:${versions.accompanist_version}",
+        accompanist_sysuicontrol    : "com.google.accompanist:accompanist-systemuicontroller:${versions.accompanist_version}",
+        accompanist_flowlayout      : "com.google.accompanist:accompanist-flowlayout:${versions.accompanist_version}",
+        accompanist_placeholder     : "com.google.accompanist:accompanist-placeholder:${versions.accompanist_version}",
+        accompanist_permissions     : "com.google.accompanist:accompanist-permissions:${versions.accompanist_version}",
+        accompanist_webview         : "com.google.accompanist:accompanist-webview:${versions.accompanist_version}",
 
         // Component 组件化相关
         component_annotation        : "com.github.xiaojinzi123.Component:component-annotation:${versions.component}",

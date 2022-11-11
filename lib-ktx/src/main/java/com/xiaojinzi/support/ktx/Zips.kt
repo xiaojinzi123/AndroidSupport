@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.xiaojinzi.support.ktx
 
 import kotlinx.coroutines.flow.Flow

@@ -29,5 +29,6 @@ dependencies {
     api libs.compose_material
     api libs.compose_ui_foundation
     api libs.compose_constraintlayout
+    api libs.accompanist_sysuicontrol
 
 }
