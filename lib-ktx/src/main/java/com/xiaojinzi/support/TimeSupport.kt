@@ -1,4 +1,4 @@
-package com.xiaojinzi.support.util
+package com.xiaojinzi.support
 
 /**
  * 一秒的毫秒值

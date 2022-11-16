@@ -1,7 +1,6 @@
 package com.xiaojinzi.support.ktx
 
 import androidx.annotation.Keep
-import com.xiaojinzi.support.util.LogSupport
 import java.util.*
 
 /**

@@ -1,7 +1,6 @@
 package com.xiaojinzi.support.architecture.mvvm1
 
 import androidx.annotation.CallSuper
-import com.xiaojinzi.support.util.ComponentActivityStack
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope

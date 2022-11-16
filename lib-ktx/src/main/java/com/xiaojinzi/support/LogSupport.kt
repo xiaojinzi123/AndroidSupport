@@ -1,4 +1,4 @@
-package com.xiaojinzi.support.util
+package com.xiaojinzi.support
 
 import android.util.Log
 

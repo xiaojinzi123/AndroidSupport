@@ -1,4 +1,4 @@
-package com.xiaojinzi.support.util
+package com.xiaojinzi.support
 
 import android.app.Activity
 import android.os.Build
