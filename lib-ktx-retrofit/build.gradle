@@ -7,7 +7,7 @@ group = 'com.xiaojinzi.support'
 archivesBaseName = "ktx-retrofit"
 
 android {
-    namespace "com.xiaojinzi.support.ktx-retrofit"
+    namespace "com.xiaojinzi.support.ktx.retrofit"
     viewBinding {
         enabled = true
     }
