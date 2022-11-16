@@ -55,6 +55,7 @@ dependencies {
     implementation project(':lib-download')
     implementation project(':lib-architecture')
     implementation project(':lib-ktx')
+    implementation project(':lib-ktx-retrofit')
     implementation project(':lib-logger')
     implementation project(':lib-compose')
 

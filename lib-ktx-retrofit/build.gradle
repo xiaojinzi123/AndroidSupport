@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+apply from: "../common_lib.gradle"
+
+group = 'com.xiaojinzi.support'
+archivesBaseName = "ktx-retrofit"
+
+android {
+    namespace "com.xiaojinzi.support.ktx-retrofit"
+    viewBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    api project(':lib-annotation')
+
+    api libs.retrofit
+
+}
