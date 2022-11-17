@@ -2,9 +2,13 @@ package com.xiaojinzi.support
 
 import androidx.annotation.Keep
 import com.xiaojinzi.support.annotation.HotObservable
+import com.xiaojinzi.support.annotation.NeedToOptimize
+import com.xiaojinzi.support.ktx.AppScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 /**
  * 初始化一次的功能的接口
@@ -24,6 +28,7 @@ interface InitOnceData<T> {
     /**
      * state 流
      */
+    @NeedToOptimize("好像不必暴露 MutableSharedFlow 的, 返回 Flow 即可")
     val valueStateFlow: MutableSharedFlow<T>
 
     /**
@@ -95,4 +100,23 @@ private class MutableInitOnceDataImpl<T> : MutableInitOnceData<T> {
 @Suppress("FunctionName", "UNCHECKED_CAST")
 fun <T> MutableInitOnceData(): MutableInitOnceData<T> {
     return MutableInitOnceDataImpl<T>()
+}
+
+@Suppress("FunctionName", "UNCHECKED_CAST")
+fun <T> MutableInitOnceData(initValue: T): MutableInitOnceData<T> {
+    return MutableInitOnceDataImpl<T>().apply {
+        this.value = initValue
+    }
+}
+
+fun <T, R> InitOnceData<T?>.initOnceData(
+    scope: CoroutineScope = AppScope,
+    mapper: suspend (value: T?) -> R?,
+): InitOnceData<R?> {
+    val upFlow = this.valueStateFlow
+    val result = MutableInitOnceData<R?>()
+    scope.launch {
+        result.value = mapper(upFlow.first())
+    }
+    return result
 }
