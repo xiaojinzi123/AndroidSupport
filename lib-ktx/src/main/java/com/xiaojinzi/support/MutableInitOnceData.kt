@@ -53,7 +53,9 @@ interface MutableInitOnceData<T> : InitOnceData<T> {
  * 初始化一次的一个数据结构
  */
 @Keep
-private class MutableInitOnceDataImpl<T> : MutableInitOnceData<T> {
+private class MutableInitOnceDataImpl<T>(
+    val valueCheck: (T) -> Unit = {},
+) : MutableInitOnceData<T> {
 
     private var _value: MutableSharedFlow<T> = MutableSharedFlow(
         replay = 1,
@@ -65,16 +67,17 @@ private class MutableInitOnceDataImpl<T> : MutableInitOnceData<T> {
     override var value: T
         @Synchronized
         get() {
-            if (_value.replayCache.isNullOrEmpty()) {
+            if (_value.replayCache.isEmpty()) {
                 error("you must init first!")
             }
             return _value.replayCache.first()
         }
         @Synchronized
         set(targetValue) {
-            if (!_value.replayCache.isNullOrEmpty()) {
+            if (_value.replayCache.isNotEmpty()) {
                 error("already init")
             }
+            valueCheck(targetValue)
             _value.tryEmit(value = targetValue)
         }
 
@@ -97,13 +100,22 @@ private class MutableInitOnceDataImpl<T> : MutableInitOnceData<T> {
 }
 
 @Suppress("FunctionName", "UNCHECKED_CAST")
-fun <T> MutableInitOnceData(): MutableInitOnceData<T> {
-    return MutableInitOnceDataImpl<T>()
+fun <T> MutableInitOnceData(
+    valueCheck: (T) -> Unit = {},
+): MutableInitOnceData<T> {
+    return MutableInitOnceDataImpl<T>(
+        valueCheck = valueCheck,
+    )
 }
 
 @Suppress("FunctionName", "UNCHECKED_CAST")
-fun <T> MutableInitOnceData(initValue: T): MutableInitOnceData<T> {
-    return MutableInitOnceDataImpl<T>().apply {
+fun <T> MutableInitOnceData(
+    initValue: T,
+    valueCheck: (T) -> Unit = {},
+): MutableInitOnceData<T> {
+    return MutableInitOnceDataImpl<T>(
+        valueCheck = valueCheck,
+    ).apply {
         this.value = initValue
     }
 }
