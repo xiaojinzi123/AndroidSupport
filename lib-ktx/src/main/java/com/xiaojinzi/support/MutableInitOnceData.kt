@@ -3,7 +3,6 @@ package com.xiaojinzi.support
 import androidx.annotation.Keep
 import com.xiaojinzi.support.annotation.HotObservable
 import com.xiaojinzi.support.annotation.NeedToOptimize
-import com.xiaojinzi.support.ktx.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -110,7 +109,7 @@ fun <T> MutableInitOnceData(initValue: T): MutableInitOnceData<T> {
 }
 
 fun <T, R> InitOnceData<T?>.initOnceData(
-    scope: CoroutineScope = AppScope,
+    scope: CoroutineScope,
     mapper: suspend (value: T?) -> R?,
 ): InitOnceData<R?> {
     val upFlow = this.valueStateFlow
