@@ -120,12 +120,12 @@ fun <T> MutableInitOnceData(
     }
 }
 
-fun <T, R> InitOnceData<T?>.initOnceData(
+fun <T, R> InitOnceData<T>.initOnceData(
     scope: CoroutineScope,
-    mapper: suspend (value: T?) -> R?,
-): InitOnceData<R?> {
+    mapper: suspend (value: T) -> R,
+): InitOnceData<R> {
     val upFlow = this.valueStateFlow
-    val result = MutableInitOnceData<R?>()
+    val result = MutableInitOnceData<R>()
     scope.launch {
         result.value = mapper(upFlow.first())
     }
