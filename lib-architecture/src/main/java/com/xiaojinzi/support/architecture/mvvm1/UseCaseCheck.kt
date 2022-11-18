@@ -1,6 +1,6 @@
 package com.xiaojinzi.support.architecture.mvvm1
 
-import com.xiaojinzi.support.LogSupport
+import com.xiaojinzi.support.ktx.LogSupport
 
 object UseCaseCheck {
 

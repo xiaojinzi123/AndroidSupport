@@ -1,12 +1,12 @@
 package com.xiaojinzi.support.demo
 
-import com.xiaojinzi.support.InitOnceData
-import com.xiaojinzi.support.MutableInitOnceData
+import com.xiaojinzi.support.ktx.InitOnceData
+import com.xiaojinzi.support.ktx.MutableInitOnceData
 import com.xiaojinzi.support.architecture.mvvm1.BaseUseCase
 import com.xiaojinzi.support.architecture.mvvm1.BaseUseCaseImpl
 import com.xiaojinzi.support.architecture.mvvm1.CommonUseCase
 import com.xiaojinzi.support.architecture.mvvm1.CommonUseCaseImpl
-import com.xiaojinzi.support.initOnceData
+import com.xiaojinzi.support.ktx.initOnceData
 import com.xiaojinzi.support.ktx.ErrorIgnoreContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch

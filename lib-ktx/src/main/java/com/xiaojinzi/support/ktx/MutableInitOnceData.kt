@@ -1,4 +1,4 @@
-package com.xiaojinzi.support
+package com.xiaojinzi.support.ktx
 
 import androidx.annotation.Keep
 import com.xiaojinzi.support.annotation.HotObservable

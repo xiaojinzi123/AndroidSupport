@@ -1,6 +1,4 @@
-package com.xiaojinzi.support
-
-import com.xiaojinzi.support.ktx.notSupportError
+package com.xiaojinzi.support.ktx
 
 object Assert {
 

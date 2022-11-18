@@ -1,4 +1,4 @@
-package com.xiaojinzi.support
+package com.xiaojinzi.support.ktx
 
 /**
  * 一秒的毫秒值

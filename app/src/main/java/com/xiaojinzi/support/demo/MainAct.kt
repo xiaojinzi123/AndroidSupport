@@ -24,8 +24,8 @@ import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.support.architecture.mvvm1.BaseAct
 import com.xiaojinzi.support.architecture.mvvm1.UseCaseCheck
 import com.xiaojinzi.support.ktx.nothing
-import com.xiaojinzi.support.ActivityFlag
-import com.xiaojinzi.support.ComponentActivityStack
+import com.xiaojinzi.support.ktx.ActivityFlag
+import com.xiaojinzi.support.ktx.ComponentActivityStack
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt

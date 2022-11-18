@@ -11,8 +11,8 @@ import com.xiaojinzi.support.ktx.AppInitTask
 import com.xiaojinzi.support.ktx.AppScope
 import com.xiaojinzi.support.logger.AndroidLogAdapter
 import com.xiaojinzi.support.logger.Logger
-import com.xiaojinzi.support.ComponentLifecycleCallback
-import com.xiaojinzi.support.LogSupport
+import com.xiaojinzi.support.ktx.ComponentLifecycleCallback
+import com.xiaojinzi.support.ktx.LogSupport
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
