@@ -7,6 +7,7 @@ import androidx.annotation.StringRes
 import com.xiaojinzi.support.bean.StringItemDto
 import com.xiaojinzi.support.init.AppInstance
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
@@ -22,6 +23,11 @@ val app: Application
  * 全局使用的 Scope, 就不要加那个注解. 不然会报黄
  */
 val AppScope: CoroutineScope get() = GlobalScope
+
+/**
+ * 创建一个 IO 线程的协程 Scope
+ */
+fun IOScope(): CoroutineScope = CoroutineScope(context = Dispatchers.IO)
 
 /**
  * 创建一个 UUID
