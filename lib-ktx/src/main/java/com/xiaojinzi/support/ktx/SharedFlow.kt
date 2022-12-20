@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 @Suppress("FunctionName", "UNCHECKED_CAST")
 fun <T> NormalMutableSharedFlow() = MutableSharedFlow<T>(
     replay = 0,
-    extraBufferCapacity = 1,
+    extraBufferCapacity = Int.MAX_VALUE,
     onBufferOverflow = BufferOverflow.SUSPEND,
 )
 

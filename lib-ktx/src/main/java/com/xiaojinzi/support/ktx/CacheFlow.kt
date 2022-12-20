@@ -21,23 +21,14 @@ interface CacheFlow<T> : Flow<T> {
 }
 
 internal class CacheFlowImpl<T>(
-    scope: CoroutineScope,
     val valueCheck: (T) -> Unit = {},
     private val sharedFlow: MutableSharedFlow<T>,
 ) : MutableSharedFlow<T> by sharedFlow, CacheFlow<T> {
 
-    private val queue = LinkedBlockingQueue<T>()
-
     override fun add(value: T) {
         valueCheck(value)
-        queue.offer(value)
-    }
-
-    init {
-        scope.launch(context = Dispatchers.IO) {
-            while (isActive) {
-                emit(value = queue.take())
-            }
+        if (!sharedFlow.tryEmit(value = value)) {
+            notSupportError()
         }
     }
 
@@ -46,12 +37,10 @@ internal class CacheFlowImpl<T>(
 @Suppress("FunctionName", "UNCHECKED_CAST")
 @HotObservable(HotObservable.Pattern.PUBLISH, isShared = true)
 fun <T> CacheSharedFlow(
-    scope: CoroutineScope,
     valueCheck: (T) -> Unit = {},
 ): CacheFlow<T> {
     val sharedFlow = NormalMutableSharedFlow<T>()
     return CacheFlowImpl(
-        scope = scope,
         valueCheck = valueCheck,
         sharedFlow = sharedFlow,
     )
@@ -60,12 +49,10 @@ fun <T> CacheSharedFlow(
 @Suppress("FunctionName", "UNCHECKED_CAST")
 @HotObservable(HotObservable.Pattern.BEHAVIOR, isShared = true)
 fun <T> CacheSharedStateFlow(
-    scope: CoroutineScope,
     valueCheck: (T) -> Unit = {},
 ): CacheFlow<T> {
     val sharedStateFlow = MutableSharedStateFlow<T>()
     return CacheFlowImpl(
-        scope = scope,
         valueCheck = valueCheck,
         sharedFlow = sharedStateFlow,
     )
@@ -74,13 +61,11 @@ fun <T> CacheSharedStateFlow(
 @Suppress("FunctionName", "UNCHECKED_CAST")
 @HotObservable(HotObservable.Pattern.BEHAVIOR, isShared = true)
 fun <T> CacheSharedStateFlow(
-    scope: CoroutineScope,
     valueCheck: (T) -> Unit = {},
     initValue: T,
 ): CacheFlow<T> {
     val sharedStateFlow = MutableSharedStateFlow(initValue = initValue)
     return CacheFlowImpl(
-        scope = scope,
         valueCheck = valueCheck,
         sharedFlow = sharedStateFlow,
     )
@@ -94,7 +79,6 @@ fun <T> Flow<T>.cacheSharedIn(
 ): CacheFlow<T> {
     val upstream = this
     val sharedFlow = CacheSharedFlow<T>(
-        scope = scope,
         valueCheck = valueCheck,
     )
     upstream
@@ -111,7 +95,6 @@ fun <T> Flow<T>.cacheSharedStateIn(
 ): CacheFlow<T> {
     val upstream = this
     val sharedFlow = CacheSharedStateFlow<T>(
-        scope = scope,
         valueCheck = valueCheck,
     )
     upstream
@@ -129,7 +112,6 @@ fun <T> Flow<T>.cacheSharedStateIn(
 ): CacheFlow<T> {
     val upstream = this
     val sharedFlow = CacheSharedStateFlow(
-        scope = scope,
         valueCheck = valueCheck,
         initValue = initValue,
     )
