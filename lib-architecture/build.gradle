@@ -3,6 +3,10 @@ apply plugin: 'kotlin-android'
 
 apply from: "../common_lib.gradle"
 
+android {
+    namespace 'com.xiaojinzi.support.architecture'
+}
+
 group = 'com.xiaojinzi.support'
 archivesBaseName = "architecture"
 

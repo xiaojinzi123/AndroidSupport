@@ -10,6 +10,7 @@ android {
     viewBinding {
         enabled = true
     }
+    namespace 'com.xiaojinzi.support.ktx'
 }
 
 dependencies {

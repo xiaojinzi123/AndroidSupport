@@ -15,6 +15,7 @@ android {
         kotlinCompilerExtensionVersion compose_version
         kotlinCompilerVersion kotlin_version
     }
+    namespace 'com.xiaojinzi.support.compose'
 }
 
 dependencies {

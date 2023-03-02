@@ -4,5 +4,9 @@ apply plugin: 'kotlin-parcelize'
 
 apply from: "../common_lib.gradle"
 
+android {
+    namespace 'com.xiaojinzi.support.bean'
+}
+
 group = 'com.xiaojinzi.support'
 archivesBaseName = "bean"
