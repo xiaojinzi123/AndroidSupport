@@ -7,7 +7,7 @@ import android.util.Log
  */
 object LogSupport {
 
-    var isDebug: Boolean = false
+    var logAble: Boolean = false
 
     @JvmStatic
     val defaultTag: String
@@ -21,7 +21,7 @@ object LogSupport {
 
     @JvmOverloads
     fun v(content: String, tag: String = defaultTag, vararg keywords: String) {
-        if(isDebug.not()) return
+        if(!logAble) return
         val keywordStr = if (keywords.isEmpty()) {
             ""
         } else {
@@ -34,7 +34,7 @@ object LogSupport {
 
     @JvmOverloads
     fun d(content: String, tag: String = defaultTag, vararg keywords: String) {
-        if(isDebug.not()) return
+        if(!logAble) return
         val keywordStr = if (keywords.isEmpty()) {
             ""
         } else {
@@ -47,7 +47,7 @@ object LogSupport {
 
     @JvmOverloads
     fun i(content: String, tag: String = defaultTag, vararg keywords: String) {
-        if(isDebug.not()) return
+        if(!logAble) return
         val keywordStr = if (keywords.isEmpty()) {
             ""
         } else {
@@ -60,7 +60,7 @@ object LogSupport {
 
     @JvmOverloads
     fun e(content: String, tag: String = defaultTag, vararg keywords: String) {
-        if(isDebug.not()) return
+        if(!logAble) return
         val keywordStr = if (keywords.isEmpty()) {
             ""
         } else {
@@ -73,7 +73,7 @@ object LogSupport {
 
     @JvmOverloads
     fun w(content: String, tag: String = defaultTag, vararg keywords: String) {
-        if(isDebug.not()) return
+        if(!logAble) return
         val keywordStr = if (keywords.isEmpty()) {
             ""
         } else {
