@@ -17,6 +17,17 @@ val ErrorIgnoreContext: CoroutineExceptionHandler
         }
     }
 
+/**
+ * join 一个 Job, 忽略异常
+ */
+suspend fun Job.joinIgnoreException() {
+    try {
+        join()
+    } catch (e: Exception) {
+        // ignore
+    }
+}
+
 fun List<Job>.cancelAll(cause: CancellationException? = null) {
     this.forEach { it.cancel(cause = cause) }
 }
