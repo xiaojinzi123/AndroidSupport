@@ -5,7 +5,6 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 /**
  * 忽略错误的一个协程的 Context
