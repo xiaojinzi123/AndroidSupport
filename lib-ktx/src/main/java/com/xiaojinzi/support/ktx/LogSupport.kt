@@ -7,6 +7,8 @@ import android.util.Log
  */
 object LogSupport {
 
+    var isDebug: Boolean = false
+
     @JvmStatic
     val defaultTag: String
         get() = Exception().run {
@@ -19,7 +21,8 @@ object LogSupport {
 
     @JvmOverloads
     fun v(content: String, tag: String = defaultTag, vararg keywords: String) {
-        val keywordStr = if (keywords.isNullOrEmpty()) {
+        if(isDebug.not()) return
+        val keywordStr = if (keywords.isEmpty()) {
             ""
         } else {
             "[${keywords.joinToString()}]"
@@ -31,7 +34,8 @@ object LogSupport {
 
     @JvmOverloads
     fun d(content: String, tag: String = defaultTag, vararg keywords: String) {
-        val keywordStr = if (keywords.isNullOrEmpty()) {
+        if(isDebug.not()) return
+        val keywordStr = if (keywords.isEmpty()) {
             ""
         } else {
             "[${keywords.joinToString()}]"
@@ -43,7 +47,8 @@ object LogSupport {
 
     @JvmOverloads
     fun i(content: String, tag: String = defaultTag, vararg keywords: String) {
-        val keywordStr = if (keywords.isNullOrEmpty()) {
+        if(isDebug.not()) return
+        val keywordStr = if (keywords.isEmpty()) {
             ""
         } else {
             "[${keywords.joinToString()}]"
@@ -55,7 +60,8 @@ object LogSupport {
 
     @JvmOverloads
     fun e(content: String, tag: String = defaultTag, vararg keywords: String) {
-        val keywordStr = if (keywords.isNullOrEmpty()) {
+        if(isDebug.not()) return
+        val keywordStr = if (keywords.isEmpty()) {
             ""
         } else {
             "[${keywords.joinToString()}]"
@@ -67,7 +73,8 @@ object LogSupport {
 
     @JvmOverloads
     fun w(content: String, tag: String = defaultTag, vararg keywords: String) {
-        val keywordStr = if (keywords.isNullOrEmpty()) {
+        if(isDebug.not()) return
+        val keywordStr = if (keywords.isEmpty()) {
             ""
         } else {
             "[${keywords.joinToString()}]"
