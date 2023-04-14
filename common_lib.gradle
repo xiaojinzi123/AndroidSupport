@@ -36,7 +36,6 @@ dependencies {
     api libs.kotlin_android
     api libs.android_core_ktx
     api libs.appcompat
-    implementation libs.android_networking
 }
 
 task androidSourcesJar(type: Jar) {
