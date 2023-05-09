@@ -28,5 +28,7 @@ dependencies {
     api libs.acrivity_ktx
     api libs.lifecycle_viewmodel_ktx
     api libs.lifecycle_runtime_ktx
-    
+    api libs.lifecycle_runtime_ktx
+    api libs.gson
+
 }
