@@ -11,6 +11,20 @@ ksp {
 
 android {
 
+    signingConfigs {
+        debug {
+            storeFile file('../sign')
+            storePassword '123123'
+            keyAlias '123123'
+            keyPassword '123123'
+        }
+        release {
+            storeFile file('../sign')
+            storePassword '123123'
+            keyAlias '123123'
+            keyPassword '123123'
+        }
+    }
     namespace 'com.xiaojinzi.support.demo'
 
     defaultConfig {
