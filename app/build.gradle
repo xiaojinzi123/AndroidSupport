@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
+// apply plugin: 'com.xiaojinzi.kcomponent.plugin'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.xiaojinzi.kcomponent.plugin'
 apply plugin: 'com.google.devtools.ksp'
 
 apply from: "../common_lib.gradle"
