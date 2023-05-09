@@ -9,10 +9,10 @@ import com.xiaojinzi.support.init.AppInstance
 import com.xiaojinzi.support.ktx.AppInitSupport
 import com.xiaojinzi.support.ktx.AppInitTask
 import com.xiaojinzi.support.ktx.AppScope
-import com.xiaojinzi.support.logger.AndroidLogAdapter
-import com.xiaojinzi.support.logger.Logger
 import com.xiaojinzi.support.ktx.ComponentLifecycleCallback
 import com.xiaojinzi.support.ktx.LogSupport
+import com.xiaojinzi.support.logger.AndroidLogAdapter
+import com.xiaojinzi.support.logger.Logger
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -29,8 +29,9 @@ class App : Application() {
         registerActivityLifecycleCallbacks(ComponentLifecycleCallback())
 
         Component.init(
-            BuildConfig.DEBUG,
-            Config.with(this)
+            application = this,
+            isDebug = true,
+            config = Config.Builder()
                 // 表示是否采用 Gradle 插件配置的方式加载模块
                 .optimizeInit(true)
                 // 自动加载所有模块, 依赖上面的 optimizeInit(true)

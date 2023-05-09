@@ -1,9 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.xiaojinzi.component.plugin'
+apply plugin: 'com.xiaojinzi.kcomponent.plugin'
+apply plugin: 'com.google.devtools.ksp'
 
 apply from: "../common_lib.gradle"
+
+ksp {
+    arg("ModuleName", "app")
+}
 
 android {
 
@@ -49,8 +53,8 @@ dependencies {
     implementation libs.fragment_ktx
     implementation libs.kotlinx_coroutines_rx
     // 组件化的库
-    implementation libs.component_impl_kt
-    kapt libs.component_compiler
+    implementation libs.component_impl
+    ksp libs.component_compiler
 
     implementation project(':lib-init')
     implementation project(':lib-annotation')
