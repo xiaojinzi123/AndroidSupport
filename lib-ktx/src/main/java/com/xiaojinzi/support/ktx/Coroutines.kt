@@ -5,6 +5,7 @@ import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -40,6 +41,13 @@ suspend fun SuspendAction0.awaitIgnoreException() {
         this.invoke()
     } catch (e: Exception) {
         // ignore
+    }
+}
+
+fun SuspendAction0.executeIgnoreException() {
+    val targetAction = this
+    AppScope.launch(context = ErrorIgnoreContext) {
+        targetAction.invoke()
     }
 }
 
