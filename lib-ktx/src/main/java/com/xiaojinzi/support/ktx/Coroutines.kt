@@ -11,7 +11,17 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-interface DeferredEmpty : Deferred<Nothing>
+interface SuspendFunction0<R> {
+
+    suspend fun invoke(): R
+
+}
+
+interface SuspendAction0 {
+
+    suspend fun invoke()
+
+}
 
 /**
  * 忽略错误的一个协程的 Context
@@ -23,18 +33,23 @@ val ErrorIgnoreContext: CoroutineExceptionHandler
         }
     }
 
-suspend fun DeferredEmpty.awaitIgnoreException() {
+suspend fun SuspendAction0.awaitIgnoreException() {
     try {
-        this.await()
+        this.invoke()
     } catch (e: Exception) {
         // ignore
     }
 }
 
-fun DeferredEmpty.executeIgnoreException() {
-    val targetDeferred = this
-    AppScope.launch(context = ErrorIgnoreContext) {
-        targetDeferred.awaitIgnoreException()
+suspend fun <R> SuspendFunction0<R>.await(): R {
+    return this.invoke()
+}
+
+suspend fun <R> SuspendFunction0<R>.awaitOrNull(): R? {
+    return try {
+        this.invoke()
+    } catch (e: Exception) {
+        null
     }
 }
 
