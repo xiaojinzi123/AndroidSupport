@@ -3,7 +3,10 @@ package com.xiaojinzi.support.ktx
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 interface SharedStateFlow<T> : SharedFlow<T> {
@@ -215,6 +218,29 @@ fun <T> Flow<T>.sharedStateIn(
 }
 
 // 针对 Boolean 的扩展
+fun MutableSharedStateFlow<Boolean>.tryToggle() {
+    this.value = !this.value
+}
+
+@Deprecated(
+    message = "Use tryToggle instead",
+    replaceWith = ReplaceWith("tryToggle()"),
+)
 fun MutableSharedStateFlow<Boolean>.toggle() {
     this.value = !this.value
+}
+
+suspend fun MutableSharedStateFlow<Boolean>.toggleBySuspend() {
+    this.emit(
+        value = !this.value
+    )
+}
+
+// 针对 String 的扩展
+fun MutableSharedStateFlow<String>.tryEmpty() {
+    this.value = ""
+}
+
+suspend fun MutableSharedStateFlow<String>.emptyBySuspend() {
+    this.emit(value = "")
 }
