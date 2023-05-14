@@ -4,9 +4,7 @@ import com.xiaojinzi.support.init.AppInstance
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -32,6 +30,10 @@ val ErrorIgnoreContext: CoroutineExceptionHandler
             throwable.printStackTrace()
         }
     }
+
+suspend fun SuspendAction0.await() {
+    this.invoke()
+}
 
 suspend fun SuspendAction0.awaitIgnoreException() {
     try {
