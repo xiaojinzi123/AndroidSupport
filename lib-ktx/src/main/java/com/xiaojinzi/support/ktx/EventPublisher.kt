@@ -15,4 +15,10 @@ object EventPublisher {
     @HotObservable(HotObservable.Pattern.PUBLISH, isShared = true)
     val eventObservable: MutableSharedFlow<Any> = NormalMutableSharedFlow()
 
+    /**
+     * 具备缓冲的事件流
+     */
+    @HotObservable(HotObservable.Pattern.PUBLISH, isShared = true)
+    val eventCacheObservable: CacheFlow<Any> = CacheSharedFlow()
+
 }

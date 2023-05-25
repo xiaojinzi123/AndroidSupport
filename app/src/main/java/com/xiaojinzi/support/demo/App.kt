@@ -22,6 +22,7 @@ class App : Application() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         AppInstance.app = this
+        LogSupport.logAble = BuildConfig.DEBUG
     }
 
     override fun onCreate() {

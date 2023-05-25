@@ -8,6 +8,10 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+/**
+ * 次方法会创建一个 [Int.MAX_VALUE] 容量的空间
+ * 不能一直一直的处于增加的状态, 不然最终内存会崩, 只是一个缓存的作用
+ */
 @Suppress("FunctionName", "UNCHECKED_CAST")
 fun <T> NormalMutableSharedFlow() = MutableSharedFlow<T>(
     replay = 0,

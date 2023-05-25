@@ -14,7 +14,7 @@ import java.util.concurrent.LinkedBlockingQueue
 interface CacheFlow<T> : Flow<T> {
 
     /**
-     * 尝试发射
+     * 发射到缓存中, 后续一个不落的全部会被发出
      */
     fun add(value: T)
 
@@ -27,6 +27,8 @@ internal class CacheFlowImpl<T>(
 
     override fun add(value: T) {
         valueCheck(value)
+        // 为什么这里可以使用 try 不会有阻塞的问题, 因为这里的 sharedFlow 是一个无限大的容量
+        // 所以这里就不用做缓冲的处理了
         if (!sharedFlow.tryEmit(value = value)) {
             notSupportError()
         }
