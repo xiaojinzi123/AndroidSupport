@@ -3,7 +3,14 @@ package com.xiaojinzi.support.compose
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,9 +57,10 @@ fun BottomView(
                 .fillMaxHeight(fraction = 1f - maxFraction)
                 .nothing()
         )
-        Column(modifier = Modifier
-            .weight(weight = 1f, fill = true)
-            .nothing(),
+        Column(
+            modifier = Modifier
+                .weight(weight = 1f, fill = true)
+                .nothing(),
         ) {
             // 这个把真正的内容挤压到最后去
             Spacer(modifier = Modifier.weight(weight = 1f, fill = true))
@@ -72,11 +80,12 @@ fun BottomView(
 @Composable
 private fun BottomViewPreview() {
     BottomView {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(100.dp)
-            .background(color = Color.Red)
-            .nothing(),
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .background(color = Color.Red)
+                .nothing(),
         )
     }
 }

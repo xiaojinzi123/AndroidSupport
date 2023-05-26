@@ -37,8 +37,8 @@ ext.libs = [
         activity_compose            : 'androidx.activity:activity-compose:1.6.1',
         compose_ui                  : "androidx.compose.ui:ui:${versions.compose_version}",
         compose_material            : "androidx.compose.material:material:${versions.compose_material_version}",
-        compose_ui_foundation       : 'androidx.ui:ui-foundation:0.1.0-dev14',
         compose_constraintlayout    : "androidx.constraintlayout:constraintlayout-compose:1.0.1",
+        compose_ui_foundation       : 'androidx.ui:ui-foundation:0.1.0-dev14',
 
         // ------------------------ Compose 支持库的依赖  ------------------------
 
