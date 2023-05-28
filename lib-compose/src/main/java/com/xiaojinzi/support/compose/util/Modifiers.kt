@@ -14,7 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.Role
 
@@ -59,8 +59,9 @@ fun Modifier.clickScaleEffect(minScale: Float = 0.8f): Modifier {
             1f
         )
     }
-    val animScale by animateFloatAsState(targetValue = scale, label = "")
+    val animScale by animateFloatAsState(targetValue = scale, label = "clickScaleEffectAnim")
     return this
+        .scale(scale = animScale)
         .pointerInput(Unit) {
             // 等待按下
             awaitPointerEventScope {
@@ -72,8 +73,5 @@ fun Modifier.clickScaleEffect(minScale: Float = 0.8f): Modifier {
                 }
             }
         }
-        .graphicsLayer {
-            this.scaleX = animScale
-            this.scaleY = animScale
-        }
+
 }
