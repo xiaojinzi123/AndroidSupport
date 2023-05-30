@@ -11,14 +11,9 @@ object EventPublisher {
 
     /**
      * 事件流
+     * 内部的缓存默认是无限的
      */
     @HotObservable(HotObservable.Pattern.PUBLISH, isShared = true)
     val eventObservable: MutableSharedFlow<Any> = NormalMutableSharedFlow()
-
-    /**
-     * 具备缓冲的事件流
-     */
-    @HotObservable(HotObservable.Pattern.PUBLISH, isShared = true)
-    val eventCacheObservable: CacheFlow<Any> = CacheSharedFlow()
 
 }

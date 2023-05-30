@@ -13,9 +13,9 @@ import kotlinx.coroutines.launch
  * 不能一直一直的处于增加的状态, 不然最终内存会崩, 只是一个缓存的作用
  */
 @Suppress("FunctionName", "UNCHECKED_CAST")
-fun <T> NormalMutableSharedFlow() = MutableSharedFlow<T>(
+fun <T> NormalMutableSharedFlow(extraBufferCapacity: Int = Int.MAX_VALUE) = MutableSharedFlow<T>(
     replay = 0,
-    extraBufferCapacity = Int.MAX_VALUE,
+    extraBufferCapacity = extraBufferCapacity,
     onBufferOverflow = BufferOverflow.SUSPEND,
 )
 
