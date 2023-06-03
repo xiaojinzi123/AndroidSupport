@@ -20,7 +20,7 @@ fun <T> SharedStateFlow<T>.collectAsState(
 
 @Composable
 @Suppress("StateFlowValueCalledInComposition")
-fun <T> Flow<T>.collectAsState(
+fun <T> Flow<T>.collectStateFlowAsState(
     context: CoroutineContext = EmptyCoroutineContext,
 ): State<T> = collectAsState(
     initial = when (this) {
