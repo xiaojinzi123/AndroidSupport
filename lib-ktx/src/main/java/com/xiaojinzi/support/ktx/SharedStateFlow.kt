@@ -4,11 +4,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+/**
+ * 基于 [SharedFlow] 自己实现的 [StateFlow]
+ * 名字叫 SharedStateFlow 是要和系统的 [StateFlow] 区分开来
+ */
 interface SharedStateFlow<T> : SharedFlow<T> {
 
     /**
