@@ -25,4 +25,7 @@ data class StringItemDto(
 
 }
 
+@Deprecated("Use StringItemDto instead", ReplaceWith("StringItemDto"))
 typealias StringItemDTO = StringItemDto
+
+val EmptyStringItemDto = StringItemDto(value = "")
