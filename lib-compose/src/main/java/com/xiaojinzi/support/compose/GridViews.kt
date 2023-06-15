@@ -90,6 +90,7 @@ fun <T> GridView(
                         .height(intrinsicSize = IntrinsicSize.Min)
                         .nothing(),
                     verticalAlignment = Alignment.CenterVertically,
+                    // horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     for (columnIndex in 0 until columnNumber) {
                         val itemIndex = rowIndex * columnNumber + columnIndex
@@ -126,7 +127,11 @@ fun <T> GridView(
                                     lastItemContent()
                                 }
                             } else {
-                                Spacer(Modifier.weight(1f, fill = true))
+                                Spacer(
+                                    modifier = Modifier
+                                        .weight(1f, fill = true)
+                                        .nothing()
+                                )
                             }
                         }
                     }
@@ -170,8 +175,10 @@ private fun GridViewPreview() {
         }
     ) {
         Text(
-            modifier = Modifier.padding(vertical = 20.dp),
-            text = "测试$it"
+            modifier = Modifier
+                .padding(vertical = 20.dp)
+                .nothing(),
+            text = "测试".repeat(n = it % 3) + "$it",
         )
     }
 }
