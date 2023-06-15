@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -53,7 +54,8 @@ fun <T> GridView(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .nothing(),
         ) {
             // header 头
             Row(
@@ -66,11 +68,12 @@ fun <T> GridView(
                 for (columnIndex in 0 until columnNumber) {
                     Box(
                         modifier = Modifier
-                            // .background(color = Color.Red)
+                            // .background(color = Color.Green)
                             .weight(1f, fill = true)
-                            .fillMaxHeight(),
+                            .fillMaxHeight()
+                            .nothing(),
                         contentAlignment = Alignment.Center,
-                        propagateMinConstraints = true
+                        propagateMinConstraints = false,
                     ) {
                         headerContent(columnIndex)
                     }
@@ -147,7 +150,7 @@ private fun GridViewPreview() {
                 modifier = Modifier
                     .padding(vertical = 10.dp)
                     .nothing(),
-                text = "标题$it"
+                text = "标题$it",
             )
         },
         afterRowContent = {
@@ -162,6 +165,7 @@ private fun GridViewPreview() {
             Text(
                 text = "我是最后一个 Item",
                 style = MaterialTheme.typography.body2,
+                textAlign = TextAlign.Center,
             )
         }
     ) {
