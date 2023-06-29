@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import com.xiaojinzi.support.architecture.mvvm1.BaseAct
 import com.xiaojinzi.support.compose.util.circleClip
 import com.xiaojinzi.support.compose.util.clickScaleEffect
+import com.xiaojinzi.support.init.CheckInit
+import com.xiaojinzi.support.init.UnCheckInit
 import com.xiaojinzi.support.ktx.ActivityFlag
 import com.xiaojinzi.support.ktx.SystemAlbum
 import com.xiaojinzi.support.ktx.app
@@ -30,6 +32,7 @@ import java.io.File
 @ActivityFlag(
     value = ["test", "test1"],
 )
+@UnCheckInit
 class MainAct : BaseAct<MainViewModel>() {
 
     override fun getViewModelClass(): Class<MainViewModel> {
@@ -38,6 +41,8 @@ class MainAct : BaseAct<MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        CheckInit.isPassedBootView = true
 
         val imageFile = File(
             app.cacheDir, "test.png"
