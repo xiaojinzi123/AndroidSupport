@@ -2,6 +2,7 @@ package com.xiaojinzi.support.demo
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import com.xiaojinzi.component.Component
 import com.xiaojinzi.component.Config
 import com.xiaojinzi.component.support.ASMUtil
@@ -29,7 +30,13 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        CheckInit.init(app = this)
+        CheckInit.init(
+            app = this,
+            bootActAction = "xxxxxxxx_app_main",
+            bootActCategory = Intent.CATEGORY_DEFAULT,
+            rebootActAction = "xxxxxxx_app_reboot",
+            rebootActCategory = Intent.CATEGORY_DEFAULT,
+        )
 
         registerActivityLifecycleCallbacks(ComponentLifecycleCallback())
 

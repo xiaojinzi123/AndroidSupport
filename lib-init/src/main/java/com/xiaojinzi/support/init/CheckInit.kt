@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.os.Process
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -42,11 +41,11 @@ class RebootAct : AppCompatActivity() {
 }
 
 private fun rebootApp(app: Application) {
-    val bootIntent = Intent("default_app_reboot")
+    val bootIntent = Intent(CheckInit.rebootActAction)
+    bootIntent.addCategory(CheckInit.rebootActCategory)
     bootIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    bootIntent.addCategory(Intent.CATEGORY_DEFAULT)
-    bootIntent.putExtra("action", "default_app_main")
-    bootIntent.putExtra("category", Intent.CATEGORY_DEFAULT)
+    bootIntent.putExtra("action", CheckInit.bootActAction)
+    bootIntent.putExtra("category", CheckInit.bootActCategory)
     app.startActivity(bootIntent)
     Process.killProcess(Process.myPid())
 }
@@ -91,7 +90,22 @@ object CheckInit {
 
     var isPassedBootView: Boolean = false
 
-    fun init(app: Application) {
+    internal lateinit var bootActAction: String
+    internal lateinit var bootActCategory: String
+    internal lateinit var rebootActAction: String
+    internal lateinit var rebootActCategory: String
+
+    fun init(
+        app: Application,
+        bootActAction: String,
+        bootActCategory: String,
+        rebootActAction: String,
+        rebootActCategory: String,
+    ) {
+        this.bootActAction = bootActAction
+        this.bootActCategory = bootActCategory
+        this.rebootActAction = rebootActAction
+        this.rebootActCategory = rebootActCategory
         app.registerActivityLifecycleCallbacks(CheckInitLifecycleCallback())
     }
 

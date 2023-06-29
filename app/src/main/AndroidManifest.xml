@@ -29,7 +29,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="default_app_main" />
+                <action android:name="xxxxxxxx_app_main" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.xiaojinzi.support.init.RebootAct"
+            android:exported="true"
+            android:process=":default_app_reboot"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="xxxxxxx_app_reboot" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
