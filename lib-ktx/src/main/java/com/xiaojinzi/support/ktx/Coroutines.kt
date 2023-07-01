@@ -22,6 +22,22 @@ interface SuspendAction0 {
 
 }
 
+fun suspendAction0(action: suspend () -> Unit): SuspendAction0 {
+    return object : SuspendAction0 {
+        override suspend fun invoke() {
+            action.invoke()
+        }
+    }
+}
+
+fun <R> suspendFunction0(callable: suspend () -> R): SuspendFunction0<R> {
+    return object : SuspendFunction0<R> {
+        override suspend fun invoke(): R {
+            return callable.invoke()
+        }
+    }
+}
+
 /**
  * 忽略错误的一个协程的 Context
  */
