@@ -55,7 +55,7 @@ import kotlinx.coroutines.launch
  * A ScrollableTabRow contains a row of [Tab]s, and displays an indicator underneath the currently
  * selected tab. A ScrollableTabRow places its tabs offset from the starting edge, and allows
  * scrolling to tabs that are placed off screen. For a fixed tab row that does not allow
- * scrolling, and evenly places its tabs, see [TabRow].
+ * scrolling, and evenly places its tabs, see [TabRowCopy3].
  *
  * @param selectedTabIndex the index of the currently selected tab
  * @param modifier optional [Modifier] for this ScrollableTabRow
@@ -67,7 +67,7 @@ import kotlinx.coroutines.launch
  * ScrollableTabRow.
  * @param edgePadding the padding between the starting and ending edge of ScrollableTabRow, and
  * the tabs inside the ScrollableTabRow. This padding helps inform the user that this tab row can
- * be scrolled, unlike a [TabRow].
+ * be scrolled, unlike a [TabRowCopy3].
  * @param indicator the indicator that represents which tab is currently selected. By default this
  * will be a [TabRowDefaultsCopy2.Indicator], using a [TabRowDefaultsCopy2.tabIndicatorOffset]
  * modifier to animate its position. Note that this indicator will be forced to fill up the
@@ -180,8 +180,8 @@ fun ScrollableTabRowCopy2(
  * Data class that contains information about a tab's position on screen, used for calculating
  * where to place the indicator that shows which tab is selected.
  *
- * @property left the left edge's x position from the start of the [TabRow]
- * @property right the right edge's x position from the start of the [TabRow]
+ * @property left the left edge's x position from the start of the [TabRowCopy3]
+ * @property right the right edge's x position from the start of the [TabRowCopy3]
  * @property width the width of this tab
  */
 @Immutable
@@ -214,7 +214,7 @@ class TabPositionCopy2 internal constructor(val left: Dp, val width: Dp) {
  */
 object TabRowDefaultsCopy2 {
     /**
-     * Default [Divider], which will be positioned at the bottom of the [TabRow], underneath the
+     * Default [Divider], which will be positioned at the bottom of the [TabRowCopy3], underneath the
      * indicator.
      *
      * @param modifier modifier for the divider's layout
@@ -231,7 +231,7 @@ object TabRowDefaultsCopy2 {
     }
 
     /**
-     * Default indicator, which will be positioned at the bottom of the [TabRow], on top of the
+     * Default indicator, which will be positioned at the bottom of the [TabRowCopy3], on top of the
      * divider.
      *
      * @param modifier modifier for the indicator's layout
@@ -253,7 +253,7 @@ object TabRowDefaultsCopy2 {
     }
 
     /**
-     * [Modifier] that takes up all the available width inside the [TabRow], and then animates
+     * [Modifier] that takes up all the available width inside the [TabRowCopy3], and then animates
      * the offset of the indicator it is applied to, depending on the [currentTabPosition].
      *
      * @param currentTabPosition [TabPositionCopy2] of the currently selected tab. This is used to
@@ -297,7 +297,7 @@ object TabRowDefaultsCopy2 {
     val IndicatorHeight = 2.dp
 
     /**
-     * The default padding from the starting edge before a tab in a [ScrollableTabRow].
+     * The default padding from the starting edge before a tab in a [ScrollableTabRowCopy3].
      */
     val ScrollableTabRowPadding = 52.dp
 }
@@ -309,7 +309,7 @@ private enum class TabSlotsCopy2 {
 }
 
 /**
- * Class holding onto state needed for [ScrollableTabRow]
+ * Class holding onto state needed for [ScrollableTabRowCopy3]
  */
 private class ScrollableTabDataCopy2(
     private val scrollState: ScrollState,
