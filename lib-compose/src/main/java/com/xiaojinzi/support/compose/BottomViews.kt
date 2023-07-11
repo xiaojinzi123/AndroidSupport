@@ -2,7 +2,6 @@ package com.xiaojinzi.support.compose
 
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -14,10 +13,10 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.xiaojinzi.support.compose.util.clickableNoRipple
 import com.xiaojinzi.support.ktx.nothing
 import com.xiaojinzi.support.ktx.tryFinishActivity
 
@@ -39,21 +38,20 @@ fun BottomView(
             .fillMaxWidth()
             .wrapContentHeight(),
     ) {
+        val backCallback = {
+            if (onBackgroundClick == null) {
+                context.tryFinishActivity()
+            } else {
+                onBackgroundClick()
+            }
+        }
         // 这个占领剩余的部分
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(fraction = 1f - maxFraction)
-                .pointerInput(Unit) {
-                    detectTapGestures(
-                        onTap = {
-                            if (onBackgroundClick == null) {
-                                context.tryFinishActivity()
-                            } else {
-                                onBackgroundClick()
-                            }
-                        },
-                    )
+                .clickableNoRipple {
+                    backCallback.invoke()
                 }
                 .nothing()
         )
@@ -63,7 +61,15 @@ fun BottomView(
                 .nothing(),
         ) {
             // 这个把真正的内容挤压到最后去
-            Spacer(modifier = Modifier.weight(weight = 1f, fill = true))
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(weight = 1f, fill = true)
+                    .clickableNoRipple {
+                        backCallback.invoke()
+                    }
+                    .nothing(),
+            )
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
