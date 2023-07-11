@@ -33,17 +33,6 @@ fun BottomView(
     val context = LocalContext.current
     Column(
         modifier = Modifier
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = {
-                        if (onBackgroundClick == null) {
-                            context.tryFinishActivity()
-                        } else {
-                            onBackgroundClick()
-                        }
-                    },
-                )
-            }
             .background(
                 color = background
             )
@@ -55,6 +44,17 @@ fun BottomView(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(fraction = 1f - maxFraction)
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onTap = {
+                            if (onBackgroundClick == null) {
+                                context.tryFinishActivity()
+                            } else {
+                                onBackgroundClick()
+                            }
+                        },
+                    )
+                }
                 .nothing()
         )
         Column(

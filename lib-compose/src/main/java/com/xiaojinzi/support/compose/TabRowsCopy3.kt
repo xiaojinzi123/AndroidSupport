@@ -395,11 +395,13 @@ object TabRowDefaultsCopy3 {
     ) {
         val currentTabWidth by animateDpAsState(
             targetValue = currentTabPosition.width,
-            animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
+            animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing),
+            label = "",
         )
         val indicatorOffset by animateDpAsState(
             targetValue = currentTabPosition.left,
-            animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
+            animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing),
+            label = "",
         )
         fillMaxWidth()
             .wrapContentSize(Alignment.BottomStart)
