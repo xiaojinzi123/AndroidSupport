@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.xiaojinzi.support.compose.util.clickPlaceholder
 import com.xiaojinzi.support.compose.util.clickableNoRipple
 import com.xiaojinzi.support.ktx.nothing
 import com.xiaojinzi.support.ktx.tryFinishActivity
@@ -26,6 +27,7 @@ fun BottomView(
     background: Color = Color.Black.copy(
         alpha = 0.6f
     ),
+    isContentClickPlaceHolder: Boolean = true,
     onBackgroundClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -74,6 +76,13 @@ fun BottomView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .run {
+                        if (isContentClickPlaceHolder) {
+                            this.clickPlaceholder()
+                        } else {
+                            this
+                        }
+                    }
                     .nothing(),
             ) {
                 content()
