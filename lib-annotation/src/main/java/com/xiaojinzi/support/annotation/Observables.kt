@@ -151,3 +151,41 @@ annotation class IntRangeObservable(
     val toInclusive: Boolean = true,
 
 )
+
+/**
+ * 表示这是一个热的 Observable, 并且是 State 模式
+ * 对应 RxJava 的 BehaviorSubject
+ */
+@Retention(
+    value = AnnotationRetention.SOURCE
+)
+@Target(
+    AnnotationTarget.CLASS,
+    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.FUNCTION
+)
+annotation class StateHotObservable
+
+/**
+ * 表示这是一个热的 Observable, 并且是 Publish 模式
+ * 对应 RxJava 的 PublishSubject
+ */
+@Retention(
+    value = AnnotationRetention.SOURCE
+)
+@Target(
+    AnnotationTarget.CLASS,
+    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.FUNCTION
+)
+annotation class PublishHotObservable
