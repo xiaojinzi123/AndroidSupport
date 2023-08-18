@@ -60,6 +60,21 @@ object ComponentActivityStack {
     }
 
     /**
+     * 杀掉所有界面
+     */
+    @Synchronized
+    fun finishAllActivity() {
+        activityStack
+            .indices
+            .reversed()
+            .forEach { index ->
+                activityStack.removeAt(index)?.run {
+                    this.finish()
+                }
+            }
+    }
+
+    /**
      * Activity 上有注解标记
      * 根据标记删除集合中的 Activity
      */
