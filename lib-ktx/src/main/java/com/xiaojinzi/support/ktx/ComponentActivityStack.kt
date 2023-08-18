@@ -2,7 +2,7 @@ package com.xiaojinzi.support.ktx
 
 import android.app.Activity
 import android.os.Build
-import java.util.*
+import java.util.Stack
 
 @Retention(
     value = AnnotationRetention.RUNTIME
@@ -26,6 +26,19 @@ object ComponentActivityStack {
      * the stack will be save all reference of Activity
      */
     private val activityStack: Stack<Activity> = Stack()
+
+    private fun isMatchFlag(
+        activity: Activity,
+        flag: String,
+    ): Boolean {
+        return activity
+            .javaClass
+            .getAnnotation(ActivityFlag::class.java)
+            ?.value
+            ?.contains(
+                element = flag,
+            )?: false
+    }
 
     /**
      * 进入栈
@@ -55,7 +68,10 @@ object ComponentActivityStack {
     fun isActivityExistByFlag(flag: String): Boolean {
         return activityStack
             .find { act ->
-                act.javaClass.getAnnotation(ActivityFlag::class.java)?.value?.contains(element = flag)?: false
+                isMatchFlag(
+                    activity = act,
+                    flag = flag,
+                )
             } != null
     }
 
@@ -84,7 +100,10 @@ object ComponentActivityStack {
             .indices
             .reversed()
             .filter { index ->
-                activityStack[index].javaClass.getAnnotation(ActivityFlag::class.java)?.value?.contains(element = flag)?: false
+                isMatchFlag(
+                    activity = activityStack[index],
+                    flag = flag,
+                )
             }.forEach { index ->
                 activityStack.removeAt(index)?.run {
                     this.finish()
@@ -102,13 +121,17 @@ object ComponentActivityStack {
             .indices
             .reversed()
             .filter { index ->
-                (activityStack[index].javaClass.getAnnotation(ActivityFlag::class.java)?.value?.contains(element = flag)?: false).not()
+                isMatchFlag(
+                    activity = activityStack[index],
+                    flag = flag,
+                ).not()
             }.forEach { index ->
                 activityStack.removeAt(index)?.run {
                     this.finish()
                 }
             }
     }
+
     @Synchronized
     fun finishByClassName(className: String) {
         activityStack
@@ -143,16 +166,29 @@ object ComponentActivityStack {
      * 返回顶层的活着的 Activity
      */
     @Synchronized
-    fun getTopAliveActivity(): Activity? {
+    fun getTopAliveActivity(
+        flag: String? = null,
+    ): Activity? {
         var result: Activity? = null
         if (!isEmpty()) {
             val size = activityStack.size
             for (i in size - 1 downTo 0) {
                 val activity = activityStack[i]
-                // 如果已经销毁, 就下一个
-                if (!isActivityDestroy(activity)) {
-                    result = activity
-                    break
+                if (flag.isNullOrEmpty()) {
+                    // 如果已经销毁, 就下一个
+                    if (!isActivityDestroy(activity)) {
+                        result = activity
+                        break
+                    }
+                } else {
+                    val isMatch = isMatchFlag(
+                        activity = activity,
+                        flag = flag,
+                    )
+                    if (isMatch && !isActivityDestroy(activity)) {
+                        result = activity
+                        break
+                    }
                 }
             }
         }
