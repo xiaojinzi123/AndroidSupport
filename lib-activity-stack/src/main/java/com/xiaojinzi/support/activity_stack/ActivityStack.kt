@@ -25,19 +25,45 @@ interface ActivityStackScope {
     fun Activity.isAlive(): Boolean
 
     /**
-     * 是否有某个 flag
+     * 有这个 flag 的
+     * 这些 flag 必须在这个 Activity 上都有标记
+     * 比如：是一班的学生, 并且是短跑冠军的男生
+     * Activity1 Flag: [1,2,3,4,5], Activity2 Flag: [3,4,5]
+     * Value Flag: 2
+     * 满足条件的是：Activity1
      */
     fun Activity.hasFlag(flag: String): Boolean
 
     /**
-     * 有其中的任意一个 flag
+     * 有这些 flag 的
+     * 这些 flag 必须在这个 Activity 上都有标记
+     * 比如：是一班的学生, 并且是短跑冠军的男生
+     * Activity1 Flag: [1,2,3,4,5], Activity2 Flag: [3,4,5]
+     * Value Flag: [2,3,4]
+     * 满足条件的是：Activity1
      */
-    fun Activity.anyFlag(vararg args: String): Boolean
+    fun Activity.hasAllFlag(vararg flags: String): Boolean
 
     /**
-     * 得包含所有的 flag
+     * 有其中的任意一个 flag
+     * 这些 flag 有一个在 Activity 上有标记即可
+     * 比如：是一班的学生, 或者是 三好学生
+     * Activity1 Flag: [1,2,3,4,5], Activity2 Flag: [2,3,4,5,6]
+     * Activity3 Flag: [7,8,9], Activity4 Flag: [1,2,3]
+     * Value Flag: [5, 7]
+     * 满足条件的是: Activity1, Activity2, Activity3
      */
-    fun Activity.allFlag(vararg args: String): Boolean
+    fun Activity.hasAnyFlag(vararg flags: String): Boolean
+
+    /**
+     * 没有这些 flag 的
+     * Activity 没有这些任何一个标记
+     * 比如：不是一班的学生, 也不是短跑冠军的男生
+     * Activity1 Flag: [1,2,3,4,5], Activity2 Flag: [3,4,5], Activity3 Flag: [5,6]
+     * Value Flag: [2,3]
+     * 满足条件的是：Activity3
+     */
+    fun Activity.noAnyFlag(vararg flags: String): Boolean
 
 }
 
@@ -50,30 +76,30 @@ private class ActivityStackScopeImpl : ActivityStackScope {
             this.isFinishing
         }
 
-    override fun Activity.hasFlag(flag: String) = this
-        .javaClass
-        .getAnnotation(ActivityFlag::class.java)
-        ?.value
-        ?.any {
-            it == flag
-        } ?: false
+    override fun Activity.hasFlag(flag: String): Boolean {
+        return this.hasAnyFlag(flag)
+    }
 
-    override fun Activity.anyFlag(vararg args: String) = this
-        .javaClass
-        .getAnnotation(ActivityFlag::class.java)
-        ?.value
-        ?.any {
-            it in args
-        } ?: false
-
-    override fun Activity.allFlag(vararg args: String): Boolean {
+    override fun Activity.hasAllFlag(vararg flags: String): Boolean {
         val activityFlags = this
             .javaClass
             .getAnnotation(ActivityFlag::class.java)
             ?.value ?: emptyArray()
-        return args.all {
+        return flags.all {
             it in activityFlags
         }
+    }
+
+    override fun Activity.hasAnyFlag(vararg flags: String) = this
+        .javaClass
+        .getAnnotation(ActivityFlag::class.java)
+        ?.value
+        ?.any {
+            it in flags
+        } ?: false
+
+    override fun Activity.noAnyFlag(vararg flags: String): Boolean {
+        return !hasAnyFlag(flags = flags)
     }
 
 }
