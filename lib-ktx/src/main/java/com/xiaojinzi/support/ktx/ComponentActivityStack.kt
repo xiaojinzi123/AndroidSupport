@@ -11,6 +11,7 @@ import java.util.Stack
     AnnotationTarget.CLASS,
     AnnotationTarget.TYPE,
 )
+@Deprecated("use ActivityStack instead")
 annotation class ActivityFlag(
     vararg val value: String,
 )
@@ -20,6 +21,7 @@ annotation class ActivityFlag(
  *
  * @author xiaojinzi
  */
+@Deprecated("use ActivityStack instead")
 object ComponentActivityStack {
 
     /**

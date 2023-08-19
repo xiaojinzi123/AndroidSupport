@@ -7,6 +7,7 @@ import android.os.Bundle
 /**
  * 注册的声明周期回调,用于取消一些调用,这些调用在界面销毁之后
  */
+@Deprecated("use ActivityStack instead")
 class ComponentLifecycleCallback : ActivityLifecycleCallbacks {
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {

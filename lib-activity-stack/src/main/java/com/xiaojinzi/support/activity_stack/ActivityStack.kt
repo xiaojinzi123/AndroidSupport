@@ -61,6 +61,16 @@ interface ActivityStackScope {
      * Activity 没有这些任何一个标记
      * 比如：不是一班的学生, 也不是短跑冠军的男生
      * Activity1 Flag: [1,2,3,4,5], Activity2 Flag: [3,4,5], Activity3 Flag: [5,6]
+     * Value Flag: 2
+     * 满足条件的是：Activity2, Activity3
+     */
+    fun Activity.noFlag(flag: String): Boolean
+
+    /**
+     * 没有这些 flag 的
+     * Activity 没有这些任何一个标记
+     * 比如：不是一班的学生, 也不是短跑冠军的男生
+     * Activity1 Flag: [1,2,3,4,5], Activity2 Flag: [3,4,5], Activity3 Flag: [5,6]
      * Value Flag: [2,3]
      * 满足条件的是：Activity3
      */
@@ -98,6 +108,10 @@ private class ActivityStackScopeImpl : ActivityStackScope {
         ?.any {
             it in flags
         } ?: false
+
+    override fun Activity.noFlag(flag: String): Boolean {
+        return this.noAnyFlag(flag)
+    }
 
     override fun Activity.noAnyFlag(vararg flags: String): Boolean {
         return !hasAnyFlag(flags = flags)
