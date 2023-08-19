@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import java.util.Stack
 
 @Retention(
@@ -143,6 +144,10 @@ private class ActivityLifecycleCallback : Application.ActivityLifecycleCallbacks
  */
 object ActivityStack {
 
+    const val TAG = "ActivityStack"
+
+    private var isDebug = false
+
     private val activityStackScope = ActivityStackScopeImpl()
 
     /**
@@ -169,7 +174,8 @@ object ActivityStack {
     /**
      * 初始化
      */
-    fun init(app: Application) {
+    fun init(app: Application, isDebug: Boolean = false) {
+        this.isDebug = isDebug
         app.registerActivityLifecycleCallbacks(
             ActivityLifecycleCallback()
         )
@@ -193,6 +199,9 @@ object ActivityStack {
                 )
             }.forEach { index ->
                 activityStack.removeAt(index)?.run {
+                    Log.d(
+                        TAG, "finish Activity by condition: $this"
+                    )
                     this.finish()
                 }
             }
@@ -213,6 +222,10 @@ object ActivityStack {
                 activityStackScope.condition(
                     act
                 )
+            }.apply {
+                Log.d(
+                    TAG, "get Activity by condition: $this"
+                )
             }
     }
 
@@ -231,6 +244,10 @@ object ActivityStack {
                 activityStackScope.condition(
                     act
                 )
+            }.apply {
+                Log.d(
+                    TAG, "get first Activity by condition: $this"
+                )
             }
     }
 
@@ -247,6 +264,11 @@ object ActivityStack {
                     act
                 )
             }
+            .apply {
+                Log.d(
+                    TAG, "match any Activity by condition: $this"
+                )
+            }
     }
 
     /**
@@ -254,6 +276,9 @@ object ActivityStack {
      */
     @Synchronized
     internal fun pushActivity(activity: Activity) {
+        Log.d(
+            TAG, "pushActivity: $activity"
+        )
         if (activityStack.contains(activity)) {
             return
         }
@@ -267,6 +292,9 @@ object ActivityStack {
      */
     @Synchronized
     internal fun removeActivity(activity: Activity) {
+        Log.d(
+            TAG, "removeActivity: $activity"
+        )
         activityStack.remove(activity)
     }
 
