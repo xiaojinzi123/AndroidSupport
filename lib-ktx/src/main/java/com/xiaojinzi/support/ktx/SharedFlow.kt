@@ -37,7 +37,7 @@ private fun <T> Flow<T>.doSharedIn(
         upstream.collect {
             if (enableLog) {
                 Log.d(
-                    TAG, "准备发射到 shareFlow 收集到的上游的信号：$it",
+                    TAG, "准备发射到 shareFlow, 订阅者个数为： ${shareFlow.subscriptionCount.value}, 收集到的上游的信号：$it",
                 )
             }
             shareFlow.emit(value = it)
