@@ -201,7 +201,7 @@ object ActivityStack {
     @Synchronized
     fun finish(
         condition: ActivityStackScope.(act: Activity) -> Boolean = {
-            true
+            false
         },
     ) {
         activityStack
