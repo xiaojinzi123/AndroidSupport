@@ -5,6 +5,10 @@ import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import com.xiaojinzi.support.ktx.CacheSharedFlow
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import java.util.Stack
 
 @Retention(
@@ -169,6 +173,13 @@ object ActivityStack {
      */
     private val activityStack: Stack<Activity> = Stack()
 
+    private val _emptyStackEvent = CacheSharedFlow<Unit>()
+
+    /**
+     * 启动的时候就是 Empty 的情况不会有事件
+     */
+    val emptyStackEvent: Flow<Unit> = _emptyStackEvent
+
     /**
      * @return whether the the size of stack of Activity is zero or not
      */
@@ -310,6 +321,11 @@ object ActivityStack {
             TAG, "removeActivity: $activity"
         )
         activityStack.remove(activity)
+        if (activityStack.isEmpty()) {
+            _emptyStackEvent.add(
+                value = Unit
+            )
+        }
     }
 
 }

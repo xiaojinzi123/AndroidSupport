@@ -1,7 +1,6 @@
 package com.xiaojinzi.support.ktx
 
 import com.xiaojinzi.support.annotation.HotObservable
-import com.xiaojinzi.support.ktx.NormalMutableSharedFlow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 /**
