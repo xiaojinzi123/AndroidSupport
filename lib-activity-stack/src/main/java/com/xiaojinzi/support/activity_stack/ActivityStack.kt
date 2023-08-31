@@ -6,9 +6,8 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import com.xiaojinzi.support.ktx.CacheSharedFlow
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.filter
 import java.util.Stack
 
 @Retention(
@@ -166,12 +165,25 @@ object ActivityStack {
 
     private var isDebug = false
 
+    /**
+     * 作用域
+     */
     private val activityStackScope = ActivityStackScopeImpl()
 
     /**
      * 这个栈会保存所有的 Activity 实例
      */
     private val activityStack: Stack<Activity> = Stack()
+
+    /**
+     * Activity 创建的事件
+     */
+    val activityCreateEvent = CacheSharedFlow<Activity>()
+
+    /**
+     * Activity 销毁的事件
+     */
+    val activityDestroyEvent = CacheSharedFlow<Activity>()
 
     private val _emptyStackEvent = CacheSharedFlow<Unit>()
 
@@ -307,6 +319,9 @@ object ActivityStack {
         if (activityStack.contains(activity)) {
             return
         }
+        activityCreateEvent.add(
+            value = activity
+        )
         activityStack.add(activity)
     }
 
@@ -321,10 +336,26 @@ object ActivityStack {
             TAG, "removeActivity: $activity"
         )
         activityStack.remove(activity)
+        activityDestroyEvent.add(
+            value = activity
+        )
         if (activityStack.isEmpty()) {
             _emptyStackEvent.add(
                 value = Unit
             )
+        }
+    }
+
+    /**
+     * 对 Flow<Activity> 的扩展
+     */
+    fun Flow<Activity>.filterActivity(
+        condition: ActivityStackScope.(act: Activity) -> Boolean
+    ): Flow<Activity> {
+        return this.filter { act ->
+            with(receiver = activityStackScope) {
+                this.condition(act)
+            }
         }
     }
 
