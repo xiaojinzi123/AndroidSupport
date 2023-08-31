@@ -178,18 +178,20 @@ object ActivityStack {
     /**
      * Activity 创建的事件
      */
-    val activityCreateEvent = CacheSharedFlow<Activity>()
+    private val _activityCreateEvent = CacheSharedFlow<Activity>()
+    val activityCreateEvent: Flow<Activity> = _activityCreateEvent
 
     /**
      * Activity 销毁的事件
      */
-    val activityDestroyEvent = CacheSharedFlow<Activity>()
+    private val _activityDestroyEvent = CacheSharedFlow<Activity>()
+    val activityDestroyEvent: Flow<Activity> = _activityDestroyEvent
 
-    private val _emptyStackEvent = CacheSharedFlow<Unit>()
 
     /**
      * 启动的时候就是 Empty 的情况不会有事件
      */
+    private val _emptyStackEvent = CacheSharedFlow<Unit>()
     val emptyStackEvent: Flow<Unit> = _emptyStackEvent
 
     /**
@@ -319,7 +321,7 @@ object ActivityStack {
         if (activityStack.contains(activity)) {
             return
         }
-        activityCreateEvent.add(
+        _activityCreateEvent.add(
             value = activity
         )
         activityStack.add(activity)
@@ -336,7 +338,7 @@ object ActivityStack {
             TAG, "removeActivity: $activity"
         )
         activityStack.remove(activity)
-        activityDestroyEvent.add(
+        _activityDestroyEvent.add(
             value = activity
         )
         if (activityStack.isEmpty()) {
