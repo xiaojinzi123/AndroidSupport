@@ -5,7 +5,11 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.AbstractFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.transform
 
 @FlowPreview
 internal class FlowTakeUntilImpl<T>(
@@ -73,11 +77,14 @@ fun <T> Flow<T>.take(fromIndex: Int = 0): Flow<T> {
  * 定时器
  */
 fun tickerFlow(
-    @TimeValue(value = TimeValue.Type.MILLISECOND) period: Long,
-    @TimeValue(value = TimeValue.Type.MILLISECOND) initialDelay: Long = 0L
+    @TimeValue(value = TimeValue.Type.MILLISECOND)
+    period: Long,
+    @TimeValue(value = TimeValue.Type.MILLISECOND)
+    initialDelay: Long = 0L,
+    until: () -> Boolean = { true },
 ) = flow {
     delay(initialDelay)
-    while (true) {
+    while (until()) {
         emit(Unit)
         delay(period)
     }
