@@ -14,6 +14,7 @@ import com.xiaojinzi.support.ktx.AppInitTask
 import com.xiaojinzi.support.ktx.AppScope
 import com.xiaojinzi.support.ktx.ComponentLifecycleCallback
 import com.xiaojinzi.support.ktx.LogSupport
+import com.xiaojinzi.support.ktx.MemoryCache
 import com.xiaojinzi.support.logger.AndroidLogAdapter
 import com.xiaojinzi.support.logger.Logger
 import kotlinx.coroutines.delay
@@ -37,6 +38,14 @@ class App : Application() {
             rebootActAction = "xxxxxxx_app_reboot",
             rebootActCategory = Intent.CATEGORY_DEFAULT,
         )
+
+        MemoryCache.addCacheConfig(
+            key = "test",
+            cacheTime = 30 * 1000,
+        ) {
+            delay(2000)
+            System.currentTimeMillis()
+        }
 
         registerActivityLifecycleCallbacks(ComponentLifecycleCallback())
 
