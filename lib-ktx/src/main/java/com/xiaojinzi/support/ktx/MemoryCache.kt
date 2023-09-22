@@ -69,7 +69,9 @@ object MemoryCache {
             }
         }
         return flow.map { map ->
-            map[dataKey]?.second as? T
+            kotlin.runCatching {
+                map[dataKey]?.second as? T
+            }.getOrNull()
         }
     }
 
