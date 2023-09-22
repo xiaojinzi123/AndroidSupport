@@ -1,17 +1,21 @@
 package com.xiaojinzi.support.ktx
 
-import com.xiaojinzi.support.annotation.MillisecondTime
 import com.xiaojinzi.support.annotation.SecondTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.reflect.KClass
 
-data class MemoryCacheConfig(
+/**
+ * 每个实现这个接口的都是一个场景
+ * 实现这个接口一定要实现 [hashCode] 方法
+ */
+interface MemoryCacheKey
+
+data class MemoryCacheConfig<CacheKey : MemoryCacheKey>(
     @SecondTime
     val cacheTime: Long,
-    @SecondTime
-    val expiredTime: Long,
-    val updateCallable: suspend () -> Any?,
+    val updateCallable: suspend (CacheKey) -> Any?,
 )
 
 /**
@@ -21,63 +25,51 @@ object MemoryCache {
 
     private const val TAG = "MemoryCache"
 
-    private val dataMap = ConcurrentHashMap<String, Any?>()
+    private val dataMap = ConcurrentHashMap<String, Pair<Long, Any?>>()
 
-    private val configMap = ConcurrentHashMap<String, MemoryCacheConfig>()
+    private val configMap = ConcurrentHashMap<Int, MemoryCacheConfig<out MemoryCacheKey>>()
 
     private val flow = MutableSharedStateFlow(
         initValue = dataMap,
     )
 
-    private fun addCacheConfig(
-        key: String,
-        config: MemoryCacheConfig,
+    fun <KeyType : MemoryCacheKey> setCacheConfig(
+        keyClass: KClass<KeyType>,
+        config: MemoryCacheConfig<KeyType>,
     ) {
-        configMap[key] = config
-    }
-
-    fun addCacheConfig(
-        key: String,
-        @MillisecondTime
-        cacheTime: Long,
-        updateCallable: suspend () -> Any?,
-    ) {
-        addCacheConfig(
-            key = key,
-            config = MemoryCacheConfig(
-                cacheTime = cacheTime,
-                expiredTime = 0L,
-                updateCallable = updateCallable,
-            )
-        )
+        configMap[keyClass.hashCode()] = config
     }
 
     /**
      * 订阅数据
      */
     @Suppress("UNCHECKED_CAST")
-    fun <T> subscribe(key: String): Flow<T?> {
-        val targetConfig =
-            configMap[key] ?: notSupportError(message = "not found config for key: $key")
-        // 如果过期了
-        if (targetConfig.expiredTime <= System.currentTimeMillis()) {
+    fun <T, Key : MemoryCacheKey> subscribe(key: Key): Flow<T?> {
+        val configKey = key::class.hashCode()
+        val dataKey = "${configKey}@${key.hashCode()}"
+        val targetConfig: MemoryCacheConfig<Key> =
+            (configMap[configKey]
+                ?: notSupportError(message = "not found config for key: $key")) as MemoryCacheConfig<Key>
+        val expiredTime = dataMap[dataKey]?.first ?: 0
+        if (expiredTime <= System.currentTimeMillis()) {
+            // 如果过期了
             LogSupport.d(
                 tag = TAG,
-                content = "key $key is expired, update it",
+                content = "key $key is expired, update it, configKey = $configKey, dataKey = $dataKey",
             )
             executeTaskInCoroutinesIgnoreError {
-                // 进行更新
-                configMap[key] = targetConfig.copy(
-                    expiredTime = System.currentTimeMillis() + targetConfig.cacheTime,
-                )
-                dataMap[key] = targetConfig.updateCallable()
+                dataMap[dataKey] =
+                    (System.currentTimeMillis() + targetConfig.cacheTime) to
+                            targetConfig.updateCallable(
+                                key
+                            )
                 flow.emit(
                     value = dataMap,
                 )
             }
         }
-        return flow.map {
-            it[key] as? T
+        return flow.map { map ->
+            map[dataKey]?.second as? T
         }
     }
 

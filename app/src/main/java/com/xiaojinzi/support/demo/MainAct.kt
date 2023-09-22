@@ -38,8 +38,10 @@ class MainAct : BaseAct<MainViewModel>() {
             Button(onClick = {
                 job?.cancel()
                 job = MemoryCache
-                    .subscribe<Long>(
-                        key = "test",
+                    .subscribe<String, CacheUserKey>(
+                        key = CacheUserKey(
+                            url = "123",
+                        ),
                     )
                     .onEach {
                         LogSupport.d(
