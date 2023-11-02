@@ -22,6 +22,11 @@ annotation class Model
 typealias ModelForNetwork = Model
 
 /**
+ * 表示和 Json 之间序列化的模型
+ */
+typealias ModelForJson = Model
+
+/**
  * 用于逻辑处理
  */
 typealias ModelDto = Model
