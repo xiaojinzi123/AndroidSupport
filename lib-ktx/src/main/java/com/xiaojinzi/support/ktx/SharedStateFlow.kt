@@ -1,14 +1,21 @@
 package com.xiaojinzi.support.ktx
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.io.File
 
 /**
  * 基于 [SharedFlow] 自己实现的 [StateFlow]
@@ -248,4 +255,59 @@ fun MutableSharedStateFlow<String>.tryEmpty() {
 
 suspend fun MutableSharedStateFlow<String>.emptyBySuspend() {
     this.emit(value = "")
+}
+
+inline fun <reified T> MutableSharedStateFlow<T>.filePersistence(
+    scope: CoroutineScope = AppScope,
+    allowStateInitialized: Boolean = false,
+    file: File,
+    def: T,
+): MutableSharedStateFlow<T> {
+    val targetObservable = this
+    if (!allowStateInitialized && targetObservable.isInit) {
+        notSupportError()
+    }
+    scope.launch {
+        val targetValue: T = kotlin.runCatching {
+            file.readText().toT<T>()
+        }.getOrNull() ?: def
+        targetObservable.emit(value = targetValue)
+        targetObservable
+            .onEach {
+                file.writeText(
+                    text = it.toString()
+                )
+            }
+            .collect()
+    }
+    return targetObservable
+}
+
+inline fun <reified T> MutableSharedStateFlow<List<T>>.filePersistence(
+    scope: CoroutineScope = AppScope,
+    allowStateInitialized: Boolean = false,
+    file: File,
+    def: List<T> = emptyList(),
+): MutableSharedStateFlow<List<T>> {
+    val targetObservable = this
+    if (!allowStateInitialized && targetObservable.isInit) {
+        notSupportError()
+    }
+    scope.launch(context = Dispatchers.IO) {
+        val targetValue: List<T>? = kotlin.runCatching {
+            Gson().fromJson<List<T>>(file.readText(), object : TypeToken<List<T>>() {}.type)
+        }.getOrNull()
+        targetObservable.emit(value = targetValue ?: def)
+        targetObservable
+            .drop(
+                count = if (targetValue == null) 0 else 1
+            )
+            .onEach { list ->
+                file.writeText(
+                    text = list.toJson(),
+                )
+            }
+            .collect()
+    }
+    return targetObservable
 }

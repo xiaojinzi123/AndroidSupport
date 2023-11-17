@@ -41,3 +41,18 @@ val String.extension: String
             this.substring(index + 1)
         }
     }
+
+/**
+ * String 的扩展, 根据泛型的类型, 将 String 解析为对应的类型
+ */
+inline fun <reified T> String.toT(): T? {
+    return when (T::class) {
+        String::class -> this
+        Int::class -> this.toIntOrNull()
+        Long::class -> this.toLongOrNull()
+        Float::class -> this.toFloatOrNull()
+        Double::class -> this.toDoubleOrNull()
+        Boolean::class -> this.toBoolean()
+        else -> null
+    } as T?
+}

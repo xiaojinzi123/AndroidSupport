@@ -13,11 +13,11 @@ import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.support.architecture.mvvm1.BaseAct
 import com.xiaojinzi.support.init.UnCheckInit
 import com.xiaojinzi.support.ktx.ActivityFlag
-import com.xiaojinzi.support.ktx.LogSupport
-import com.xiaojinzi.support.ktx.MemoryCache
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import com.xiaojinzi.support.ktx.MutableSharedStateFlow
+import com.xiaojinzi.support.ktx.app
+import com.xiaojinzi.support.ktx.filePersistence
+import com.xiaojinzi.support.ktx.times
+import java.io.File
 
 @ActivityFlag(
     value = ["test", "test1"],
@@ -25,7 +25,19 @@ import kotlinx.coroutines.flow.onEach
 @UnCheckInit
 class MainAct : BaseAct<MainViewModel>() {
 
-    private var job: Job? = null
+    /*private val ttt = MutableSharedStateFlow<List<Int>>()
+        .filePersistence(
+            scope = lifecycleScope,
+            file = File(app.cacheDir, "xxx.txt"),
+            def = listOf(1, 2, 3),
+        )*/
+
+    private val ttt = MutableSharedStateFlow<List<String>>()
+        .filePersistence(
+            scope = lifecycleScope,
+            file = File(app.cacheDir, "xxx.txt"),
+            def = listOf(1, 2, 3).map { it.toString() },
+        )
 
     override fun getViewModelClass(): Class<MainViewModel> {
         return MainViewModel::class.java
@@ -36,20 +48,9 @@ class MainAct : BaseAct<MainViewModel>() {
 
         setContent {
             Button(onClick = {
-                job?.cancel()
-                job = MemoryCache
-                    .subscribe<String, CacheUserKey>(
-                        key = CacheUserKey(
-                            url = "123",
-                        ),
-                    )
-                    .onEach {
-                        LogSupport.d(
-                            tag = "------",
-                            content = "value = $it"
-                        )
-                    }
-                    .launchIn(scope = lifecycleScope)
+                ttt.tryEmit(
+                    value = ttt.value.times(2)
+                )
             }) {
                 Text(
                     text = "点击",
