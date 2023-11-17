@@ -14,6 +14,7 @@ package com.xiaojinzi.support.annotation
     AnnotationTarget.CLASS,
     AnnotationTarget.TYPE,
 )
+@Repeatable
 annotation class Model
 
 /**
