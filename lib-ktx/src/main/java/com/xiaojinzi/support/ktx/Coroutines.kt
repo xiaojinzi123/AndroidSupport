@@ -1,5 +1,6 @@
 package com.xiaojinzi.support.ktx
 
+import androidx.annotation.CheckResult
 import com.xiaojinzi.support.init.AppInstance
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.CancellationException
@@ -22,6 +23,7 @@ interface SuspendAction0 {
 
 }
 
+@CheckResult
 fun suspendAction0(action: suspend () -> Unit): SuspendAction0 {
     return object : SuspendAction0 {
         override suspend fun invoke() {
@@ -30,6 +32,7 @@ fun suspendAction0(action: suspend () -> Unit): SuspendAction0 {
     }
 }
 
+@CheckResult
 fun <R> suspendFunction0(callable: suspend () -> R): SuspendFunction0<R> {
     return object : SuspendFunction0<R> {
         override suspend fun invoke(): R {
