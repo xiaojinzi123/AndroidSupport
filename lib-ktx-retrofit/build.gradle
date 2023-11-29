@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
 
 apply from: "../common_lib.gradle"
 
@@ -20,3 +21,5 @@ dependencies {
     api libs.retrofit
 
 }
+
+apply from: "../common_publish.gradle"

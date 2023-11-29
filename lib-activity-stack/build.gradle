@@ -1,16 +1,19 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
 
 apply from: "../common_lib.gradle"
-
-group = 'com.xiaojinzi.support'
-archivesBaseName = "activitystack"
 
 android {
     namespace 'com.xiaojinzi.support.activitystack'
 }
 
+group = 'com.xiaojinzi.support'
+archivesBaseName = "activitystack"
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api project(':lib-ktx')
 }
+
+apply from: "../common_publish.gradle"

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
+apply plugin: 'maven-publish'
 
 apply from: "../common_lib.gradle"
 
@@ -10,3 +11,5 @@ android {
 
 group = 'com.xiaojinzi.support'
 archivesBaseName = "bean"
+
+apply from: "../common_publish.gradle"

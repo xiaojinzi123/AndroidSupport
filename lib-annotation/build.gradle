@@ -10,3 +10,5 @@ android {
 
 group = 'com.xiaojinzi.support'
 archivesBaseName = "annotation"
+
+apply from: "../common_publish.gradle"
