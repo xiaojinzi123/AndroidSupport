@@ -22,6 +22,8 @@ dependencies {
 
     api project(':lib-ktx')
 
+    api platform(libs.compose_bom)
+
     api libs.compose_ui_tooling
     api libs.compose_ui_tooling_preview
     api libs.compose_viewmodel

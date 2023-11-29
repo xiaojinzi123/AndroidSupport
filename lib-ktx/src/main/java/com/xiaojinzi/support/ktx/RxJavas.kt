@@ -82,7 +82,9 @@ fun <T : Any> Maybe<T>.subscribeIgnoreError(
 ): Disposable = subscribe(onSuccess, onError)
 
 /*An Subject 订阅 target Subject*/
-fun <T> Subject<T>.toSubscribe(target: Observable<T>): Disposable = target.subscribe { this.onNext(it) }
+fun <T: Any> Subject<T>.toSubscribe(target: Observable<T>): Disposable = target.subscribe {
+  this.onNext(it)
+}
 
 //为了让 RxJava 的订阅返回的 Disposable 不要检查返回值, 接触一片黄色的警告
 private fun ignoreCheck() {}

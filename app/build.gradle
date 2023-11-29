@@ -67,6 +67,7 @@ dependencies {
     implementation libs.android_core_ktx
     implementation libs.fragment_ktx
     implementation libs.kotlinx_coroutines_rx
+
     // 组件化的库
     implementation libs.component_impl
     ksp libs.component_compiler
