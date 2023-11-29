@@ -6,13 +6,13 @@ android {
         targetSdkVersion versions.targetSdkVersion
     }
 
-    java {
+    /*java {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
         toolchain {
             languageVersion = JavaLanguageVersion.of(JavaVersion.VERSION_17.toString())
         }
-    }
+    }*/
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
