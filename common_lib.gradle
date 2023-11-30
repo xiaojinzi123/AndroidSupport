@@ -54,3 +54,9 @@ task androidSourcesJar(type: Jar) {
 artifacts {
     archives androidSourcesJar
 }
+
+tasks.configureEach {
+    if (it.name.equals("generateMetadataFileForReleasePublication")) {
+        it.dependsOn("androidSourcesJar")
+    }
+}
