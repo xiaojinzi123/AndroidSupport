@@ -1,10 +1,9 @@
 
-
-/*tasks.configureEach {
-    if (it.name.equals("generateMetadataFileForReleasePublication")) {
+tasks.configureEach {
+    if (it.name == "generateMetadataFileForReleasePublication") {
         it.dependsOn("androidSourcesJar")
     }
-}*/
+}
 
 afterEvaluate {
     publishing {
