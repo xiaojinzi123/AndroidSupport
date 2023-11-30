@@ -9,7 +9,7 @@ android {
     namespace 'com.xiaojinzi.support.bean'
 }
 
-group = 'com.xiaojinzi.support'
-archivesBaseName = "bean"
+/*group = 'com.xiaojinzi.support'
+archivesBaseName = "bean"*/
 
 apply from: "../common_publish.gradle"

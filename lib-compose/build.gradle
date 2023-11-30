@@ -4,8 +4,8 @@ apply plugin: 'maven-publish'
 
 apply from: "../common_lib.gradle"
 
-group = 'com.xiaojinzi.support'
-archivesBaseName = "compose"
+/*group = 'com.xiaojinzi.support'
+archivesBaseName = "compose"*/
 
 android {
     buildFeatures {

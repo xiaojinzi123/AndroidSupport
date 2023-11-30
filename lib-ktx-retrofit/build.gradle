@@ -4,8 +4,8 @@ apply plugin: 'maven-publish'
 
 apply from: "../common_lib.gradle"
 
-group = 'com.xiaojinzi.support'
-archivesBaseName = "ktx-retrofit"
+/*group = 'com.xiaojinzi.support'
+archivesBaseName = "ktx-retrofit"*/
 
 android {
     namespace "com.xiaojinzi.support.ktx.retrofit"

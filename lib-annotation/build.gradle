@@ -8,7 +8,7 @@ android {
     namespace 'com.xiaojinzi.support.annotation'
 }
 
-group = 'com.xiaojinzi.support'
-archivesBaseName = "annotation"
+/*group = 'com.xiaojinzi.support'
+archivesBaseName = "annotation"*/
 
 apply from: "../common_publish.gradle"

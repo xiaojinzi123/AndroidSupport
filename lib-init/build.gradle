@@ -8,7 +8,7 @@ android {
     namespace 'com.xiaojinzi.support.init'
 }
 
-group = 'com.xiaojinzi.support'
-archivesBaseName = "init"
+/*group = 'com.xiaojinzi.support'
+archivesBaseName = "init"*/
 
 apply from: "../common_publish.gradle"

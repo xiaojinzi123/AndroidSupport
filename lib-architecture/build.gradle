@@ -8,8 +8,8 @@ android {
     namespace 'com.xiaojinzi.support.architecture'
 }
 
-group = 'com.xiaojinzi.support'
-archivesBaseName = "architecture"
+/*group = 'com.xiaojinzi.support'
+archivesBaseName = "architecture"*/
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])

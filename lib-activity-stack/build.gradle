@@ -8,8 +8,8 @@ android {
     namespace 'com.xiaojinzi.support.activitystack'
 }
 
-group = 'com.xiaojinzi.support'
-archivesBaseName = "activitystack"
+/*group = 'com.xiaojinzi.support'
+archivesBaseName = "activitystack"*/
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])

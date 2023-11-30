@@ -8,7 +8,7 @@ android {
     namespace 'com.xiaojinzi.support.logger'
 }
 
-group = 'com.xiaojinzi.support'
-archivesBaseName = "logger"
+/*group = 'com.xiaojinzi.support'
+archivesBaseName = "logger"*/
 
 apply from: "../common_publish.gradle"
