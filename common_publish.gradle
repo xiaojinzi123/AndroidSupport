@@ -1,12 +1,11 @@
 
 
-tasks.configureEach {
+/*tasks.configureEach {
     if (it.name.equals("generateMetadataFileForReleasePublication")) {
         it.dependsOn("androidSourcesJar")
     }
-}
+}*/
 
-/*
 afterEvaluate {
     publishing {
         publications {
@@ -22,4 +21,4 @@ afterEvaluate {
             }
         }
     }
-}*/
+}

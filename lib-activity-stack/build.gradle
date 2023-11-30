@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-// apply plugin: 'maven-publish'
+apply plugin: 'maven-publish'
 
 apply from: "../common_lib.gradle"
 
@@ -16,4 +16,4 @@ dependencies {
     api project(':lib-ktx')
 }
 
-// apply from: "../common_publish.gradle"
+apply from: "../common_publish.gradle"
