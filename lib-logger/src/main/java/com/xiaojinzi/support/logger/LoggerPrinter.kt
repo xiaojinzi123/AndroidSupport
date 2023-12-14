@@ -1,23 +1,10 @@
 package com.xiaojinzi.support.logger
 
-import com.xiaojinzi.support.logger.LogAdapter
-import com.xiaojinzi.support.logger.FormatStrategy
-import com.xiaojinzi.support.logger.PrettyFormatStrategy
-import com.xiaojinzi.support.logger.LogStrategy
-import com.xiaojinzi.support.logger.CsvFormatStrategy
-import android.os.Environment
-import android.os.HandlerThread
-import com.xiaojinzi.support.logger.DiskLogStrategy.WriteHandler
-import com.xiaojinzi.support.logger.DiskLogStrategy
-import android.os.Looper
-import com.xiaojinzi.support.logger.LogcatLogStrategy
-import com.xiaojinzi.support.logger.LoggerPrinter
-import org.json.JSONObject
 import org.json.JSONArray
 import org.json.JSONException
+import org.json.JSONObject
 import java.io.StringReader
 import java.io.StringWriter
-import java.util.ArrayList
 import javax.xml.transform.OutputKeys
 import javax.xml.transform.Source
 import javax.xml.transform.TransformerException
@@ -26,10 +13,12 @@ import javax.xml.transform.stream.StreamResult
 import javax.xml.transform.stream.StreamSource
 
 internal class LoggerPrinter : Printer {
+
     /**
      * Provides one-time used tag for the log message
      */
     private val localTag = ThreadLocal<String>()
+
     private val logAdapters: MutableList<LogAdapter> = ArrayList()
     override fun t(tag: String?): Printer {
         if (tag != null) {

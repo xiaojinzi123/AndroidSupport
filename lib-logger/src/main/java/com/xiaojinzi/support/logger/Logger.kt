@@ -1,21 +1,5 @@
 package com.xiaojinzi.support.logger
 
-import com.xiaojinzi.support.logger.LogAdapter
-import com.xiaojinzi.support.logger.FormatStrategy
-import com.xiaojinzi.support.logger.PrettyFormatStrategy
-import com.xiaojinzi.support.logger.LogStrategy
-import com.xiaojinzi.support.logger.CsvFormatStrategy
-import android.os.Environment
-import android.os.HandlerThread
-import com.xiaojinzi.support.logger.DiskLogStrategy.WriteHandler
-import com.xiaojinzi.support.logger.DiskLogStrategy
-import android.os.Looper
-import com.xiaojinzi.support.logger.LogcatLogStrategy
-import com.xiaojinzi.support.logger.LoggerPrinter
-import org.json.JSONObject
-import org.json.JSONArray
-import org.json.JSONException
-
 /**
  * <pre>
  * ┌────────────────────────────────────────────
@@ -78,19 +62,28 @@ import org.json.JSONException
  * @see LogStrategy
  */
 object Logger {
+
     const val VERBOSE = 2
     const val DEBUG = 3
     const val INFO = 4
     const val WARN = 5
     const val ERROR = 6
     const val ASSERT = 7
+
     private var printer: Printer = LoggerPrinter()
+
+    private var logEnable: Boolean = false
+
+    fun setLogAble(enable: Boolean) {
+        logEnable = enable
+    }
+
     fun printer(printer: Printer) {
-        Logger.printer = Utils.checkNotNull(printer)
+        Logger.printer = printer
     }
 
     fun addLogAdapter(adapter: LogAdapter) {
-        printer.addAdapter(Utils.checkNotNull(adapter))
+        printer.addAdapter(adapter)
     }
 
     fun clearLogAdapters() {
@@ -102,43 +95,59 @@ object Logger {
      * set during initialization. After this invocation, the general tag that's been set will
      * be used for the subsequent log calls
      */
-    fun t(tag: String?): Printer? {
-        return printer.t(tag)
+    fun t(tag: String?): Printer {
+        return printer.t(tag = tag)
     }
 
     /**
      * General log function that accepts all configurations as parameter
      */
     fun log(priority: Int, tag: String?, message: String?, throwable: Throwable?) {
-        printer.log(priority, tag, message, throwable)
+        if (logEnable) {
+            printer.log(priority, tag, message, throwable)
+        }
     }
 
     fun d(message: String, vararg args: Any?) {
-        printer.d(message, *args)
+        if (logEnable) {
+            printer.d(message, *args)
+        }
     }
 
     fun d(`object`: Any?) {
-        printer.d(`object`)
+        if (logEnable) {
+            printer.d(`object`)
+        }
     }
 
     fun e(message: String, vararg args: Any?) {
-        printer.e(null, message, *args)
+        if (logEnable) {
+            printer.e(null, message, *args)
+        }
     }
 
     fun e(throwable: Throwable?, message: String, vararg args: Any?) {
-        printer.e(throwable, message, *args)
+        if (logEnable) {
+            printer.e(throwable, message, *args)
+        }
     }
 
     fun i(message: String, vararg args: Any?) {
-        printer.i(message, *args)
+        if (logEnable) {
+            printer.i(message, *args)
+        }
     }
 
     fun v(message: String, vararg args: Any?) {
-        printer.v(message, *args)
+        if (logEnable) {
+            printer.v(message, *args)
+        }
     }
 
     fun w(message: String, vararg args: Any?) {
-        printer.w(message, *args)
+        if (logEnable) {
+            printer.w(message, *args)
+        }
     }
 
     /**
@@ -146,20 +155,27 @@ object Logger {
      * ie: Unexpected errors etc
      */
     fun wtf(message: String, vararg args: Any?) {
-        printer.wtf(message, *args)
+        if (logEnable) {
+            printer.wtf(message, *args)
+        }
     }
 
     /**
      * Formats the given json content and print it
      */
     fun json(json: String?) {
-        printer.json(json)
+        if (logEnable) {
+            printer.json(json)
+        }
     }
 
     /**
      * Formats the given xml content and print it
      */
     fun xml(xml: String?) {
-        printer.xml(xml)
+        if (logEnable) {
+            printer.xml(xml)
+        }
     }
+
 }
