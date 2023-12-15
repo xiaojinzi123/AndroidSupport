@@ -36,7 +36,7 @@ internal class CacheFlowImpl<T>(
 
 }
 
-@Suppress("FunctionName", "UNCHECKED_CAST")
+@Suppress("FunctionName")
 @HotObservable(HotObservable.Pattern.PUBLISH, isShared = true)
 fun <T> CacheSharedFlow(
     valueCheck: (T) -> Unit = {},
@@ -48,7 +48,7 @@ fun <T> CacheSharedFlow(
     )
 }
 
-@Suppress("FunctionName", "UNCHECKED_CAST")
+@Suppress("FunctionName")
 @HotObservable(HotObservable.Pattern.BEHAVIOR, isShared = true)
 fun <T> CacheSharedStateFlow(
     valueCheck: (T) -> Unit = {},
@@ -60,7 +60,7 @@ fun <T> CacheSharedStateFlow(
     )
 }
 
-@Suppress("FunctionName", "UNCHECKED_CAST")
+@Suppress("FunctionName")
 @HotObservable(HotObservable.Pattern.BEHAVIOR, isShared = true)
 fun <T> CacheSharedStateFlow(
     valueCheck: (T) -> Unit = {},
