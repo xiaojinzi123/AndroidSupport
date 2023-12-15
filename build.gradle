@@ -8,11 +8,11 @@ buildscript {
     apply from: "dependencies.gradle"
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.4'
+        classpath 'com.android.tools.build:gradle:8.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // 组件化 Component 的 Plugin
         classpath libs.component_plugin
@@ -23,6 +23,6 @@ plugins {
     id 'com.google.devtools.ksp' version "$kotlin_version-1.0.13" apply false
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
