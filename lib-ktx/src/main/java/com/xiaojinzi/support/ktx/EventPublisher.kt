@@ -19,21 +19,11 @@ object EventPublisher {
     val eventObservable: NormalMutableSharedFlow<Any> = NormalMutableSharedFlow()
 
     /**
-     * 发布事件
+     * 发布事件,
+     * 也可以自己使用 eventObservable 发布事件, 调用 add 或者 tryEmit 都可以
      */
     fun publish(event: Any) {
         eventObservable.add(value = event)
-    }
-
-    /**
-     * 在某一个作用域内订阅某一个事件
-     * 如果这个 Api 不够用, 请自己拿 [eventObservable] 去订阅
-     */
-    inline fun <reified T> CoroutineScope.subscribe(key: T, noinline onNext: suspend (T) -> Unit) {
-        eventObservable
-            .filterIsInstance<T>()
-            .onEach(action = onNext)
-            .launchIn(scope = this)
     }
 
 }
