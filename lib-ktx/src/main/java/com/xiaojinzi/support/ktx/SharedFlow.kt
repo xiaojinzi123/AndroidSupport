@@ -13,7 +13,7 @@ private const val TAG = "SharedFlow"
 /**
  * 一个普通的 [MutableSharedFlow] 接口
  */
-interface NormalMutableSharedFlow<T>: MutableSharedFlow<T> {
+interface NormalMutableSharedFlow<T> : MutableSharedFlow<T> {
 
     /**
      * 因为 tryEmit 方法在 NormalMutableSharedFlow 中是必然成功的.
@@ -31,7 +31,7 @@ interface NormalMutableSharedFlow<T>: MutableSharedFlow<T> {
 
 private class NormalMutableSharedFlowImpl<T>(
     private val targetFlow: MutableSharedFlow<T>,
-): NormalMutableSharedFlow<T>, MutableSharedFlow<T> by targetFlow
+) : NormalMutableSharedFlow<T>, MutableSharedFlow<T> by targetFlow
 
 
 /**
@@ -39,10 +39,11 @@ private class NormalMutableSharedFlowImpl<T>(
  * 不能一直一直的处于增加的状态, 不然最终内存会崩, 只是一个缓存的作用
  */
 fun <T> NormalMutableSharedFlow(
+    replay: Int = 0,
     extraBufferCapacity: Int = Int.MAX_VALUE,
 ): NormalMutableSharedFlow<T> = NormalMutableSharedFlowImpl(
     targetFlow = MutableSharedFlow(
-        replay = 0,
+        replay = replay,
         extraBufferCapacity = extraBufferCapacity,
         onBufferOverflow = BufferOverflow.SUSPEND,
     )

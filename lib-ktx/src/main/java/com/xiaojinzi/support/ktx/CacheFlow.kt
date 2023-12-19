@@ -2,14 +2,10 @@ package com.xiaojinzi.support.ktx
 
 import com.xiaojinzi.support.annotation.HotObservable
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import java.util.concurrent.LinkedBlockingQueue
 
 interface CacheFlow<T> : Flow<T> {
 
@@ -20,18 +16,28 @@ interface CacheFlow<T> : Flow<T> {
 
 }
 
+interface CacheStateFlow<T> : CacheFlow<T>
+
 internal class CacheFlowImpl<T>(
     val valueCheck: (T) -> Unit = {},
-    private val sharedFlow: MutableSharedFlow<T>,
+    private val sharedFlow: NormalMutableSharedFlow<T>,
 ) : MutableSharedFlow<T> by sharedFlow, CacheFlow<T> {
 
     override fun add(value: T) {
         valueCheck(value)
-        // 为什么这里可以使用 try 不会有阻塞的问题, 因为这里的 sharedFlow 是一个无限大的容量
-        // 所以这里就不用做缓冲的处理了
-        if (!sharedFlow.tryEmit(value = value)) {
-            notSupportError()
-        }
+        sharedFlow.add(value = value)
+    }
+
+}
+
+internal class CacheStateFlowImpl<T>(
+    val valueCheck: (T) -> Unit = {},
+    private val sharedFlow: NormalMutableSharedFlow<T>,
+) : MutableSharedFlow<T> by sharedFlow, CacheStateFlow<T> {
+
+    override fun add(value: T) {
+        valueCheck(value)
+        sharedFlow.add(value = value)
     }
 
 }
@@ -41,10 +47,9 @@ internal class CacheFlowImpl<T>(
 fun <T> CacheSharedFlow(
     valueCheck: (T) -> Unit = {},
 ): CacheFlow<T> {
-    val sharedFlow = NormalMutableSharedFlow<T>()
     return CacheFlowImpl(
         valueCheck = valueCheck,
-        sharedFlow = sharedFlow,
+        sharedFlow = NormalMutableSharedFlow(),
     )
 }
 
@@ -52,11 +57,12 @@ fun <T> CacheSharedFlow(
 @HotObservable(HotObservable.Pattern.BEHAVIOR, isShared = true)
 fun <T> CacheSharedStateFlow(
     valueCheck: (T) -> Unit = {},
-): CacheFlow<T> {
-    val sharedStateFlow = MutableSharedStateFlow<T>()
-    return CacheFlowImpl(
+): CacheStateFlow<T> {
+    return CacheStateFlowImpl(
         valueCheck = valueCheck,
-        sharedFlow = sharedStateFlow,
+        sharedFlow = NormalMutableSharedFlow(
+            replay = 1,
+        ),
     )
 }
 
@@ -65,11 +71,16 @@ fun <T> CacheSharedStateFlow(
 fun <T> CacheSharedStateFlow(
     valueCheck: (T) -> Unit = {},
     initValue: T,
-): CacheFlow<T> {
-    val sharedStateFlow = MutableSharedStateFlow(initValue = initValue)
-    return CacheFlowImpl(
+): CacheStateFlow<T> {
+    return CacheStateFlowImpl(
         valueCheck = valueCheck,
-        sharedFlow = sharedStateFlow,
+        sharedFlow = NormalMutableSharedFlow<T>(
+            replay = 1,
+        ).apply {
+            this.add(
+                value = initValue,
+            )
+        },
     )
 }
 
