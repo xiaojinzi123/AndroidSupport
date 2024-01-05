@@ -42,6 +42,12 @@ val String.extension: String
         }
     }
 
+fun String?.ifNotNullOrEmpty(block: (String) -> Unit) {
+    if (!this.isNullOrEmpty()) {
+        block(this)
+    }
+}
+
 /**
  * String 的扩展, 根据泛型的类型, 将 String 解析为对应的类型
  */
