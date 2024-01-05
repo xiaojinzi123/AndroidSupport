@@ -1,6 +1,9 @@
 package com.xiaojinzi.support.ktx
 
 import java.security.MessageDigest
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 /**
  * MD5加密，失败返回null
@@ -42,7 +45,7 @@ val String.extension: String
         }
     }
 
-fun String?.ifNotNullOrEmpty(block: (String) -> Unit) {
+inline fun String?.ifNotNullOrEmpty(block: (String) -> Unit) {
     if (!this.isNullOrEmpty()) {
         block(this)
     }
