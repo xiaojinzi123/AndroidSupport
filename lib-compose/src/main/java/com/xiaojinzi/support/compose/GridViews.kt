@@ -35,13 +35,17 @@ fun <T> GridView(
     columnNumber: Int,
     headerContent: @Composable (index: Int) -> Unit = {},
     afterRowContent: @Composable (index: Int) -> Unit = {},
+    // 最前面一个 item 的
+    firstItemContent: (@Composable () -> Unit)? = null,
     // 最后一个 Item 的
     lastItemContent: (@Composable () -> Unit)? = null,
     contentAlignment: Alignment = Alignment.Center,
     contentCombineItem: @Composable (BoxScope.(index: Int, item: T) -> Unit)? = null,
     contentItem: @Composable (BoxScope.(item: T) -> Unit)? = null,
 ) {
-    val realItemSize = items.size + (if (lastItemContent == null) 0 else 1)
+    val indexOffset = if (firstItemContent == null) 0 else -1
+    val realItemSize =
+        items.size + (if (firstItemContent == null) 0 else 1) + (if (lastItemContent == null) 0 else 1)
     if (realItemSize == 0) {
         return
     }
@@ -82,7 +86,11 @@ fun <T> GridView(
             // 真正的内容
             for (rowIndex in 0 until rows) {
                 if (rowIndex > 0) {
-                    Spacer(modifier = Modifier.height(height = verticalSpace).nothing())
+                    Spacer(
+                        modifier = Modifier
+                            .height(height = verticalSpace)
+                            .nothing()
+                    )
                 }
                 Row(
                     modifier = Modifier
@@ -93,11 +101,26 @@ fun <T> GridView(
                     // horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     for (columnIndex in 0 until columnNumber) {
-                        val itemIndex = rowIndex * columnNumber + columnIndex
+                        val itemIndex = rowIndex * columnNumber + columnIndex + indexOffset
                         if (columnIndex > 0) {
-                            Spacer(modifier = Modifier.width(width = horizontalSpace).nothing())
+                            Spacer(
+                                modifier = Modifier
+                                    .width(width = horizontalSpace)
+                                    .nothing()
+                            )
                         }
-                        if (itemIndex < items.size) {
+                        if (itemIndex == -1 && firstItemContent != null) {
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f, fill = true)
+                                    .fillMaxHeight()
+                                    .nothing(),
+                                contentAlignment = contentAlignment,
+                                propagateMinConstraints = false,
+                            ) {
+                                firstItemContent()
+                            }
+                        } else if (itemIndex < items.size) {
                             Box(
                                 modifier = Modifier
                                     .weight(1f, fill = true)
@@ -166,13 +189,20 @@ private fun GridViewPreview() {
                     .height(height = 20.dp)
             )
         },
+        firstItemContent = {
+            Text(
+                text = "我是最前面一个 Item",
+                style = MaterialTheme.typography.body2,
+                textAlign = TextAlign.Center,
+            )
+        },
         lastItemContent = {
             Text(
                 text = "我是最后一个 Item",
                 style = MaterialTheme.typography.body2,
                 textAlign = TextAlign.Center,
             )
-        }
+        },
     ) {
         Text(
             modifier = Modifier
