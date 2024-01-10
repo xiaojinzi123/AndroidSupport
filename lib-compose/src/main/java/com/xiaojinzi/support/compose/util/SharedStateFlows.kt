@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import com.xiaojinzi.support.ktx.SharedStateFlow
 import com.xiaojinzi.support.ktx.notSupportError
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -26,6 +27,7 @@ fun <T> Flow<T>.collectStateFlowAsState(
     initial = when (this) {
         is StateFlow -> this.value
         is SharedStateFlow -> this.value
+        is SharedFlow -> this.replayCache.firstOrNull() ?: notSupportError()
         else -> notSupportError()
     },
     context = context,
