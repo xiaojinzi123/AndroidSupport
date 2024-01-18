@@ -5,9 +5,13 @@ import com.xiaojinzi.support.init.AppInstance
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.Continuation
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -50,6 +54,18 @@ val ErrorIgnoreContext: CoroutineExceptionHandler
             throwable.printStackTrace()
         }
     }
+
+fun CoroutineScope.launchIgnoreError(
+    context: CoroutineContext = ErrorIgnoreContext,
+    start: CoroutineStart = CoroutineStart.DEFAULT,
+    block: suspend CoroutineScope.() -> Unit
+): Job {
+    return this.launch(
+        context = context,
+        start = start,
+        block = block,
+    )
+}
 
 suspend fun SuspendAction0.await() {
     this.invoke()
