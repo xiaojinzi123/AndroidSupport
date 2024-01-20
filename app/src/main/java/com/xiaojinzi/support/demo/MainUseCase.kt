@@ -1,17 +1,17 @@
 package com.xiaojinzi.support.demo
 
-import com.xiaojinzi.support.ktx.InitOnceData
-import com.xiaojinzi.support.ktx.MutableInitOnceData
 import com.xiaojinzi.support.architecture.mvvm1.BaseUseCase
 import com.xiaojinzi.support.architecture.mvvm1.BaseUseCaseImpl
 import com.xiaojinzi.support.architecture.mvvm1.CommonUseCase
 import com.xiaojinzi.support.architecture.mvvm1.CommonUseCaseImpl
-import com.xiaojinzi.support.ktx.initOnceData
 import com.xiaojinzi.support.ktx.ErrorIgnoreContext
+import com.xiaojinzi.support.ktx.InitOnceData
+import com.xiaojinzi.support.ktx.MutableInitOnceData
+import com.xiaojinzi.support.ktx.initOnceData
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-interface MainUseCase: BaseUseCase, CommonUseCase {
+interface MainUseCase : BaseUseCase, CommonUseCase {
 
     val testInitData1: InitOnceData<String?>
 
@@ -21,7 +21,7 @@ interface MainUseCase: BaseUseCase, CommonUseCase {
 
 class MainUseCaseImpl(
     private val commonUseCase: CommonUseCase = CommonUseCaseImpl(),
-): BaseUseCaseImpl(),
+) : BaseUseCaseImpl(),
     CommonUseCase by commonUseCase,
     MainUseCase {
 
