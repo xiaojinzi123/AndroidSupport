@@ -7,6 +7,8 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.provider.Settings
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
 /**
  * 是否在后台运行
@@ -20,6 +22,16 @@ val isRunningInBackground: Boolean
                 it.processName == packageName && it.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
             }
     }
+
+/**
+ * 是否在后台运行的 StateFlow
+ */
+val isRunningInBackgroundStateOb = tickerFlow(period = 1000)
+    .map { isRunningInBackground }
+    .distinctUntilChanged()
+    .sharedStateIn(
+        scope = AppScope,
+    )
 
 
 /**
