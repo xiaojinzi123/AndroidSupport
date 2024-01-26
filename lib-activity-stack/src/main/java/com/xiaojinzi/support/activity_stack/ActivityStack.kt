@@ -7,16 +7,17 @@ import android.os.Bundle
 import android.util.Log
 import androidx.annotation.Keep
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.coroutineScope
 import com.xiaojinzi.support.ktx.CacheSharedFlow
+import com.xiaojinzi.support.ktx.resumeIgnoreException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.Stack
 
 @Retention(
@@ -403,19 +404,4 @@ object ActivityStack {
         }
     }
 
-}
-
-fun LifecycleCoroutineScope.launchWhenEvent(
-    event: Lifecycle.Event,
-    block: suspend CoroutineScope.() -> Unit,
-): Job {
-    return this.launch {
-        ActivityStack
-            .lifecycleEvent
-            .filter {
-                it.event == event && (it.activity as? LifecycleOwner)?.lifecycleScope == this@launchWhenEvent
-            }
-            .first()
-        block()
-    }
 }

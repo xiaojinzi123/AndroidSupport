@@ -1,6 +1,5 @@
 package com.xiaojinzi.support.demo
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -18,11 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import com.xiaojinzi.support.activity_stack.launchWhenEvent
 import com.xiaojinzi.support.architecture.mvvm1.BaseAct
 import com.xiaojinzi.support.init.UnCheckInit
 import com.xiaojinzi.support.ktx.ActivityFlag
 import com.xiaojinzi.support.ktx.CacheSharedStateFlow
+import com.xiaojinzi.support.ktx.launchWhenEvent
 import com.xiaojinzi.support.ktx.nothing
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -116,10 +115,10 @@ class MainAct : BaseAct<MainViewModel>() {
             }
         }
 
-        lifecycleScope.launchWhenEvent(
-            event = Lifecycle.Event.ON_RESUME,
+        lifecycle.launchWhenEvent(
+            event = Lifecycle.Event.ON_STOP,
         ) {
-            println("xxxxxxx ON_RESUME ${this@MainAct.hashCode()} ${lifecycleScope.hashCode()}")
+            println("xxxxxxx ON_STOP ${this@MainAct.hashCode()} ${lifecycleScope.hashCode()}")
             delay(1000)
         }
 
