@@ -6,9 +6,9 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.Keep
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.support.ktx.CacheSharedFlow
 import kotlinx.coroutines.CoroutineScope
@@ -413,7 +413,7 @@ fun LifecycleCoroutineScope.launchWhenEvent(
         ActivityStack
             .lifecycleEvent
             .filter {
-                it.event == event && (it.activity as? FragmentActivity)?.lifecycleScope == this@launchWhenEvent
+                it.event == event && (it.activity as? LifecycleOwner)?.lifecycleScope == this@launchWhenEvent
             }
             .first()
         block()
