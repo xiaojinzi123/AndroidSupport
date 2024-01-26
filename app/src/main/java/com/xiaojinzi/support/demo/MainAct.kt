@@ -1,5 +1,6 @@
 package com.xiaojinzi.support.demo
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -15,7 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import com.xiaojinzi.support.activity_stack.launchWhenEvent
 import com.xiaojinzi.support.architecture.mvvm1.BaseAct
 import com.xiaojinzi.support.init.UnCheckInit
 import com.xiaojinzi.support.ktx.ActivityFlag
@@ -111,6 +114,13 @@ class MainAct : BaseAct<MainViewModel>() {
                     )
                 }
             }
+        }
+
+        lifecycleScope.launchWhenEvent(
+            event = Lifecycle.Event.ON_RESUME,
+        ) {
+            println("xxxxxxx ON_RESUME ${this@MainAct.hashCode()} ${lifecycleScope.hashCode()}")
+            delay(1000)
         }
 
     }

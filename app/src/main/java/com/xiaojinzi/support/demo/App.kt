@@ -6,6 +6,7 @@ import android.content.Intent
 import com.xiaojinzi.component.Component
 import com.xiaojinzi.component.Config
 import com.xiaojinzi.component.support.ASMUtil
+import com.xiaojinzi.support.activity_stack.ActivityStack
 import com.xiaojinzi.support.architecture.mvvm1.UseCaseCheck
 import com.xiaojinzi.support.init.AppInstance
 import com.xiaojinzi.support.init.CheckInit
@@ -52,6 +53,9 @@ class App : Application() {
         )
 
         registerActivityLifecycleCallbacks(ComponentLifecycleCallback())
+        ActivityStack.init(
+            app = this,
+        )
 
         LogSupport.d(
             tag = "app",

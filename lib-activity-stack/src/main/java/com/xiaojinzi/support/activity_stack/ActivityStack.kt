@@ -6,10 +6,17 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.Keep
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.support.ktx.CacheSharedFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.util.Stack
 
 @Retention(
@@ -216,7 +223,7 @@ object ActivityStack {
     val activityDestroyEvent: Flow<Activity> = _activityDestroyEvent
 
     private val _lifecycleEvent = CacheSharedFlow<ActivityLifecycleEvent>()
-    private val lifecycleEvent: Flow<ActivityLifecycleEvent> = _lifecycleEvent
+    val lifecycleEvent: Flow<ActivityLifecycleEvent> = _lifecycleEvent
 
     /**
      * 启动的时候就是 Empty 的情况不会有事件
@@ -396,4 +403,19 @@ object ActivityStack {
         }
     }
 
+}
+
+fun LifecycleCoroutineScope.launchWhenEvent(
+    event: Lifecycle.Event,
+    block: suspend CoroutineScope.() -> Unit,
+): Job {
+    return this.launch {
+        ActivityStack
+            .lifecycleEvent
+            .filter {
+                it.event == event && (it.activity as? FragmentActivity)?.lifecycleScope == this@launchWhenEvent
+            }
+            .first()
+        block()
+    }
 }
