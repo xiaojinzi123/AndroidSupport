@@ -5,6 +5,8 @@ import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.Keep
+import androidx.lifecycle.Lifecycle
 import com.xiaojinzi.support.ktx.CacheSharedFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
@@ -19,6 +21,12 @@ import java.util.Stack
 )
 annotation class ActivityFlag(
     vararg val value: String,
+)
+
+@Keep
+data class ActivityLifecycleEvent(
+    val activity: Activity,
+    val event: Lifecycle.Event,
 )
 
 interface ActivityStackScope {
@@ -126,22 +134,38 @@ private class ActivityLifecycleCallback : Application.ActivityLifecycleCallbacks
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         ActivityStack.pushActivity(activity)
+        ActivityStack.pushLifecycleEvent(
+            activity = activity,
+            event = Lifecycle.Event.ON_CREATE
+        )
     }
 
     override fun onActivityStarted(activity: Activity) {
-        // ignore
+        ActivityStack.pushLifecycleEvent(
+            activity = activity,
+            event = Lifecycle.Event.ON_START,
+        )
     }
 
     override fun onActivityResumed(activity: Activity) {
-        // ignore
+        ActivityStack.pushLifecycleEvent(
+            activity = activity,
+            event = Lifecycle.Event.ON_RESUME,
+        )
     }
 
     override fun onActivityPaused(activity: Activity) {
-        // ignore
+        ActivityStack.pushLifecycleEvent(
+            activity = activity,
+            event = Lifecycle.Event.ON_PAUSE,
+        )
     }
 
     override fun onActivityStopped(activity: Activity) {
-        // ignore
+        ActivityStack.pushLifecycleEvent(
+            activity = activity,
+            event = Lifecycle.Event.ON_STOP,
+        )
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
@@ -150,6 +174,10 @@ private class ActivityLifecycleCallback : Application.ActivityLifecycleCallbacks
 
     override fun onActivityDestroyed(activity: Activity) {
         ActivityStack.removeActivity(activity)
+        ActivityStack.pushLifecycleEvent(
+            activity = activity,
+            event = Lifecycle.Event.ON_DESTROY,
+        )
     }
 
 }
@@ -187,6 +215,8 @@ object ActivityStack {
     private val _activityDestroyEvent = CacheSharedFlow<Activity>()
     val activityDestroyEvent: Flow<Activity> = _activityDestroyEvent
 
+    private val _lifecycleEvent = CacheSharedFlow<ActivityLifecycleEvent>()
+    private val lifecycleEvent: Flow<ActivityLifecycleEvent> = _lifecycleEvent
 
     /**
      * 启动的时候就是 Empty 的情况不会有事件
@@ -310,9 +340,6 @@ object ActivityStack {
             }
     }
 
-    /**
-     * 进入栈
-     */
     @Synchronized
     internal fun pushActivity(activity: Activity) {
         Log.d(
@@ -327,11 +354,6 @@ object ActivityStack {
         activityStack.add(activity)
     }
 
-    /**
-     * remove the reference of Activity
-     *
-     * @author xiaojinzi
-     */
     @Synchronized
     internal fun removeActivity(activity: Activity) {
         Log.d(
@@ -346,6 +368,19 @@ object ActivityStack {
                 value = Unit
             )
         }
+    }
+
+    @Synchronized
+    internal fun pushLifecycleEvent(
+        activity: Activity,
+        event: Lifecycle.Event,
+    ) {
+        _lifecycleEvent.add(
+            value = ActivityLifecycleEvent(
+                activity = activity,
+                event = event,
+            )
+        )
     }
 
     /**

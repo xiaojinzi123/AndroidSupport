@@ -56,6 +56,7 @@ fun StringItemDto.contentWithContext(context: Context = app): String {
 }
 
 fun @receiver:StringRes Int.toStringItemDto() = StringItemDto(valueRsd = this)
+
 fun String.toStringItemDto() = StringItemDto(value = this)
 
 @Deprecated(
