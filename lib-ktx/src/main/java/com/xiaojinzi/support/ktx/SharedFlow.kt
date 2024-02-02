@@ -2,13 +2,24 @@ package com.xiaojinzi.support.ktx
 
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 private const val TAG = "SharedFlow"
+
+enum class SharedStartMode {
+    Eagerly,
+    Lazily,
+    WhileSubscribed,
+}
 
 /**
  * 一个普通的 [MutableSharedFlow] 接口
@@ -53,27 +64,62 @@ private fun <T> Flow<T>.doSharedIn(
     shareFlow: MutableSharedFlow<T>,
     scope: CoroutineScope,
     enableLog: Boolean = false,
+    sharedStartMode: SharedStartMode = SharedStartMode.Eagerly,
 ) {
     val upstream = this
-    scope.launch {
-        if (enableLog) {
-            Log.d(
-                TAG, "开始订阅上游的流",
-            )
+    var subscribeUpStreamJob: Job? = null
+    val subscribeAction = {
+        subscribeUpStreamJob = scope.launch {
+            if (enableLog) {
+                Log.d(
+                    TAG, "开始订阅上游的流",
+                )
+            }
+            upstream.collect {
+                if (enableLog) {
+                    Log.d(
+                        TAG,
+                        "准备发射到 shareFlow, 订阅者个数为： ${shareFlow.subscriptionCount.value}, 收集到的上游的信号：$it",
+                    )
+                }
+                shareFlow.emit(value = it)
+                if (enableLog) {
+                    Log.d(
+                        TAG, "发射成功, shareFlow 收集到的上游的信号：$it",
+                    )
+                }
+            }
         }
-        upstream.collect {
-            if (enableLog) {
-                Log.d(
-                    TAG,
-                    "准备发射到 shareFlow, 订阅者个数为： ${shareFlow.subscriptionCount.value}, 收集到的上游的信号：$it",
-                )
+    }
+    when (sharedStartMode) {
+        SharedStartMode.Eagerly -> {
+            subscribeAction.invoke()
+        }
+
+        SharedStartMode.Lazily -> {
+            scope.launch {
+                shareFlow
+                    .subscriptionCount
+                    .filter { it > 0 }
+                    .first()
+                subscribeAction.invoke()
             }
-            shareFlow.emit(value = it)
-            if (enableLog) {
-                Log.d(
-                    TAG, "发射成功, shareFlow 收集到的上游的信号：$it",
-                )
-            }
+        }
+
+        SharedStartMode.WhileSubscribed -> {
+            shareFlow
+                .subscriptionCount
+                .onEach { count ->
+                    if (count == 0) {
+                        subscribeUpStreamJob?.cancel()
+                        subscribeUpStreamJob = null
+                    } else {
+                        if (subscribeUpStreamJob == null) {
+                            subscribeAction.invoke()
+                        }
+                    }
+                }
+                .launchIn(scope = scope)
         }
     }
 }
@@ -81,12 +127,14 @@ private fun <T> Flow<T>.doSharedIn(
 fun <T> Flow<T>.mutableSharedIn(
     scope: CoroutineScope,
     enableLog: Boolean = false,
+    sharedStartMode: SharedStartMode = SharedStartMode.Eagerly,
 ): MutableSharedFlow<T> {
     val shareFlow = MutableSharedFlow<T>()
     this.doSharedIn(
         shareFlow = shareFlow,
         scope = scope,
         enableLog = enableLog,
+        sharedStartMode = sharedStartMode,
     )
     return shareFlow
 }
@@ -94,9 +142,11 @@ fun <T> Flow<T>.mutableSharedIn(
 fun <T> Flow<T>.sharedIn(
     scope: CoroutineScope,
     enableLog: Boolean = false,
+    sharedStartMode: SharedStartMode = SharedStartMode.Eagerly,
 ): SharedFlow<T> {
     return this.mutableSharedIn(
         scope = scope,
         enableLog = enableLog,
+        sharedStartMode = sharedStartMode,
     )
 }

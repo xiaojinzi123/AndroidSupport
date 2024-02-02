@@ -20,12 +20,15 @@ import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.support.architecture.mvvm1.BaseAct
 import com.xiaojinzi.support.init.UnCheckInit
 import com.xiaojinzi.support.ktx.ActivityFlag
-import com.xiaojinzi.support.ktx.CacheSharedStateFlow
+import com.xiaojinzi.support.ktx.SharedStartMode
 import com.xiaojinzi.support.ktx.launchWhenEvent
 import com.xiaojinzi.support.ktx.nothing
+import com.xiaojinzi.support.ktx.sharedStateIn
+import com.xiaojinzi.support.ktx.tickerFlow
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 @ActivityFlag(
@@ -34,34 +37,27 @@ import kotlinx.coroutines.flow.onEach
 @UnCheckInit
 class MainAct : BaseAct<MainViewModel>() {
 
-    private val cacheFlow = CacheSharedStateFlow(
-        initValue = 0,
-    )
+    private val flow1 = tickerFlow(period = 1000)
+        .map { System.currentTimeMillis() }
+
+    private val flow2 = flow1
+        .onEach {
+            println("======= 收到 Flow1 的数据: $it")
+        }
+        .sharedStateIn(
+            scope = lifecycleScope,
+            initValue = -1L,
+            sharedStartMode = SharedStartMode.WhileSubscribed,
+        )
+
+    private var job2: Job? = null
 
     override fun getViewModelClass(): Class<MainViewModel> {
         return MainViewModel::class.java
     }
 
-    private var job1: Job? = null
-    private fun test1() {
-        job1?.cancel()
-        job1 = cacheFlow
-            .onEach {
-                delay(1000)
-                println("result2 = $it")
-            }
-            .launchIn(scope = lifecycleScope)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        cacheFlow
-            .onEach {
-                delay(500)
-                println("result1 = $it")
-            }
-            .launchIn(scope = lifecycleScope)
 
         setContent {
             Column(
@@ -76,15 +72,16 @@ class MainAct : BaseAct<MainViewModel>() {
                         .fillMaxWidth()
                         .nothing(),
                     onClick = {
-                        (1..10).forEach {
-                            cacheFlow.add(
-                                value = it
-                            )
-                        }
+                        job2?.cancel()
+                        job2 = flow2
+                            .onEach {
+                                println("======= 收到 Flow2 的数据: $it")
+                            }
+                            .launchIn(scope = lifecycleScope)
                     },
                 ) {
                     Text(
-                        text = "点击",
+                        text = "订阅 flow2",
                         style = TextStyle(
                             fontSize = 16.sp,
                             color = Color.White,
@@ -99,11 +96,11 @@ class MainAct : BaseAct<MainViewModel>() {
                         .fillMaxWidth()
                         .nothing(),
                     onClick = {
-                        test1()
+                        job2?.cancel()
                     },
                 ) {
                     Text(
-                        text = "点击",
+                        text = "取消订阅 flow2",
                         style = TextStyle(
                             fontSize = 16.sp,
                             color = Color.White,

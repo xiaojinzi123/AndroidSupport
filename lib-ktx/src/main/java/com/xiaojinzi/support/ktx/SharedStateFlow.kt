@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +13,9 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.io.File
@@ -121,30 +124,69 @@ private fun <T> Flow<T>.doSharedStateIn(
     scope: CoroutineScope,
     isTakeOne: Boolean = false,
     dropIfValueIsSet: Boolean = false,
+    sharedStartMode: SharedStartMode = SharedStartMode.Eagerly,
 ) {
     val upstream = this
-    scope.launch {
-        if (isTakeOne) {
-            val upstreamFirstValue = upstream.first()
-            if (dropIfValueIsSet) {
-                if (!shareFlow.isInit) {
-                    shareFlow.value = upstreamFirstValue
-                }
-            } else {
-                shareFlow.value = upstreamFirstValue
-            }
-            this.cancel()
-        } else {
-            upstream.collect {
+    var subscribeUpStreamJob: Job? = null
+    val subscribeAction = {
+        subscribeUpStreamJob = scope.launch {
+            if (isTakeOne) {
+                val upstreamFirstValue = upstream.first()
                 if (dropIfValueIsSet) {
                     if (!shareFlow.isInit) {
-                        shareFlow.value = it
+                        shareFlow.emit(
+                            value = upstreamFirstValue
+                        )
                     }
-                    this.cancel()
                 } else {
-                    shareFlow.value = it
+                    shareFlow.emit(
+                        value = upstreamFirstValue,
+                    )
+                }
+                this.cancel()
+            } else {
+                upstream.collect {
+                    if (dropIfValueIsSet) {
+                        if (!shareFlow.isInit) {
+                            shareFlow.emit(value = it)
+                        }
+                        this.cancel()
+                    } else {
+                        shareFlow.emit(value = it)
+                    }
                 }
             }
+        }
+    }
+    when (sharedStartMode) {
+        SharedStartMode.Eagerly -> {
+            subscribeAction.invoke()
+        }
+
+        SharedStartMode.Lazily -> {
+            scope.launch {
+                shareFlow
+                    .subscriptionCount
+                    .filter { it > 0 }
+                    .first()
+                subscribeAction.invoke()
+            }
+        }
+
+        SharedStartMode.WhileSubscribed -> {
+            shareFlow
+                .subscriptionCount
+                .onEach { count ->
+                    if (count == 0) {
+                        subscribeUpStreamJob?.cancel()
+                        subscribeUpStreamJob = null
+                    } else {
+                        if (subscribeUpStreamJob == null) {
+                            subscribeAction.invoke()
+                        }
+                    }
+                }
+                .launchIn(scope = scope)
         }
     }
 }
@@ -159,6 +201,7 @@ fun <T> Flow<T>.mutableSharedStateIn(
     isTakeOne: Boolean = false,
     dropIfValueIsSet: Boolean = false,
     distinctUntilChanged: Boolean = false,
+    sharedStartMode: SharedStartMode = SharedStartMode.Eagerly,
 ): MutableSharedStateFlow<T> {
     val shareFlow = MutableSharedStateFlow<T>(
         distinctUntilChanged = distinctUntilChanged,
@@ -168,6 +211,7 @@ fun <T> Flow<T>.mutableSharedStateIn(
         scope = scope,
         isTakeOne = isTakeOne,
         dropIfValueIsSet = dropIfValueIsSet,
+        sharedStartMode = sharedStartMode,
     )
     return shareFlow
 }
@@ -177,12 +221,14 @@ fun <T> Flow<T>.sharedStateIn(
     isTakeOne: Boolean = false,
     dropIfValueIsSet: Boolean = false,
     distinctUntilChanged: Boolean = false,
+    sharedStartMode: SharedStartMode = SharedStartMode.Eagerly,
 ): SharedStateFlow<T> {
     return this.mutableSharedStateIn(
         scope = scope,
         isTakeOne = isTakeOne,
         dropIfValueIsSet = dropIfValueIsSet,
         distinctUntilChanged = distinctUntilChanged,
+        sharedStartMode = sharedStartMode,
     )
 }
 
@@ -199,6 +245,7 @@ fun <T> Flow<T>.mutableSharedStateIn(
     isTakeOne: Boolean = false,
     dropIfValueIsSet: Boolean = false,
     distinctUntilChanged: Boolean = false,
+    sharedStartMode: SharedStartMode = SharedStartMode.Eagerly,
 ): MutableSharedStateFlow<T> {
     val shareFlow = MutableSharedStateFlow(
         initValue = initValue,
@@ -209,6 +256,7 @@ fun <T> Flow<T>.mutableSharedStateIn(
         scope = scope,
         isTakeOne = isTakeOne,
         dropIfValueIsSet = dropIfValueIsSet,
+        sharedStartMode = sharedStartMode,
     )
     return shareFlow
 }
@@ -219,6 +267,7 @@ fun <T> Flow<T>.sharedStateIn(
     isTakeOne: Boolean = false,
     dropIfValueIsSet: Boolean = false,
     distinctUntilChanged: Boolean = false,
+    sharedStartMode: SharedStartMode = SharedStartMode.Eagerly,
 ): SharedStateFlow<T> {
     return this.mutableSharedStateIn(
         initValue = initValue,
@@ -226,6 +275,7 @@ fun <T> Flow<T>.sharedStateIn(
         isTakeOne = isTakeOne,
         dropIfValueIsSet = dropIfValueIsSet,
         distinctUntilChanged = distinctUntilChanged,
+        sharedStartMode = sharedStartMode,
     )
 }
 
