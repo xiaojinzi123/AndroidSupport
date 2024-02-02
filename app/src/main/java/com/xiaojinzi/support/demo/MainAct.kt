@@ -20,37 +20,15 @@ import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.support.architecture.mvvm1.BaseAct
 import com.xiaojinzi.support.init.UnCheckInit
 import com.xiaojinzi.support.ktx.ActivityFlag
-import com.xiaojinzi.support.ktx.SharedStartMode
 import com.xiaojinzi.support.ktx.launchWhenEvent
 import com.xiaojinzi.support.ktx.nothing
-import com.xiaojinzi.support.ktx.sharedStateIn
-import com.xiaojinzi.support.ktx.tickerFlow
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 
 @ActivityFlag(
     value = ["test", "test1"],
 )
 @UnCheckInit
 class MainAct : BaseAct<MainViewModel>() {
-
-    private val flow1 = tickerFlow(period = 1000)
-        .map { System.currentTimeMillis() }
-
-    private val flow2 = flow1
-        .onEach {
-            println("======= 收到 Flow1 的数据: $it")
-        }
-        .sharedStateIn(
-            scope = lifecycleScope,
-            initValue = -1L,
-            sharedStartMode = SharedStartMode.WhileSubscribed,
-        )
-
-    private var job2: Job? = null
 
     override fun getViewModelClass(): Class<MainViewModel> {
         return MainViewModel::class.java
@@ -72,12 +50,6 @@ class MainAct : BaseAct<MainViewModel>() {
                         .fillMaxWidth()
                         .nothing(),
                     onClick = {
-                        job2?.cancel()
-                        job2 = flow2
-                            .onEach {
-                                println("======= 收到 Flow2 的数据: $it")
-                            }
-                            .launchIn(scope = lifecycleScope)
                     },
                 ) {
                     Text(
@@ -96,7 +68,6 @@ class MainAct : BaseAct<MainViewModel>() {
                         .fillMaxWidth()
                         .nothing(),
                     onClick = {
-                        job2?.cancel()
                     },
                 ) {
                     Text(

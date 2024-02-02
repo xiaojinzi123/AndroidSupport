@@ -75,6 +75,13 @@ private class MutableSharedStateFlowImpl<T>(
             }
         }
 
+    override suspend fun emit(value: T) {
+        if (distinctUntilChanged && isInit && this.value == value) {
+            return
+        }
+        target.emit(value = value)
+    }
+
     override val isInit: Boolean
         get() = target.replayCache.isNotEmpty()
 
@@ -84,7 +91,6 @@ private class MutableSharedStateFlowImpl<T>(
 
 }
 
-@Suppress("FunctionName", "UNCHECKED_CAST")
 fun <T> MutableSharedStateFlow(
     distinctUntilChanged: Boolean = false,
 ): MutableSharedStateFlow<T> {
@@ -99,7 +105,6 @@ fun <T> MutableSharedStateFlow(
     )
 }
 
-@Suppress("FunctionName", "UNCHECKED_CAST")
 fun <T> MutableSharedStateFlow(
     initValue: T,
     distinctUntilChanged: Boolean = false,

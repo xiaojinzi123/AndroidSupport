@@ -10,7 +10,9 @@ import androidx.lifecycle.Lifecycle
 import com.xiaojinzi.support.ktx.AppScope
 import com.xiaojinzi.support.ktx.CacheSharedFlow
 import com.xiaojinzi.support.ktx.sharedStateIn
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import java.util.Stack
@@ -403,7 +405,9 @@ object ActivityStack {
 
 /**
  * 利用 ActivityStack 实现的是否在后台的状态 Flow
+ * 内部默认 1s 的防抖动处理
  */
+@OptIn(FlowPreview::class)
 val isRunningInBackgroundStateOb = ActivityStack.lifecycleEvent
     .map { it.event }
     .filter {
@@ -412,7 +416,9 @@ val isRunningInBackgroundStateOb = ActivityStack.lifecycleEvent
     .map {
         it == Lifecycle.Event.ON_PAUSE
     }
+    .debounce(timeoutMillis = 1000)
     .sharedStateIn(
         initValue = false,
         scope = AppScope,
+        distinctUntilChanged = true,
     )
