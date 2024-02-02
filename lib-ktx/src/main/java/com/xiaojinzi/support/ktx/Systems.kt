@@ -25,6 +25,7 @@ val isRunningInBackground: Boolean
 
 /**
  * 是否在后台运行的 StateFlow
+ * 这个是每隔 1s 就获取一次, 慎用, 会引起应用审核问题
  */
 val isRunningInBackgroundStateOb = tickerFlow(period = 1000)
     .map { isRunningInBackground }

@@ -7,17 +7,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.annotation.Keep
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.coroutineScope
+import com.xiaojinzi.support.ktx.AppScope
 import com.xiaojinzi.support.ktx.CacheSharedFlow
-import com.xiaojinzi.support.ktx.resumeIgnoreException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import com.xiaojinzi.support.ktx.sharedStateIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.flow.map
 import java.util.Stack
 
 @Retention(
@@ -405,3 +400,19 @@ object ActivityStack {
     }
 
 }
+
+/**
+ * 利用 ActivityStack 实现的是否在后台的状态 Flow
+ */
+val isRunningInBackgroundStateOb = ActivityStack.lifecycleEvent
+    .map { it.event }
+    .filter {
+        it == Lifecycle.Event.ON_RESUME || it == Lifecycle.Event.ON_PAUSE
+    }
+    .map {
+        it == Lifecycle.Event.ON_PAUSE
+    }
+    .sharedStateIn(
+        initValue = false,
+        scope = AppScope,
+    )
