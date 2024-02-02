@@ -31,6 +31,7 @@ val isRunningInBackgroundStateOb = tickerFlow(period = 1000)
     .distinctUntilChanged()
     .sharedStateIn(
         scope = AppScope,
+        sharedStartMode = SharedStartMode.WhileSubscribed,
     )
 
 
