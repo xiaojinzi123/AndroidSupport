@@ -224,6 +224,26 @@ object ActivityStack {
     val lifecycleEvent: Flow<ActivityLifecycleEvent> = _lifecycleEvent
 
     /**
+     * 利用 ActivityStack 实现的是否在后台的状态 Flow
+     * 内部默认 1s 的防抖动处理
+     */
+    @OptIn(FlowPreview::class)
+    val isRunningInBackgroundStateOb = lifecycleEvent
+        .map { it.event }
+        .filter {
+            it == Lifecycle.Event.ON_RESUME || it == Lifecycle.Event.ON_PAUSE
+        }
+        .map {
+            it == Lifecycle.Event.ON_PAUSE
+        }
+        .debounce(timeoutMillis = 1000)
+        .sharedStateIn(
+            initValue = false,
+            scope = AppScope,
+            distinctUntilChanged = true,
+        )
+
+    /**
      * 启动的时候就是 Empty 的情况不会有事件
      */
     private val _emptyStackEvent = CacheSharedFlow<Unit>()
@@ -402,23 +422,3 @@ object ActivityStack {
     }
 
 }
-
-/**
- * 利用 ActivityStack 实现的是否在后台的状态 Flow
- * 内部默认 1s 的防抖动处理
- */
-@OptIn(FlowPreview::class)
-val isRunningInBackgroundStateOb = ActivityStack.lifecycleEvent
-    .map { it.event }
-    .filter {
-        it == Lifecycle.Event.ON_RESUME || it == Lifecycle.Event.ON_PAUSE
-    }
-    .map {
-        it == Lifecycle.Event.ON_PAUSE
-    }
-    .debounce(timeoutMillis = 1000)
-    .sharedStateIn(
-        initValue = false,
-        scope = AppScope,
-        distinctUntilChanged = true,
-    )
