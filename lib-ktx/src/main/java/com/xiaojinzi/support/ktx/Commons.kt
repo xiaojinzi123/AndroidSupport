@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
@@ -33,6 +33,15 @@ fun IOScope(): CoroutineScope = CoroutineScope(context = Dispatchers.IO)
  * 创建一个 UUID
  */
 fun newUUid() = UUID.randomUUID().toString()
+
+private val snowflakeIdGenerator = SnowflakeIdGenerator()
+
+/**
+ * 创建一个雪花 Id
+ */
+fun newSnowflakeId(): Long {
+    return snowflakeIdGenerator.nextId()
+}
 
 fun Boolean.toVisible(isGone: Boolean = false) =
     if (this) View.VISIBLE else (if (isGone) View.GONE else View.INVISIBLE)
