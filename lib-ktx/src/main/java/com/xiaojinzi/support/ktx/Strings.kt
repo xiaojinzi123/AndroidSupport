@@ -5,6 +5,8 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
+fun String?.orNull(): String? = if(this.isNullOrEmpty()) null else this
+
 /**
  * MD5加密，失败返回null
  */
