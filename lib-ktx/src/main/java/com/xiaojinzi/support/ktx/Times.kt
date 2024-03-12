@@ -78,6 +78,7 @@ fun getSecondByTimeStamp(
 
 /**
  * 获取是一周的第几天
+ * 第一个值是 1, 表示周日
  */
 fun getDayOfWeek(
     timeStamp: Long,
@@ -86,6 +87,32 @@ fun getDayOfWeek(
     val calendar = Calendar.getInstance(zone)
     calendar.timeInMillis = timeStamp
     return calendar.get(Calendar.DAY_OF_WEEK)
+}
+
+/**
+ * 获取月中的第几天
+ * 第一天是 1
+ */
+fun getDayOfMonth(
+    timeStamp: Long,
+    zone: TimeZone = TimeZone.getDefault(),
+): Int {
+    val calendar = Calendar.getInstance(zone)
+    calendar.timeInMillis = timeStamp
+    return calendar.get(Calendar.DAY_OF_MONTH)
+}
+
+/**
+ * 获取年中的第几天
+ * 第一天是 1
+ */
+fun getDayOfYear(
+    timeStamp: Long,
+    zone: TimeZone = TimeZone.getDefault(),
+): Int {
+    val calendar = Calendar.getInstance(zone)
+    calendar.timeInMillis = timeStamp
+    return calendar.get(Calendar.DAY_OF_YEAR)
 }
 
 /**
