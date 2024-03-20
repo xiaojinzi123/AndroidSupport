@@ -40,11 +40,8 @@ object MemoryCache {
         configMap[keyClass.hashCode()] = config
     }
 
-    /**
-     * 获取当前时间的数据, 过期了会触发更新
-     */
     @Suppress("UNCHECKED_CAST")
-    fun <T, Key : MemoryCacheKey> get(key: Key): T? {
+    private fun <Key : MemoryCacheKey> checkExpired(key: Key) {
         val configKey = key::class.hashCode()
         val dataKey = "${configKey}@${key.hashCode()}"
         val targetConfig: MemoryCacheConfig<Key> =
@@ -68,6 +65,25 @@ object MemoryCache {
                 )
             }
         }
+    }
+
+    /**
+     * 尝试刷新
+     */
+    fun <Key : MemoryCacheKey> tryRefresh(key: Key) {
+        checkExpired(
+            key = key,
+        )
+    }
+
+    /**
+     * 获取当前时间的数据, 过期了会触发更新
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun <T, Key : MemoryCacheKey> get(key: Key): T? {
+        val configKey = key::class.hashCode()
+        val dataKey = "${configKey}@${key.hashCode()}"
+        checkExpired(key = key)
         return dataMap[dataKey]?.second as? T
     }
 
@@ -78,31 +94,25 @@ object MemoryCache {
     fun <T, Key : MemoryCacheKey> subscribe(key: Key): Flow<T?> {
         val configKey = key::class.hashCode()
         val dataKey = "${configKey}@${key.hashCode()}"
-        val targetConfig: MemoryCacheConfig<Key> =
-            (configMap[configKey]
-                ?: notSupportError(message = "not found config for key: $key")) as MemoryCacheConfig<Key>
-        val expiredTime = dataMap[dataKey]?.first ?: 0
-        // 如果过期, 执行一次更新
-        if (expiredTime <= System.currentTimeMillis()) {
-            // 如果过期了
-            LogSupport.d(
-                tag = TAG,
-                content = "key $key is expired, update it, configKey = $configKey, dataKey = $dataKey",
-            )
-            executeTaskInCoroutinesIgnoreError {
-                dataMap[dataKey] =
-                    (System.currentTimeMillis() +
-                            targetConfig.cacheTime) to targetConfig
-                        .updateCallable(key)
-                flow.emit(
-                    value = dataMap,
-                )
-            }
-        }
+        checkExpired(key = key)
         return flow.map { map ->
             kotlin.runCatching {
                 map[dataKey]?.second as? T
             }.getOrNull()
+        }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T, Key : MemoryCacheKey> subscribeValues(keyClass: KClass<Key>): Flow<List<T?>> {
+        val configKey = keyClass.hashCode()
+        return flow.map { map ->
+            map.filter {
+                it.key.startsWith(
+                    prefix = "$configKey@",
+                )
+            }.map {
+                it.value.second as? T
+            }
         }
     }
 
