@@ -41,6 +41,37 @@ object MemoryCache {
     }
 
     /**
+     * 获取当前时间的数据, 过期了会触发更新
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun <T, Key : MemoryCacheKey> get(key: Key): T? {
+        val configKey = key::class.hashCode()
+        val dataKey = "${configKey}@${key.hashCode()}"
+        val targetConfig: MemoryCacheConfig<Key> =
+            (configMap[configKey]
+                ?: notSupportError(message = "not found config for key: $key")) as MemoryCacheConfig<Key>
+        val expiredTime = dataMap[dataKey]?.first ?: 0
+        // 如果过期, 执行一次更新
+        if (expiredTime <= System.currentTimeMillis()) {
+            // 如果过期了
+            LogSupport.d(
+                tag = TAG,
+                content = "key $key is expired, update it, configKey = $configKey, dataKey = $dataKey",
+            )
+            executeTaskInCoroutinesIgnoreError {
+                dataMap[dataKey] =
+                    (System.currentTimeMillis() +
+                            targetConfig.cacheTime) to targetConfig
+                        .updateCallable(key)
+                flow.emit(
+                    value = dataMap,
+                )
+            }
+        }
+        return dataMap[dataKey]?.second as? T
+    }
+
+    /**
      * 订阅数据
      */
     @Suppress("UNCHECKED_CAST")
@@ -51,6 +82,7 @@ object MemoryCache {
             (configMap[configKey]
                 ?: notSupportError(message = "not found config for key: $key")) as MemoryCacheConfig<Key>
         val expiredTime = dataMap[dataKey]?.first ?: 0
+        // 如果过期, 执行一次更新
         if (expiredTime <= System.currentTimeMillis()) {
             // 如果过期了
             LogSupport.d(
@@ -59,10 +91,9 @@ object MemoryCache {
             )
             executeTaskInCoroutinesIgnoreError {
                 dataMap[dataKey] =
-                    (System.currentTimeMillis() + targetConfig.cacheTime) to
-                            targetConfig.updateCallable(
-                                key
-                            )
+                    (System.currentTimeMillis() +
+                            targetConfig.cacheTime) to targetConfig
+                        .updateCallable(key)
                 flow.emit(
                     value = dataMap,
                 )
