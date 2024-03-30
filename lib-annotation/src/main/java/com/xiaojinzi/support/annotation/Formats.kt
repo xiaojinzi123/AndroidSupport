@@ -8,6 +8,7 @@ package com.xiaojinzi.support.annotation
     AnnotationTarget.PROPERTY,
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.FUNCTION,
     AnnotationTarget.TYPE_PARAMETER,
     AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.LOCAL_VARIABLE,
