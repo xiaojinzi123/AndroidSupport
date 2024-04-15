@@ -17,6 +17,7 @@ import com.xiaojinzi.support.ktx.ComponentLifecycleCallback
 import com.xiaojinzi.support.ktx.LogSupport
 import com.xiaojinzi.support.ktx.MemoryCache
 import com.xiaojinzi.support.ktx.MemoryCacheConfig
+import com.xiaojinzi.support.ktx.findException
 import com.xiaojinzi.support.logger.AndroidLogAdapter
 import com.xiaojinzi.support.logger.Logger
 import kotlinx.coroutines.delay

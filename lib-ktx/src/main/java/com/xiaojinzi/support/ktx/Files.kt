@@ -8,6 +8,7 @@ import java.io.File
  */
 suspend fun <T> File.deleteAfterUse(
     isDeleteAfterSuccess: Boolean = true,
+    // 这里这个应该默认也要是 true, 我的感觉是这样的
     isDeleteAfterError: Boolean = false,
     action: suspend (File) -> T
 ): T {
