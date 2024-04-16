@@ -144,6 +144,7 @@ fun getYearByTimeStamp(
  */
 fun getDayInterval(
     timeStamp: Long,
+    dayOffset: Int = 0,
     zone: TimeZone = TimeZone.getDefault(),
 ): Pair<Long, Long> {
     val calendar = Calendar.getInstance(zone)
@@ -152,8 +153,9 @@ fun getDayInterval(
     calendar[Calendar.SECOND] = 0
     calendar[Calendar.MINUTE] = 0
     calendar[Calendar.MILLISECOND] = 0
+    calendar.add(Calendar.DAY_OF_YEAR, dayOffset)
     val start = calendar.timeInMillis
-    calendar.add(Calendar.DAY_OF_MONTH, 1)
+    calendar.add(Calendar.DAY_OF_YEAR, 1)
     calendar.add(Calendar.MILLISECOND, -1)
     val end = calendar.timeInMillis
     return Pair(
