@@ -334,7 +334,7 @@ object ActivityStack {
     ): Activity? {
         return activityStack
             .reversed()
-            .first { act ->
+            .firstOrNull { act ->
                 activityStackScope.condition(
                     act
                 )
