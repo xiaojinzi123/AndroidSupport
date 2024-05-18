@@ -36,8 +36,7 @@
         <activity
             android:name="com.xiaojinzi.support.init.RebootAct"
             android:exported="true"
-            android:process=":default_app_reboot"
-            android:screenOrientation="portrait">
+            android:process=":xxxxxxx_app_reboot">
             <intent-filter>
                 <action android:name="xxxxxxx_app_reboot" />
                 <category android:name="android.intent.category.DEFAULT" />

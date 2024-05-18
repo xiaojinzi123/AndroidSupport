@@ -1,8 +1,11 @@
 package com.xiaojinzi.support.demo
 
+import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.os.Process
 import com.xiaojinzi.component.Component
 import com.xiaojinzi.component.Config
 import com.xiaojinzi.component.support.ASMUtil
@@ -17,11 +20,29 @@ import com.xiaojinzi.support.ktx.ComponentLifecycleCallback
 import com.xiaojinzi.support.ktx.LogSupport
 import com.xiaojinzi.support.ktx.MemoryCache
 import com.xiaojinzi.support.ktx.MemoryCacheConfig
-import com.xiaojinzi.support.ktx.findException
 import com.xiaojinzi.support.logger.AndroidLogAdapter
 import com.xiaojinzi.support.logger.Logger
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
+/**
+ * 获取进程的名字
+ */
+private fun Context.getProcessName(): String? {
+    return try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Application.getProcessName()
+        } else {
+            val pid = Process.myPid()
+            val am = this.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
+            am?.runningAppProcesses
+                ?.find { it.pid == pid }
+                ?.processName
+        }
+    } catch (_: Exception) {
+        null
+    }
+}
 
 class App : Application() {
 
@@ -33,6 +54,11 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        val processName = this.getProcessName()
+        if (processName != packageName) {
+            return
+        }
 
         CheckInit.init(
             app = this,
