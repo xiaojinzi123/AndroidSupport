@@ -50,8 +50,10 @@ private fun rebootApp(app: Application) {
     Process.killProcess(Process.myPid())
 }
 
-class CheckInitLifecycleCallback : Application.ActivityLifecycleCallbacks {
-    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+private class CheckInitLifecycleCallback : Application.ActivityLifecycleCallbacks {
+
+    override fun onActivityPreCreated(activity: Activity, savedInstanceState: Bundle?) {
+        super.onActivityPreCreated(activity, savedInstanceState)
         // 检测是否是恢复的情况, 如果是, 那么杀死进程重启自己
         val bootView = activity.javaClass.getAnnotation(BootView::class.java)
         if (bootView == null) {
@@ -64,6 +66,9 @@ class CheckInitLifecycleCallback : Application.ActivityLifecycleCallbacks {
         } else {
             CheckInit.isPassedBootView = true
         }
+    }
+
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
     }
 
     override fun onActivityStarted(activity: Activity) {
