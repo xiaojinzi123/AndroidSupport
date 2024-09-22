@@ -11,6 +11,21 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.transform
 
+/**
+ * 一个 [Flow] 的别名, 用于表示是一个 Hot State Flow
+ */
+typealias HotStateFlow<T> = Flow<T>
+
+/**
+ * 一个 [Flow] 的别名, 用于表示是一个 Hot Event Flow
+ */
+typealias HotEventFlow<T> = Flow<T>
+
+/**
+ * 一个 [Flow] 的别名, 用于表示是一个 Cold Flow
+ */
+typealias ColdFlow<T> = Flow<T>
+
 @FlowPreview
 internal class FlowTakeUntilImpl<T>(
     private val source: Flow<T>,

@@ -16,6 +16,7 @@ import com.xiaojinzi.support.ktx.observeOnMainThread
 import com.xiaojinzi.support.ktx.subscribeOnIOThread
 import com.xiaojinzi.support.download.Downloader
 import com.xiaojinzi.support.download.bean.DownloadTask
+import com.xiaojinzi.support.ktx.LogSupport
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx2.await
@@ -121,6 +122,15 @@ class DownloadTestAct : AppCompatActivity() {
                 btTest2.text = "$text2 下载失败(有一个失败就表示全部失败)"
             }
         }
+    }
+
+    init {
+
+        LogSupport.d(
+            tag = "123123",
+            content = "DownloadTestAct 初始化了"
+        )
+
     }
 
 }

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Process
+import androidx.appcompat.app.AppCompatActivity
 import com.xiaojinzi.component.Component
 import com.xiaojinzi.component.Config
 import com.xiaojinzi.component.support.ASMUtil
@@ -17,12 +18,16 @@ import com.xiaojinzi.support.ktx.AppInitSupport
 import com.xiaojinzi.support.ktx.AppInitTask
 import com.xiaojinzi.support.ktx.AppScope
 import com.xiaojinzi.support.ktx.ComponentLifecycleCallback
+import com.xiaojinzi.support.ktx.HotEventFlow
 import com.xiaojinzi.support.ktx.LogSupport
 import com.xiaojinzi.support.ktx.MemoryCache
 import com.xiaojinzi.support.ktx.MemoryCacheConfig
+import com.xiaojinzi.support.ktx.app
 import com.xiaojinzi.support.logger.AndroidLogAdapter
 import com.xiaojinzi.support.logger.Logger
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
 /**
@@ -46,6 +51,8 @@ private fun Context.getProcessName(): String? {
 
 class App : Application() {
 
+    private val testFlow: HotEventFlow<Int> = flowOf(1)
+
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         AppInstance.app = this
@@ -60,13 +67,36 @@ class App : Application() {
             return
         }
 
-        CheckInit.init(
+        (app.getSystemService(AppCompatActivity.ACTIVITY_SERVICE) as ActivityManager).apply {
+            val appTask = appTasks.firstOrNull()
+            LogSupport.d(
+                tag = "123123",
+                content = "${appTask?.taskInfo}"
+            )
+            if (appTasks.size > 1 || appTasks.any { it.taskInfo.numActivities > 1 }) {
+                appTasks.forEach { it.finishAndRemoveTask() }
+                val bootIntent = Intent("xxxxxxx_app_reboot")
+                bootIntent.addCategory(Intent.CATEGORY_DEFAULT)
+                bootIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                bootIntent.putExtra("action", "xxxxxxxx_app_main")
+                bootIntent.putExtra("category", Intent.CATEGORY_DEFAULT)
+                app.startActivity(bootIntent)
+                Process.killProcess(Process.myPid())
+            } else {
+                LogSupport.d(
+                    tag = "123123",
+                    content = "正常启动"
+                )
+            }
+        }
+
+        /*CheckInit.init(
             app = this,
             bootActAction = "xxxxxxxx_app_main",
             bootActCategory = Intent.CATEGORY_DEFAULT,
             rebootActAction = "xxxxxxx_app_reboot",
             rebootActCategory = Intent.CATEGORY_DEFAULT,
-        )
+        )*/
 
         MemoryCache.setCacheConfig(
             keyClass = CacheUserKey::class,
@@ -105,6 +135,11 @@ class App : Application() {
 
         Logger.addLogAdapter(AndroidLogAdapter())
         Logger.json(json = "{\"name\":\"xiaojinzi\",\"age\":18}")
+
+        LogSupport.d(
+            tag = "123123",
+            content = "正常初始化了 Application"
+        )
 
         AppScope.launch {
 
