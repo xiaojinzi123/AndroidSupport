@@ -45,8 +45,8 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion kotlin_version
+        kotlinCompilerExtensionVersion libs.versions.compose.kotlin.compiler.extension.get()
+        kotlinCompilerVersion libs.versions.kotlin.asProvider().get()
     }
 
     buildTypes {
