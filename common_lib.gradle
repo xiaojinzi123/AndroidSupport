@@ -1,18 +1,10 @@
 android {
-    compileSdkVersion versions.compileSdkVersion
+    compileSdkVersion libs.versions.compileSdkVersion.get().toInteger()
 
     defaultConfig {
-        minSdkVersion versions.minSdkVersion
-        targetSdkVersion versions.targetSdkVersion
+        minSdkVersion libs.versions.minSdkVersion.get().toInteger()
+        targetSdkVersion libs.versions.targetSdkVersion.get().toInteger()
     }
-
-    /*java {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(JavaVersion.VERSION_17.toString())
-        }
-    }*/
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -40,9 +32,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    api libs.kotlin_stdlib
-    api libs.kotlin_android
-    api libs.android_core_ktx
+    api libs.kotlin.stdlib
+    api libs.kotlin.android
+    api libs.android.core.ktx
     api libs.appcompat
 }
 

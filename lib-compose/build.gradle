@@ -23,18 +23,18 @@ dependencies {
 
     api project(':lib-ktx')
 
-    api platform(libs.compose_bom)
+    api platform(libs.compose.bom)
 
-    api libs.compose_ui_tooling
-    api libs.compose_ui_tooling_preview
-    api libs.compose_viewmodel
-    api libs.activity_compose
-    api libs.compose_ui
-    api libs.compose_material
-    api libs.compose_material3
+    api libs.compose.ui.tooling
+    api libs.compose.ui.tooling.preview
+    api libs.compose.viewmodel
+    api libs.activity.compose
+    api libs.compose.ui
+    api libs.compose.material
+    api libs.compose.material3
     // api libs.compose_ui_foundation
-    api libs.compose_constraintlayout
-    api libs.accompanist_sysuicontrol
+    api libs.compose.constraintlayout
+    api libs.accompanist.sysuicontrol
 
 }
 

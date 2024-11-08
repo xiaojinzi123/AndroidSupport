@@ -21,15 +21,15 @@ dependencies {
     api project(':lib-annotation')
 
     api libs.appcompat
-    api libs.kotlin_stdlib
-    api libs.kotlinx_coroutines
+    api libs.kotlin.stdlib
+    api libs.kotlinx.coroutines
     api libs.rxjava
     api libs.rxandroid
     api libs.recyclerview
-    api libs.acrivity_ktx
-    api libs.lifecycle_viewmodel_ktx
-    api libs.lifecycle_runtime_ktx
-    api libs.lifecycle_runtime_ktx
+    api libs.acrivity.ktx
+    api libs.lifecycle.viewmodel.ktx
+    api libs.lifecycle.runtime.ktx
+    api libs.lifecycle.runtime.ktx
     api libs.gson
 
 }
