@@ -1,6 +1,6 @@
 [versions]
 compileSdkVersion = "35"
-gradleVersion = "8.2.2"
+gradleVersion = "8.7.2"
 minSdkVersion = "21"
 targetSdkVersion = "35"
 component = "8c968cf766"
@@ -9,10 +9,10 @@ compose_kotlin_compiler_extension = "1.5.15"
 compose_material_version = "1.7.5"
 compose_material3_version = "1.3.1"
 accompanist_version = "0.36.0"
-kotlin = "1.9.25"
-# kotlin = "2.0.20"
-kotlin_ksp = "1.9.25-1.0.20"
-# kotlin_ksp = "2.0.20-1.0.25"
+# kotlin = "1.9.25"
+kotlin = "2.0.21"
+# kotlin_ksp = "1.9.25-1.0.20"
+kotlin_ksp = "2.0.21-1.0.26"
 kotlin_coroutines = "1.9.0"
 
 [libraries]
@@ -65,3 +65,7 @@ component_compiler = { group = "com.github.xiaojinzi123.KComponent", name = "kco
 component_impl = { group = "com.github.xiaojinzi123.KComponent", name = "kcomponent", version.ref = "component" }
 component_impl_rx = { group = "com.github.xiaojinzi123.KComponent", name = "kcomponent-rx", version.ref = "component" }
 component_plugin = { group = "com.github.xiaojinzi123.KComponent", name = "kcomponent-plugin", version.ref = "component" }
+
+[plugins]
+kotlin-ksp = {id = "com.google.devtools.ksp", version.ref = "kotlin_ksp"}
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

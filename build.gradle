@@ -14,7 +14,8 @@ buildscript {
 }
 
 plugins {
-    id "com.google.devtools.ksp" version libs.versions.kotlin.ksp apply false
+    alias(libs.plugins.kotlin.ksp) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 tasks.register('clean', Delete) {

@@ -1,6 +1,9 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'maven-publish'
+plugins {
+    id "com.android.library"
+    alias(libs.plugins.compose.compiler)
+    id "kotlin-android"
+    id "maven-publish"
+}
 
 apply from: "../common_lib.gradle"
 
@@ -11,10 +14,6 @@ android {
     buildFeatures {
         // Enables Jetpack Compose for this module
         compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion libs.versions.compose.kotlin.compiler.extension.get()
-        kotlinCompilerVersion libs.versions.kotlin.asProvider().get()
     }
     namespace 'com.xiaojinzi.support.compose'
 }

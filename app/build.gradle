@@ -1,7 +1,10 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.xiaojinzi.kcomponent.plugin'
-apply plugin: 'kotlin-android'
-apply plugin: 'com.google.devtools.ksp'
+plugins {
+    id 'com.android.application'
+    alias(libs.plugins.compose.compiler)
+    id "com.xiaojinzi.kcomponent.plugin"
+    id "kotlin-android"
+    id "com.google.devtools.ksp"
+}
 
 apply from: "../common_lib.gradle"
 
@@ -43,10 +46,7 @@ android {
     buildFeatures {
         // Enables Jetpack Compose for this module
         compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion libs.versions.compose.kotlin.compiler.extension.get()
-        kotlinCompilerVersion libs.versions.kotlin.asProvider().get()
+        buildConfig true
     }
 
     buildTypes {
