@@ -62,10 +62,10 @@ dependencies {
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation libs.kotlin.stdlib
-    implementation libs.appcompat
-    implementation libs.constraintlayout
-    implementation libs.android.core.ktx
-    implementation libs.fragment.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.fragment.ktx
     implementation libs.kotlinx.coroutines.rx
 
     // 组件化的库

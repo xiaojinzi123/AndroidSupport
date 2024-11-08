@@ -1,6 +1,9 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'maven-publish'
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
+    id "maven-publish"
+}
 
 apply from: "../common_lib.gradle"
 
@@ -15,7 +18,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api project(':lib-annotation')
     api project(':lib-ktx')
-    api libs.activity
+    api libs.androidx.activity
     api libs.rxjava
     api libs.rxkotlin
 }

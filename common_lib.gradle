@@ -1,9 +1,9 @@
 android {
-    compileSdkVersion libs.versions.compileSdkVersion.get().toInteger()
+    compileSdkVersion libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
-        minSdkVersion libs.versions.minSdkVersion.get().toInteger()
-        targetSdkVersion libs.versions.targetSdkVersion.get().toInteger()
+        minSdkVersion libs.versions.minSdk.get().toInteger()
+        targetSdkVersion libs.versions.targetSdk.get().toInteger()
     }
 
     compileOptions {
@@ -34,8 +34,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api libs.kotlin.stdlib
     api libs.kotlin.android
-    api libs.android.core.ktx
-    api libs.appcompat
+    api libs.androidx.core.ktx
+    api libs.androidx.appcompat
 }
 
 task androidSourcesJar(type: Jar) {

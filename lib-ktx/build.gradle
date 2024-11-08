@@ -1,6 +1,9 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'maven-publish'
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
+    id "maven-publish"
+}
 
 apply from: "../common_lib.gradle"
 
@@ -20,16 +23,16 @@ dependencies {
     api project(':lib-init')
     api project(':lib-annotation')
 
-    api libs.appcompat
+    api libs.androidx.appcompat
     api libs.kotlin.stdlib
     api libs.kotlinx.coroutines
     api libs.rxjava
     api libs.rxandroid
-    api libs.recyclerview
-    api libs.acrivity.ktx
-    api libs.lifecycle.viewmodel.ktx
-    api libs.lifecycle.runtime.ktx
-    api libs.lifecycle.runtime.ktx
+    api libs.androidx.recyclerview
+    api libs.androidx.acrivity.ktx
+    api libs.androidx.lifecycle.viewmodel.ktx
+    api libs.androidx.lifecycle.runtime.ktx
+    api libs.androidx.lifecycle.runtime.ktx
     api libs.gson
 
 }
