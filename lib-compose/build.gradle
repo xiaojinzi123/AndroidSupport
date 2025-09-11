@@ -33,7 +33,6 @@ dependencies {
     api libs.compose.material3
     // api libs.compose_ui_foundation
     api libs.compose.constraintlayout
-    api libs.accompanist.sysuicontrol
 
 }
 
