@@ -12,6 +12,7 @@ import com.xiaojinzi.component.Config
 import com.xiaojinzi.component.support.ASMUtil
 import com.xiaojinzi.support.activity_stack.ActivityStack
 import com.xiaojinzi.support.architecture.mvvm1.UseCaseCheck
+import com.xiaojinzi.support.download.OkHttpDownloadProvider
 import com.xiaojinzi.support.init.AppInstance
 import com.xiaojinzi.support.init.CheckInit
 import com.xiaojinzi.support.ktx.AppInitSupport
@@ -66,6 +67,10 @@ class App : Application() {
         if (processName != packageName) {
             return
         }
+
+        OkHttpDownloadProvider.init(
+            context = this,
+        )
 
         (app.getSystemService(AppCompatActivity.ACTIVITY_SERVICE) as ActivityManager).apply {
             val appTask = appTasks.firstOrNull()

@@ -38,8 +38,29 @@ import java.util.UUID
 import java.util.concurrent.CancellationException
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
+
+@OptIn(ExperimentalContracts::class)
+inline fun DownloadState.EndState.onSuccess(action: () -> Unit): DownloadState.EndState {
+    contract {
+        callsInPlace(action, InvocationKind.AT_MOST_ONCE)
+    }
+    if (this is DownloadState.EndState.DownloadSuccess) action()
+    return this
+}
+
+@OptIn(ExperimentalContracts::class)
+inline fun DownloadState.EndState.onError(action: (error: DownloadFailException) -> Unit): DownloadState.EndState {
+    contract {
+        callsInPlace(action, InvocationKind.AT_MOST_ONCE)
+    }
+    if (this is DownloadState.EndState.DownloadFailed) action(this.error)
+    return this
+}
 
 /**
  * 各种平台的下载, 可能都需要携带不同的参数
