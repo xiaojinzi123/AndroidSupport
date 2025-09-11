@@ -20,7 +20,7 @@ dependencies {
     api project(':lib-ktx')
     api libs.rxjava
     api libs.rxkotlin
-    implementation libs.android.networking
+    implementation libs.okhttp
 }
 
 apply from: "../common_publish.gradle"
