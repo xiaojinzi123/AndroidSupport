@@ -14,7 +14,7 @@
 
     <Button
         android:id="@+id/btTest1"
-        style="@style/DownloadTestBotton"
+        style="@style/DownloadTestButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="test1"
@@ -22,7 +22,7 @@
 
     <Button
         android:id="@+id/btTest2"
-        style="@style/DownloadTestBotton"
+        style="@style/DownloadTestButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="test2"

@@ -2,10 +2,12 @@ package com.xiaojinzi.support.demo
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
@@ -19,9 +21,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.xiaojinzi.component.impl.Router
+import com.xiaojinzi.support.activity_stack.ActivityFlag
 import com.xiaojinzi.support.architecture.mvvm1.BaseAct
 import com.xiaojinzi.support.init.BootView
-import com.xiaojinzi.support.ktx.ActivityFlag
 import com.xiaojinzi.support.ktx.launchWhenEvent
 import com.xiaojinzi.support.ktx.nothing
 import kotlinx.coroutines.delay
@@ -38,12 +40,14 @@ class MainAct : BaseAct<MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         setContent {
             val context = LocalContext.current
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .statusBarsPadding()
                     .nothing(),
                 horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
             ) {
