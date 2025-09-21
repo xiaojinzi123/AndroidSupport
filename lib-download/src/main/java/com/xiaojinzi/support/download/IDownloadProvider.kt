@@ -104,6 +104,7 @@ sealed class DownloadTask @JvmOverloads constructor(
         override val downloadTo: File,
         override val throwIfExist: Boolean = true,
         val url: String,
+        val headers: Map<String, String> = emptyMap(),
     ) : DownloadTask(
         tag = tag,
         downloadTo = downloadTo,

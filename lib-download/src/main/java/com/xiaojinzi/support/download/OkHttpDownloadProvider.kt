@@ -48,6 +48,16 @@ object OkHttpDownloadProvider : IDownloadProviderBaseImpl() {
                 name = "Accept-Encoding",
                 value = "identity",
             )
+            .apply {
+                task.headers.forEach { header ->
+                    if (!"Accept-Encoding".equals(other = header.key, ignoreCase = true)) {
+                        addHeader(
+                            name = header.key,
+                            value = header.value,
+                        )
+                    }
+                }
+            }
             .build()
 
         val call = okhttpClient.newCall(request)
