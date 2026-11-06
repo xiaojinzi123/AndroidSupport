@@ -24,3 +24,20 @@ plugins {
 tasks.register('clean', Delete) {
     delete rootProject.getLayout().getBuildDirectory()
 }
+
+// JitPack 会为每个子项目注入一个以项目名命名的 publication，与各模块显式声明的坐标冲突
+// （Gradle 报 "multiple publications that have different coordinates"）。这里把它对齐到显式坐标。
+gradle.projectsEvaluated {
+    rootProject.allprojects { p ->
+        if (p.plugins.hasPlugin('maven-publish')) {
+            def pubs = p.publishing.publications
+            def injected = pubs.findByName(p.name)
+            def ours = pubs.findByName('release') ?: pubs.findByName('maven')
+            if (injected != null && ours != null) {
+                injected.groupId = ours.groupId
+                injected.artifactId = ours.artifactId
+                injected.version = ours.version
+            }
+        }
+    }
+}
