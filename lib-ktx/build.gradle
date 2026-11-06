@@ -11,8 +11,8 @@ apply from: "../common_lib.gradle"
 archivesBaseName = "ktx"*/
 
 android {
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding = true
     }
     namespace 'com.xiaojinzi.support.ktx'
 }

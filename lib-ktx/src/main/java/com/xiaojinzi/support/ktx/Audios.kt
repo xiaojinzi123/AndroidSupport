@@ -11,13 +11,19 @@ import kotlinx.coroutines.withContext
 @TimeValue(value = TimeValue.Type.MILLISECOND)
 suspend fun getMediaDuration(path: String): Long? {
      return withContext(context = Dispatchers.IO) {
+        // MediaMetadataRetriever 在 API 29 之前没有实现 AutoCloseable，不能用 use {}
+        val retriever = MediaMetadataRetriever()
         try {
-            MediaMetadataRetriever().use {
-                it.setDataSource(path)
-                it.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLongOrNull()
-            }
+            retriever.setDataSource(path)
+            retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLongOrNull()
         } catch (e: Exception) {
             null
+        } finally {
+            try {
+                retriever.release()
+            } catch (ignore: Exception) {
+                // ignore
+            }
         }
     }
 }

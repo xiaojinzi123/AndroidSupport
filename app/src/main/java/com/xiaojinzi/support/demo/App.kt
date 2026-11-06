@@ -78,7 +78,7 @@ class App : Application() {
                 tag = "123123",
                 content = "${appTask?.taskInfo}"
             )
-            if (appTasks.size > 1 || appTasks.any { it.taskInfo.numActivities > 1 }) {
+            if (appTasks.size > 1 || appTasks.any { (it.taskInfo?.numActivities ?: 0) > 1 }) {
                 appTasks.forEach { it.finishAndRemoveTask() }
                 val bootIntent = Intent("xxxxxxx_app_reboot")
                 bootIntent.addCategory(Intent.CATEGORY_DEFAULT)

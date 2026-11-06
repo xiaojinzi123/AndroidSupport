@@ -9,7 +9,6 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:onClick="downloadTest"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         android:text="Download 测试" />

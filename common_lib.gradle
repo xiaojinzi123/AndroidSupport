@@ -1,9 +1,9 @@
 android {
-    compileSdkVersion libs.versions.compileSdk.get().toInteger()
+    compileSdk = libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
-        minSdkVersion libs.versions.minSdk.get().toInteger()
-        targetSdkVersion libs.versions.targetSdk.get().toInteger()
+        minSdk = libs.versions.minSdk.get().toInteger()
+        targetSdk = libs.versions.targetSdk.get().toInteger()
     }
 
     compileOptions {
@@ -11,12 +11,7 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-        // useIR = true
-    }
-
-    packagingOptions {
+    packaging {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
@@ -30,17 +25,21 @@ android {
     }
 }
 
+kotlin {
+    // 共享脚本不在 buildscript classpath 中，无法 import KGP 的 JvmTarget；jvmToolchain(17) 等价固定 jvmTarget
+    jvmToolchain(17)
+}
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api libs.kotlin.stdlib
-    api libs.kotlin.android
     api libs.androidx.core.ktx
     api libs.androidx.appcompat
 }
 
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
     archiveClassifier = 'sources'
-    from android.sourceSets.main.java.srcDirs
+    from fileTree("src/main/java"), fileTree("src/main/kotlin")
 }
 
 artifacts {

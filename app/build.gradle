@@ -34,6 +34,8 @@ android {
         applicationId "com.xiaojinzi.support.demo"
         versionCode 1
         versionName "1.0"
+        // 仅 demo app 提升到 23：KComponent v2.3.0 的 minSdk 是 23（库模块仍保持 21）
+        minSdk = 23
 
         javaCompileOptions {
             annotationProcessorOptions {

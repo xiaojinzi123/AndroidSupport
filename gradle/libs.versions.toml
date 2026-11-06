@@ -1,41 +1,39 @@
 [versions]
-gradle = "8.9.1"
-compileSdk = "36"
+gradle = "9.3.3"
+compileSdk = "37"
 minSdk = "21"
-targetSdk = "35"
-component = "8c968cf766"
-compose = "1.9.1"
-compose-kotlin-compiler-extension = "1.5.15"
-compose-material-version = "1.9.1"
-compose-material3-version = "1.3.2"
+targetSdk = "37"
+component = "v2.3.0"
+compose = "1.12.1"
+compose-material-version = "1.12.1"
+compose-material3-version = "1.4.0"
 accompanist-version = "0.37.3"
 # kotlin = "1.9.25"
-kotlin = "2.2.10"
+kotlin = "2.4.21"
 # kotlin-ksp = "1.9.25-1.0.20"
-kotlin-ksp = "2.2.10-2.0.2"
-kotlin-coroutines = "1.10.2"
+kotlin-ksp = "2.3.13"
+kotlin-coroutines = "1.11.0"
 
 [libraries]
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
-kotlin-android = { group = "org.jetbrains.kotlin", name = "kotlin-android-extensions-runtime", version = "2.2.10" }
 
-androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version = "2.2.1" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.1" }
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.17.0" }
-androidx-activity = { group = "androidx.activity", name = "activity", version = "1.11.0" }
-androidx-acrivity-ktx = { group = "androidx.activity", name = "activity-ktx", version = "1.11.0" }
-androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version = "1.8.9" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version = "2.2.2" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.8.0" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.19.1" }
+androidx-activity = { group = "androidx.activity", name = "activity", version = "1.13.0" }
+androidx-acrivity-ktx = { group = "androidx.activity", name = "activity-ktx", version = "1.13.0" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version = "1.9.1" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version = "1.4.0" }
-androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version = "2.9.3" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.9.3" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version = "2.11.0" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.11.0" }
 
 rxandroid = { group = "io.reactivex.rxjava2", name = "rxandroid", version = "2.1.1" }
 rxjava = { group = "io.reactivex.rxjava2", name = "rxjava", version = "2.2.21" }
 rxkotlin = { group = "io.reactivex.rxjava2", name = "rxkotlin", version = "2.4.0" }
 
 gson = { group = "com.google.code.gson", name = "gson", version = "2.13.2" }
-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version = "4.12.0" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version = "5.5.1" }
 # retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.12.0" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "3.0.0" } # 看日志说的是向后兼容的
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core-jvm", version.ref = "kotlin-coroutines" }
@@ -46,12 +44,11 @@ compose-bom = { group = "androidx.compose", name = "compose-bom", version = "202
 compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
-compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version = "2.9.3" }
-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.11.0" }
+compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version = "2.11.0" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.13.0" }
 compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose-material-version" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "compose-material3-version" }
 compose-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version = "1.1.1" }
-compose-ui-foundation = { group = "androidx.ui", name = "ui-foundation", version = "0.1.0-dev14" }
 
 # Compose support libraries
 accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "accompanist-version" }

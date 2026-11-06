@@ -12,8 +12,8 @@ archivesBaseName = "ktx-retrofit"*/
 
 android {
     namespace "com.xiaojinzi.support.ktx.retrofit"
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding = true
     }
 }
 
