@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     alias(libs.plugins.compose.compiler)
     id "com.xiaojinzi.kcomponent.plugin"
-    id "kotlin-android"
     id "com.google.devtools.ksp"
 }
 
@@ -42,18 +41,18 @@ android {
                 arguments = [HOST: "app"]
             }
         }
-        multiDexEnabled true
+        multiDexEnabled = true
     }
 
     buildFeatures {
         // Enables Jetpack Compose for this module
-        compose true
-        buildConfig true
+        compose = true
+        buildConfig = true
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

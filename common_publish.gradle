@@ -1,3 +1,10 @@
+// AGP 9 新 DSL：库的软件组件需要显式声明，否则 components.release 不存在
+android {
+    publishing {
+        singleVariant("release")
+    }
+}
+
 
 tasks.configureEach {
     if (it.name == "generateMetadataFileForReleasePublication") {

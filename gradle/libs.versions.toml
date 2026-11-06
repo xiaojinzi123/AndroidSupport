@@ -1,5 +1,5 @@
 [versions]
-gradle = "9.3.3"
+gradle = "9.5.1"
 compileSdk = "37"
 minSdk = "21"
 targetSdk = "37"
@@ -70,7 +70,6 @@ component-plugin = { group = "com.github.xiaojinzi123.KComponent", name = "kcomp
 # com.android.library
 android-application = {id = "com.android.application", version.ref = "gradle" }
 android-library = {id = "com.android.library", version.ref = "gradle" }
-kotlin-android = {id = "org.jetbrains.kotlin.android", version.ref = "kotlin"}
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-kapt = {id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin"}
 kotlin-ksp = {id = "com.google.devtools.ksp", version.ref = "kotlin-ksp"}

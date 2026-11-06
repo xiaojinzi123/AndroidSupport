@@ -19,15 +19,10 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-}
-
-kotlin {
-    // 共享脚本不在 buildscript classpath 中，无法 import KGP 的 JvmTarget；jvmToolchain(17) 等价固定 jvmTarget
-    jvmToolchain(17)
 }
 
 dependencies {
